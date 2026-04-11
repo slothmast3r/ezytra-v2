@@ -1,7 +1,11 @@
 import React from 'react'
+import Nav from './components/Nav'
+import HeroStats from './components/HeroStats'
+import HeroHeadline from './components/HeroHeadline'
+import Button from './components/Button'
 
 const MARQUEE_TEXT =
-  'Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  '
+  'Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  '
 
 const STACK = [
   { icon: '✦', name: 'Figma', desc: 'UI / UX Design' },
@@ -102,22 +106,7 @@ export default function HomePage() {
   return (
     <>
       {/* 01 — Nav */}
-      <nav className="nav">
-        <div className="nav__brand">
-          <span className="nav__name">Oskar Straszyński</span>
-          <span className="nav__sub">— Ezytra</span>
-        </div>
-        <ul className="nav__links">
-          {['Work', 'Services', 'Process', 'Journal', 'Contact'].map((label) => (
-            <li key={label}>
-              <a href={`#${label.toLowerCase()}`}>{label}</a>
-            </li>
-          ))}
-        </ul>
-        <a className="nav__cta" href="#contact">
-          Let&apos;s Talk →
-        </a>
-      </nav>
+      <Nav />
 
       {/* 02 — Hero */}
       <section className="hero">
@@ -130,13 +119,11 @@ export default function HomePage() {
         <div className="hero__body">
           <div className="hero__left">
             <p className="hero__eyebrow">DESIGNER &amp; DEVELOPER — WARSAW, PL</p>
-            <h1 className="hero__headline">
-              I design and
-              <br />
-              build websites,
-              <br />
-              end to end.
-            </h1>
+            <div className="hero__available">
+              <span className="hero__dot" />
+              Available for projects
+            </div>
+            <HeroHeadline />
             <p className="hero__tagline">— You work directly with me. No handoffs, no markup.</p>
           </div>
 
@@ -146,33 +133,12 @@ export default function HomePage() {
               design, code, CMS, and deployment.
             </p>
 
-            <div className="hero__available">
-              <span className="hero__dot" />
-              Available for projects
-            </div>
-
             <div className="hero__ctas">
-              <a className="btn btn--primary" href="#work">
-                View My Work →
-              </a>
-              <a className="btn btn--secondary" href="#services">
-                My Services
-              </a>
+              <Button variant="primary" href="#work" chevron>View My Work</Button>
+              <Button variant="secondary" href="#services" chevron>My Services</Button>
             </div>
 
-            <div className="hero__stats">
-              {[
-                { value: '3', label: 'Real Projects' },
-                { value: '4+', label: 'Tech Skills' },
-                { value: '100%', label: 'Owner-Built' },
-              ].map((stat) => (
-                <div key={stat.label} className="hero__stat">
-                  <div className="hero__stat-rule" />
-                  <span className="hero__stat-value">{stat.value}</span>
-                  <span className="hero__stat-label">{stat.label}</span>
-                </div>
-              ))}
-            </div>
+            <HeroStats />
           </div>
         </div>
 
@@ -209,35 +175,38 @@ export default function HomePage() {
 
         {PROJECTS.map((p) => (
           <div key={p.num} className="work__row">
-            <div className="work__left">
-              <span className="work__num">{p.num}</span>
-              <div className="work__info">
-                <h3 className="work__name">{p.name}</h3>
-                <p className="work__location">{p.location}</p>
-                <div className="work__tags">
-                  {p.tags.map((tag) => (
-                    <span key={tag} className="tag">
-                      {tag}
-                    </span>
-                  ))}
+            {/* left col: header + expandable desc */}
+            <div className="work__col-left">
+              <div className="work__header">
+                <span className="work__num">{p.num}</span>
+                <div className="work__header-info">
+                  <h3 className="work__name">{p.name}</h3>
+                  <p className="work__location">{p.location}</p>
+                  <div className="work__tags">
+                    {p.tags.map((tag) => (
+                      <span key={tag} className="tag">{tag}</span>
+                    ))}
+                  </div>
                 </div>
-                <p className="work__desc">{p.desc}</p>
+              </div>
+
+              <div className="work__body">
+                <div className="work__body-inner">
+                  <p className="work__desc">{p.desc}</p>
+                </div>
               </div>
             </div>
 
-            <div className="work__right">
+            {/* right col: appears on hover */}
+            <div className="work__col-right">
               <div className="work__meta">
-                <span className="work__live">{p.live}</span>
-                <a className="work__view" href={p.href}>
-                  View →
-                </a>
+                <Button variant="badge">{p.live}</Button>
+                <Button variant="link" href={p.href}>View →</Button>
               </div>
               <div className="mockup">
                 <div className="mockup__chrome">
                   <div className="mockup__dots">
-                    <span />
-                    <span />
-                    <span />
+                    <span /><span /><span />
                   </div>
                   <div className="mockup__url">{p.url}</div>
                 </div>
@@ -308,9 +277,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="contact__action">
-            <a className="btn btn--primary" href="mailto:hello@ezytra.com">
-              Send Me a Message →
-            </a>
+            <Button variant="primary" href="mailto:hello@ezytra.com" chevron>Send Me a Message</Button>
             <p className="contact__email">hello@ezytra.com</p>
           </div>
         </div>
