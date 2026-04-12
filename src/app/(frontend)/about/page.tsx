@@ -1,6 +1,8 @@
 import React from 'react'
+import Image from 'next/image'
 import Nav from '../components/Nav'
 import SiteFooter from '../components/SiteFooter'
+import { SITE_DATA } from '../data'
 
 const SKILLS = [
   {
@@ -99,8 +101,8 @@ export default function AboutPage() {
                 Available for new projects
               </div>
               <div className="about-hero__info">
-                <span>Warsaw, Poland</span>
-                <span>hello@ezytra.com</span>
+                <span>{SITE_DATA.location}</span>
+                <span>{SITE_DATA.email}</span>
               </div>
             </div>
           </div>
@@ -112,9 +114,14 @@ export default function AboutPage() {
         <p className="eyebrow">— My Story</p>
         <div className="about-bio__grid">
           <div className="about-bio__image">
-            <div className="about-bio__placeholder">
-              <span>Add your photo here</span>
-            </div>
+            <Image
+              src="/owner.jpg"
+              alt="Oskar Straszyński"
+              width={720}
+              height={1081}
+              className="about-bio__photo"
+              priority
+            />
           </div>
           <div className="about-bio__content">
             <h2 className="about-bio__title">A bit about me.</h2>
@@ -132,6 +139,11 @@ export default function AboutPage() {
               I work under the Ezytra studio name, but there&apos;s no team of 20 behind it.
               It&apos;s just me — which means you always know who you&apos;re talking to, who did
               the work, and who to call if something breaks.
+            </p>
+            <p className="about-bio__p">
+              Working solo means I have to be efficient. I use AI tools to move faster — but I
+              review every line of code, every design choice, and fix what needs fixing before
+              anything ships. The output is mine to stand behind.
             </p>
           </div>
         </div>
@@ -190,7 +202,7 @@ export default function AboutPage() {
       <SiteFooter
         title="Sounds like a good fit?"
         buttonText="Let's Talk"
-        buttonHref="mailto:hello@ezytra.com"
+        buttonHref="/contact"
       />
     </>
   )

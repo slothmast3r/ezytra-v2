@@ -208,9 +208,9 @@
     pointer-events: auto;
     overflow: visible;
   }
-  .work__right-inner {
+  .work__right-content {
     padding-top: 0;
-    padding-bottom: 0;
+    padding-bottom: 2rem;
   }
   .work__header {
     grid-template-columns: 2.5rem 1fr;
@@ -398,6 +398,19 @@
   .footer__links {
     gap: 1.5rem;
     flex-wrap: wrap;
+  }
+}
+
+/* ==========================================================================
+   Huge resolutions (1920px+)
+   — content locks at 80rem (1280px), padding grows proportionally
+   ========================================================================== */
+
+@media (min-width: 120rem) {
+  :root {
+    /* At 1920px this equals 20rem (seamless).
+       Above 1920px: padding = (viewport − 1280px) / 2, so content stays 1280px wide. */
+    --px: calc((100vw - 80rem) / 2);
   }
 }
 

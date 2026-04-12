@@ -1,0 +1,65 @@
+/* ==========================================================================
+404 Not Found
+   ========================================================================== */
+
+.nf {
+  background: var(--bg);
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.nf__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 5rem;
+  padding: 6rem var(--px);
+  width: 100%;
+}
+
+.nf__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nf__code {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(7rem, 16vw, 14rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--border-2);
+  margin-top: 1.5rem;
+  user-select: none;
+}
+
+.nf__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  max-width: 43.75rem;
+}
+
+.nf__tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.nf__desc {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+}
+
+.nf__actions {
+  display: flex;
+  gap: 1rem;
+}

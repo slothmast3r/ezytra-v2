@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     projects: Project;
     posts: Post;
+    authors: Author;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    authors: AuthorsSelect<false> | AuthorsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -222,14 +224,13 @@ export interface Project {
 export interface Post {
   id: number;
   slug: string;
+  status: 'published' | 'coming-soon' | 'draft';
   tag?: string | null;
   date?: string | null;
   readTime?: string | null;
   headline: string;
   excerpt?: string | null;
-  authorName?: string | null;
-  authorRole?: string | null;
-  authorBio?: string | null;
+  author?: (number | null) | Author;
   nextTitle?: string | null;
   nextHref?: string | null;
   sections?:
@@ -241,6 +242,19 @@ export interface Post {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors".
+ */
+export interface Author {
+  id: number;
+  name: string;
+  role: string;
+  bio?: string | null;
+  photo?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -283,6 +297,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'posts';
         value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'authors';
+        value: number | Author;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -397,14 +415,13 @@ export interface ProjectsSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   slug?: T;
+  status?: T;
   tag?: T;
   date?: T;
   readTime?: T;
   headline?: T;
   excerpt?: T;
-  authorName?: T;
-  authorRole?: T;
-  authorBio?: T;
+  author?: T;
   nextTitle?: T;
   nextHref?: T;
   sections?:
@@ -416,6 +433,18 @@ export interface PostsSelect<T extends boolean = true> {
         body?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors_select".
+ */
+export interface AuthorsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  bio?: T;
+  photo?: T;
   updatedAt?: T;
   createdAt?: T;
 }

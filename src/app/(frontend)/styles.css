@@ -15,6 +15,7 @@
 @import url('./styles/_case-study-template.css');
 @import url('./styles/_work-archive.css');
 @import url('./styles/_services-page.css');
+@import url('./styles/_not-found.css');
 
 /* --- MEDIA QUERIES --- */
 @import url('./styles/_responsive.css');

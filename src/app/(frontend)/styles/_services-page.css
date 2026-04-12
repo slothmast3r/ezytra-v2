@@ -193,6 +193,19 @@ Services Page
   border-style: solid;
 }
 
+.jou-card--coming-soon {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
+.jou-card__status {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
 .jou-card__meta {
   display: flex;
   align-items: center;

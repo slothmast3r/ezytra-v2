@@ -72,13 +72,6 @@ const PROCESS = [
   },
 ]
 
-const JOURNAL = [
-  { tag: 'Process', title: 'How I Build a Next.js Site with Sanity in a Weekend' },
-  { tag: 'Dev', title: 'Why Your Website Loads Slow — And How to Fix It' },
-  { tag: 'Case Study', title: 'What I Learned Designing for a Martial Arts Centre' },
-  { tag: 'Tools', title: 'Payload vs Sanity: Which CMS for Small Businesses?' },
-]
-
 export default async function HomePage() {
   const payload = await getPayload({ config })
 
@@ -86,6 +79,14 @@ export default async function HomePage() {
     collection: 'projects',
     sort: 'order',
     limit: 100,
+  })
+
+  const { docs: posts } = await payload.find({
+    collection: 'posts',
+    sort: '-date',
+    limit: 4,
+    where: { status: { not_equals: 'draft' } },
+    select: { slug: true, tag: true, headline: true, status: true },
   })
   return (
     <>
@@ -193,24 +194,26 @@ export default async function HomePage() {
               {/* right col: appears on hover */}
               <div className="work__col-right">
                 <div className="work__right-inner">
-                  <div className="work__meta">
-                    {p.live && <Button variant="badge">{p.live}</Button>}
-                    {p.href && (
-                      <AnimatedLink className="btn btn--link" href={p.href}>
-                        View →
-                      </AnimatedLink>
-                    )}
-                  </div>
-                  <div className="mockup">
-                    <div className="mockup__chrome">
-                      <div className="mockup__dots">
-                        <span />
-                        <span />
-                        <span />
-                      </div>
-                      <div className="mockup__url">{p.url}</div>
+                  <div className="work__right-content">
+                    <div className="work__meta">
+                      {p.live && <Button variant="badge">{p.live}</Button>}
+                      {p.href && (
+                        <AnimatedLink className="btn btn--link" href={p.href}>
+                          View →
+                        </AnimatedLink>
+                      )}
                     </div>
-                    <div className="mockup__screen" />
+                    <div className="mockup">
+                      <div className="mockup__chrome">
+                        <div className="mockup__dots">
+                          <span />
+                          <span />
+                          <span />
+                        </div>
+                        <div className="mockup__url">{p.url}</div>
+                      </div>
+                      <div className="mockup__screen" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -256,21 +259,29 @@ export default async function HomePage() {
 
       {/* 07 — Journal */}
       <section className="journal">
-        <div className="journal__header">
-          <p className="eyebrow">— Latest Thinking</p>
-          <h2 className="section-title">Journal</h2>
+        <p className="eyebrow">— Journal</p>
+        <h2 className="section-title">Thinking Out Loud</h2>
+        <div className="rule" />
+        {posts.map((post) =>
+          post.status === 'coming-soon' ? (
+            <div key={post.slug} className="journal__row journal__row--muted">
+              <span className="tag">{post.tag}</span>
+              <p className="journal__title">{post.headline}</p>
+              <span className="journal__status">Coming soon</span>
+            </div>
+          ) : (
+            <a key={post.slug} href={`/journal/${post.slug}`} className="journal__row journal__row--link">
+              <span className="tag">{post.tag}</span>
+              <p className="journal__title">{post.headline}</p>
+              <span className="journal__arrow">→</span>
+            </a>
+          )
+        )}
+        <div className="journal__footer">
           <Button variant="ghost" href="/journal" chevron>
             View All Articles
           </Button>
         </div>
-        <div className="rule" />
-        {JOURNAL.map((post) => (
-          <div key={post.title} className="journal__row">
-            <span className="tag">{post.tag}</span>
-            <p className="journal__title">{post.title}</p>
-            <span className="journal__status">Coming soon</span>
-          </div>
-        ))}
       </section>
 
       {/* 08 — Contact */}

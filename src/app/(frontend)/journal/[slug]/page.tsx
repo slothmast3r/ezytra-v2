@@ -83,10 +83,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     collection: 'posts',
     where: { slug: { equals: slug } },
     limit: 1,
+    populate: { authors: { name: true, role: true, bio: true } },
   })
 
   const post = docs[0]
-  if (!post) notFound()
+  if (!post || post.status !== 'published') notFound()
+
+  const author = post.author && typeof post.author === 'object' ? post.author : null
 
   const sections = (post.sections ?? []) as Array<{
     anchor: string
@@ -117,15 +120,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
         {post.excerpt && <p className="art-hero__excerpt">{post.excerpt}</p>}
 
-        <div className="art-hero__author">
-          <div className="art-hero__avatar" aria-hidden="true" />
-          <div className="art-hero__author-info">
-            <span className="art-hero__author-name">{post.authorName}</span>
-            <span className="art-hero__author-role">{post.authorRole}</span>
+        {author && (
+          <div className="art-hero__author">
+            <div className="art-hero__avatar" aria-hidden="true" />
+            <div className="art-hero__author-info">
+              <span className="art-hero__author-name">{author.name}</span>
+              <span className="art-hero__author-role">{author.role}</span>
+            </div>
+            <div className="art-hero__divider" aria-hidden="true" />
+            <a href="#" className="art-hero__share">Share →</a>
           </div>
-          <div className="art-hero__divider" aria-hidden="true" />
-          <a href="#" className="art-hero__share">Share →</a>
-        </div>
+        )}
       </section>
 
       {/* ── 02 Cover Image ── */}
@@ -190,14 +195,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {/* ── 04 Author & Next ── */}
       <section className="art-footer">
-        <div className="art-author">
-          <div className="art-author__avatar" aria-hidden="true" />
-          <div className="art-author__info">
-            <span className="art-author__name">{post.authorName}</span>
-            <span className="art-author__role">{post.authorRole}</span>
-            {post.authorBio && <p className="art-author__bio">{post.authorBio}</p>}
+        {author && (
+          <div className="art-author">
+            <div className="art-author__avatar" aria-hidden="true" />
+            <div className="art-author__info">
+              <span className="art-author__name">{author.name}</span>
+              <span className="art-author__role">{author.role}</span>
+              {author.bio && <p className="art-author__bio">{author.bio}</p>}
+            </div>
           </div>
-        </div>
+        )}
 
         {post.nextTitle && (
           <div className="art-next">

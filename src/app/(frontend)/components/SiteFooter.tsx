@@ -1,5 +1,6 @@
 import Button from './Button'
 import FooterBar from './FooterBar'
+import { SITE_DATA } from '../data'
 
 interface SiteFooterProps {
   title?: string
@@ -25,7 +26,7 @@ export default function SiteFooter({
           <Button variant="primary" href={buttonHref} chevron>
             {buttonText}
           </Button>
-          <p className="contact__email">hello@ezytra.com</p>
+          <p className="contact__email">{SITE_DATA.email}</p>
         </div>
       </div>
 

@@ -25,8 +25,8 @@ Contact page
 .contact-hero__headline {
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: 3.375rem;
-  line-height: 1.1;
+  font-size: 5.375rem;
+  line-height: 1;
   letter-spacing: -0.02em;
   color: var(--text);
 }
@@ -78,6 +78,10 @@ Contact page
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.cform .btn {
+  align-self: flex-start;
 }
 
 .cform__row {

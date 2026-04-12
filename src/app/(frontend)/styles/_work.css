@@ -50,12 +50,16 @@
 }
 
 .work__right-inner {
+  /* NO padding here — padding would prevent grid-template-rows: 0fr from fully collapsing */
   min-height: 0;
+  overflow: hidden;
+}
+
+.work__right-content {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding: 2rem 0;
 }
 
 /* always-visible header */

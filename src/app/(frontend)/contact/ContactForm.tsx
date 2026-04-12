@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Button from '../components/Button'
+import { SITE_DATA } from '../data'
 
 const PROJECT_TYPES = ['Web Design', 'Development', 'Brand Identity', 'CMS Setup', 'Full Project', 'Other']
 const BUDGETS = ['< €1k', '€1k–3k', '€3k–8k', '€6k+', "Let's talk"]
@@ -229,7 +230,7 @@ export default function ContactForm() {
           </div>
           <div className="cform__card-footer">
             <span className="cform__card-footer-text">Prefer email?</span>
-            <a href="mailto:hello@ezytra.com" className="cform__card-email">hello@ezytra.com</a>
+            <a href={`mailto:${SITE_DATA.email}`} className="cform__card-email">{SITE_DATA.email}</a>
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import Nav from '../../components/Nav'
 import Button from '../../components/Button'
 import FooterBar from '../../components/FooterBar'
@@ -109,7 +110,11 @@ const CASE_STUDY = {
   },
 }
 
-export default function CaseStudyPage() {
+const KNOWN_SLUGS = ['pantera']
+
+export default function CaseStudyPage({ params }: { params: { slug: string } }) {
+  if (!KNOWN_SLUGS.includes(params.slug)) notFound()
+
   const cs = CASE_STUDY
 
   return (

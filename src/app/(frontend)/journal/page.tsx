@@ -14,9 +14,10 @@ export default async function JournalPage() {
     collection: 'posts',
     sort: '-date',
     limit: 100,
+    where: { status: { not_equals: 'draft' } },
   })
 
-  const count = posts.length
+  const count = posts.filter((p) => p.status === 'published').length
 
   return (
     <>
@@ -45,32 +46,42 @@ export default async function JournalPage() {
         <div className="rule" />
         
         <div className="jou-grid__container">
-          {posts.map((post) => (
-            <div key={post.id} className="jou-card">
-              <div className="jou-card__meta">
-                {post.tag && <span className="tag">{post.tag}</span>}
-                <div className="jou-card__stats">
-                  {post.date && <span className="jou-card__date">{post.date}</span>}
-                  <span className="jou-card__dot" aria-hidden="true" />
-                  {post.readTime && <span className="jou-card__read">{post.readTime}</span>}
+          {posts.map((post) => {
+            const isPublished = post.status === 'published'
+            return (
+              <div key={post.id} className={`jou-card${isPublished ? '' : ' jou-card--coming-soon'}`}>
+                <div className="jou-card__meta">
+                  {post.tag && <span className="tag">{post.tag}</span>}
+                  <div className="jou-card__stats">
+                    {isPublished && post.date && <span className="jou-card__date">{post.date}</span>}
+                    {isPublished && post.date && post.readTime && <span className="jou-card__dot" aria-hidden="true" />}
+                    {isPublished && post.readTime && <span className="jou-card__read">{post.readTime}</span>}
+                    {!isPublished && <span className="jou-card__status">Coming soon</span>}
+                  </div>
                 </div>
+
+                <h2 className="jou-card__headline">
+                  {isPublished ? (
+                    <a href={`/journal/${post.slug}`} className="jou-card__link">
+                      {post.headline}
+                    </a>
+                  ) : (
+                    post.headline
+                  )}
+                </h2>
+
+                {post.excerpt && <p className="jou-card__excerpt">{post.excerpt}</p>}
+
+                {isPublished && (
+                  <div className="jou-card__footer">
+                    <AnimatedLink href={`/journal/${post.slug}`} className="jou-card__more">
+                      Read Article →
+                    </AnimatedLink>
+                  </div>
+                )}
               </div>
-
-              <h2 className="jou-card__headline">
-                <a href={`/journal/${post.slug}`} className="jou-card__link">
-                  {post.headline}
-                </a>
-              </h2>
-
-              {post.excerpt && <p className="jou-card__excerpt">{post.excerpt}</p>}
-
-              <div className="jou-card__footer">
-                <AnimatedLink href={`/journal/${post.slug}`} className="jou-card__more">
-                  Read Article →
-                </AnimatedLink>
-              </div>
-            </div>
-          ))}
+            )
+          })}
 
           {/* Coming Soon Placeholder */}
           <div className="jou-card jou-card--placeholder">

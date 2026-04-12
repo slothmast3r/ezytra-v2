@@ -4,19 +4,37 @@ export const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
     useAsTitle: 'headline',
-    defaultColumns: ['headline', 'tag', 'date', 'updatedAt'],
+    defaultColumns: ['headline', 'tag', 'status', 'date', 'updatedAt'],
   },
   access: { read: () => true },
   fields: [
     { name: 'slug', type: 'text', required: true, unique: true, index: true },
+    {
+      name: 'status',
+      type: 'select',
+      required: true,
+      defaultValue: 'published',
+      options: [
+        { label: 'Published', value: 'published' },
+        { label: 'Coming Soon', value: 'coming-soon' },
+        { label: 'Draft', value: 'draft' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
     { name: 'tag', type: 'text' },
     { name: 'date', type: 'text' },
     { name: 'readTime', type: 'text' },
     { name: 'headline', type: 'text', required: true },
     { name: 'excerpt', type: 'textarea' },
-    { name: 'authorName', type: 'text' },
-    { name: 'authorRole', type: 'text' },
-    { name: 'authorBio', type: 'textarea' },
+    {
+      name: 'author',
+      type: 'relationship',
+      relationTo: 'authors',
+      required: false,
+      admin: { position: 'sidebar' },
+    },
     { name: 'nextTitle', type: 'text' },
     { name: 'nextHref', type: 'text' },
     {
