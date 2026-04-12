@@ -1,5 +1,6 @@
 import { IBM_Plex_Mono, IBM_Plex_Serif } from 'next/font/google'
 import React from 'react'
+import { Analytics } from '@vercel/analytics/next'
 import './styles.css'
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -31,6 +32,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" className={`${ibmPlexMono.variable} ${ibmPlexSerif.variable}`}>
       <body>
         <main>{children}</main>
+        <Analytics />
       </body>
     </html>
   )
