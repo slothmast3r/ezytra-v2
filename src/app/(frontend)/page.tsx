@@ -3,6 +3,10 @@ import Nav from './components/Nav'
 import HeroStats from './components/HeroStats'
 import HeroHeadline from './components/HeroHeadline'
 import Button from './components/Button'
+import SiteFooter from './components/SiteFooter'
+import AnimatedLink from './components/AnimatedLink'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
 const MARQUEE_TEXT =
   'Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  '
@@ -16,58 +20,29 @@ const STACK = [
   { icon: '◎', name: 'SEO', desc: 'On-page & Technical' },
 ]
 
-const PROJECTS = [
-  {
-    num: '01',
-    name: 'Pantera',
-    location: 'Martial Arts Centre — Warsaw, PL',
-    tags: ['Web Design', 'Next.js', 'Sanity CMS', 'SEO', 'Polish'],
-    desc: 'Full website for a Warsaw martial arts centre offering Krav Maga, Karate, and Tai Chi. Designed in Figma and built in Next.js with Sanity CMS so the team manages their own schedule. On-page SEO optimised for local search.',
-    live: 'Live · pantera.pl',
-    url: 'pantera.pl',
-    href: '#',
-  },
-  {
-    num: '02',
-    name: 'ProfilDance',
-    location: 'Dance School — Warsaw, PL',
-    tags: ['Branding', 'Web Design', 'Next.js', 'Payload CMS'],
-    desc: 'End-to-end brand identity and website for a Warsaw dance school. Created the full visual identity including logo, type system, and colour palette — then built the site in Next.js with Payload CMS for easy class schedule management.',
-    live: 'Live · profildance.pl',
-    url: 'profildance.pl',
-    href: '#',
-  },
-  {
-    num: '03',
-    name: 'MeeTango',
-    location: 'Tango Community Platform — Warsaw, PL (EN)',
-    tags: ['Web App', 'UX Design', 'Next.js', 'VPS Deploy'],
-    desc: 'English-language platform connecting tango dancers in Warsaw. Designed the UX flows and information architecture, then built the frontend in Next.js, deployed on VPS. Focused on event discovery and community sign-ups.',
-    live: 'Live · meetango.com',
-    url: 'meetango.com',
-    href: '#',
-  },
-]
-
 const SERVICES = [
   {
     num: '01',
     title: 'Web Design',
+    id: 'web-design',
     desc: "Figma-first UI/UX. Clean, fast, conversion-focused. I design for real users, not Dribbble.",
   },
   {
     num: '02',
     title: 'Development',
+    id: 'development',
     desc: 'Next.js sites, built by hand. No page builders, no bloated themes. Fast, accessible, scalable.',
   },
   {
     num: '03',
     title: 'CMS Integration',
+    id: 'cms-integration',
     desc: 'Payload or Sanity — you edit your own content without ever touching code.',
   },
   {
     num: '04',
     title: 'SEO & Deployment',
+    id: 'seo-deployment',
     desc: "On-page SEO from day one. Deployed to VPS. I handle the full stack so you don't have to.",
   },
 ]
@@ -102,7 +77,14 @@ const JOURNAL = [
   { tag: 'Tools', title: 'Payload vs Sanity: Which CMS for Small Businesses?' },
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const payload = await getPayload({ config })
+
+  const { docs: projects } = await payload.find({
+    collection: 'projects',
+    sort: 'order',
+    limit: 100,
+  })
   return (
     <>
       {/* 01 — Nav */}
@@ -134,8 +116,8 @@ export default function HomePage() {
             </p>
 
             <div className="hero__ctas">
-              <Button variant="primary" href="#work" chevron>View My Work</Button>
-              <Button variant="secondary" href="#services" chevron>My Services</Button>
+              <Button variant="primary" href="/work" chevron>View My Work</Button>
+              <Button variant="secondary" href="/services" chevron>My Services</Button>
             </div>
 
             <HeroStats />
@@ -173,55 +155,60 @@ export default function HomePage() {
         <h2 className="section-title">Projects</h2>
         <div className="rule" />
 
-        {PROJECTS.map((p) => (
-          <div key={p.num} className="work__row">
-            {/* left col: header + expandable desc */}
-            <div className="work__col-left">
-              <div className="work__header">
-                <span className="work__num">{p.num}</span>
-                <div className="work__header-info">
-                  <h3 className="work__name">{p.name}</h3>
-                  <p className="work__location">{p.location}</p>
-                  <div className="work__tags">
-                    {p.tags.map((tag) => (
-                      <span key={tag} className="tag">{tag}</span>
-                    ))}
+        {projects.map((p, i) => {
+          const num = String(i + 1).padStart(2, '0')
+          const tags = (p.tags ?? []).map((t) => t.tag)
+          return (
+            <div key={p.id} className="work__row">
+              {/* left col: header + expandable desc */}
+              <div className="work__col-left">
+                <div className="work__header">
+                  <span className="work__num">{num}</span>
+                  <div className="work__header-info">
+                    <h3 className="work__name">{p.name}</h3>
+                    <p className="work__location">{p.location}</p>
+                    <div className="work__tags">
+                      {tags.map((tag) => (
+                        <span key={tag} className="tag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="work__body">
+                  <div className="work__body-inner">
+                    <p className="work__desc">{p.desc}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="work__body">
-                <div className="work__body-inner">
-                  <p className="work__desc">{p.desc}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* right col: appears on hover */}
-            <div className="work__col-right">
-              <div className="work__meta">
-                <Button variant="badge">{p.live}</Button>
-                <Button variant="link" href={p.href}>View →</Button>
-              </div>
-              <div className="mockup">
-                <div className="mockup__chrome">
-                  <div className="mockup__dots">
-                    <span /><span /><span />
+              {/* right col: appears on hover */}
+              <div className="work__col-right">
+                <div className="work__right-inner">
+                  <div className="work__meta">
+                    {p.live && <Button variant="badge">{p.live}</Button>}
+                    {p.href && <AnimatedLink className="btn btn--link" href={p.href}>View →</AnimatedLink>}
                   </div>
-                  <div className="mockup__url">{p.url}</div>
+                  <div className="mockup">
+                    <div className="mockup__chrome">
+                      <div className="mockup__dots">
+                        <span /><span /><span />
+                      </div>
+                      <div className="mockup__url">{p.url}</div>
+                    </div>
+                    <div className="mockup__screen" />
+                  </div>
                 </div>
-                <div className="mockup__screen" />
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </section>
 
       {/* 05 — Services */}
       <section className="services" id="services">
         <p className="eyebrow">— What I Offer</p>
         <h2 className="section-title">Services</h2>
-        <div className="rule" />
         <div className="services__grid">
           {SERVICES.map((s) => (
             <div key={s.num} className="service">
@@ -229,9 +216,9 @@ export default function HomePage() {
               <div className="service__rule" />
               <h3 className="service__title">{s.title}</h3>
               <p className="service__desc">{s.desc}</p>
-              <a className="service__link" href="#">
+              <AnimatedLink className="service__link" href={`/services#${s.id}`}>
                 Learn more →
-              </a>
+              </AnimatedLink>
             </div>
           ))}
         </div>
@@ -268,32 +255,7 @@ export default function HomePage() {
       </section>
 
       {/* 08 — Contact */}
-      <footer className="contact" id="contact">
-        <div className="contact__cta">
-          <div>
-            <h2 className="contact__title">Have a project in mind?</h2>
-            <p className="contact__desc">
-              I&apos;m currently available. Let&apos;s see if we&apos;re a good fit.
-            </p>
-          </div>
-          <div className="contact__action">
-            <Button variant="primary" href="mailto:hello@ezytra.com" chevron>Send Me a Message</Button>
-            <p className="contact__email">hello@ezytra.com</p>
-          </div>
-        </div>
-
-        <div className="footer__bar">
-          <p className="footer__copy">© 2025 Oskar Straszyński / Ezytra</p>
-          <span className="footer__brand">EZYTRA</span>
-          <nav className="footer__links">
-            {['GitHub', 'LinkedIn', 'Dribbble', 'Instagram'].map((l) => (
-              <a key={l} href="#">
-                {l}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   )
 }

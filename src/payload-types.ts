@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    projects: Project;
+    posts: Post;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +80,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -163,6 +167,85 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  name: string;
+  /**
+   * e.g. "Martial Arts Centre — Warsaw, PL"
+   */
+  location: string;
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  desc: string;
+  /**
+   * e.g. "Live · pantera.pl"
+   */
+  live?: string | null;
+  /**
+   * Display URL, e.g. "pantera.pl"
+   */
+  url?: string | null;
+  /**
+   * Full link URL, e.g. "https://pantera.pl"
+   */
+  href?: string | null;
+  /**
+   * Display order (lower = first)
+   */
+  order: number;
+  /**
+   * URL slug for the case study, e.g. "pantera"
+   */
+  slug?: string | null;
+  /**
+   * e.g. "Full Project", "Brand + Site", "Web App"
+   */
+  type?: string | null;
+  /**
+   * e.g. "2025"
+   */
+  year?: string | null;
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  slug: string;
+  tag?: string | null;
+  date?: string | null;
+  readTime?: string | null;
+  headline: string;
+  excerpt?: string | null;
+  authorName?: string | null;
+  authorRole?: string | null;
+  authorBio?: string | null;
+  nextTitle?: string | null;
+  nextHref?: string | null;
+  sections?:
+    | {
+        anchor: string;
+        label?: string | null;
+        heading?: string | null;
+        body?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -192,6 +275,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -274,6 +365,59 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  name?: T;
+  location?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  desc?: T;
+  live?: T;
+  url?: T;
+  href?: T;
+  order?: T;
+  slug?: T;
+  type?: T;
+  year?: T;
+  featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  slug?: T;
+  tag?: T;
+  date?: T;
+  readTime?: T;
+  headline?: T;
+  excerpt?: T;
+  authorName?: T;
+  authorRole?: T;
+  authorBio?: T;
+  nextTitle?: T;
+  nextHref?: T;
+  sections?:
+    | T
+    | {
+        anchor?: T;
+        label?: T;
+        heading?: T;
+        body?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

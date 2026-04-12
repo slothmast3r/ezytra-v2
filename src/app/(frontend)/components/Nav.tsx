@@ -2,8 +2,14 @@
 
 import { useState } from 'react'
 import Button from './Button'
+import NavLink from './NavLink'
 
-const NAV_LINKS = ['Work', 'Services', 'Process', 'Journal', 'Contact']
+const NAV_LINKS = [
+  { label: 'Work', href: '/work' },
+  { label: 'Services', href: '/services' },
+  { label: 'Process', href: '/#process' },
+  { label: 'Journal', href: '/journal' },
+]
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
@@ -11,19 +17,19 @@ export default function Nav() {
   return (
     <>
       <nav className="nav">
-        <div className="nav__brand">
+        <a href="/" className="nav__brand">
           <span className="nav__name">Oskar Straszyński</span>
           <span className="nav__name--short">Oskar S.</span>
           <span className="nav__sub">— Ezytra</span>
-        </div>
+        </a>
         <ul className="nav__links">
-          {NAV_LINKS.map((label) => (
-            <li key={label}>
-              <a href={`#${label.toLowerCase()}`}>{label}</a>
+          {NAV_LINKS.map((link) => (
+            <li key={link.label}>
+              <NavLink href={link.href}>{link.label}</NavLink>
             </li>
           ))}
         </ul>
-        <Button variant="ghost" href="#contact" className="nav__cta" chevron>
+        <Button variant="ghost" href="/contact" className="nav__cta" chevron>
           Let&apos;s Talk
         </Button>
         <button
@@ -39,15 +45,13 @@ export default function Nav() {
       {open && (
         <div className="nav__drawer">
           <ul className="nav__drawer-links">
-            {NAV_LINKS.map((label) => (
-              <li key={label}>
-                <a href={`#${label.toLowerCase()}`} onClick={() => setOpen(false)}>
-                  {label}
-                </a>
+            {NAV_LINKS.map((link) => (
+              <li key={link.label}>
+                <NavLink href={link.href} onClick={() => setOpen(false)}>{link.label}</NavLink>
               </li>
             ))}
           </ul>
-          <Button variant="ghost" href="#contact" className="nav__drawer-cta" onClick={() => setOpen(false)} chevron>
+          <Button variant="ghost" href="/contact" className="nav__drawer-cta" onClick={() => setOpen(false)} chevron>
             Let&apos;s Talk
           </Button>
         </div>
