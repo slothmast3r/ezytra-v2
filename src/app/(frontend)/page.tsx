@@ -1,8 +1,7 @@
+export const revalidate = 0
+
 import React from 'react'
 import Nav from './components/Nav'
-import { REVALIDATE_TIME } from './constants'
-
-export const revalidate = REVALIDATE_TIME
 import HeroStats from './components/HeroStats'
 import HeroHeadline from './components/HeroHeadline'
 import Button from './components/Button'
@@ -127,10 +126,10 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="hero__marquee">
-          <div className="hero__marquee-track">
+        <div className="marquee">
+          <div className="marquee__inner">
             <span>{MARQUEE_TEXT}</span>
-            <span aria-hidden="true">{MARQUEE_TEXT}</span>
+            <span>{MARQUEE_TEXT}</span>
           </div>
         </div>
       </section>
@@ -244,9 +243,12 @@ export default async function HomePage() {
       </section>
 
       {/* 07 — Journal */}
-      <section className="journal" id="journal">
-        <p className="eyebrow">— Journal</p>
-        <h2 className="section-title">Thinking Out Loud</h2>
+      <section className="journal">
+        <div className="journal__header">
+          <p className="eyebrow">— Latest Thinking</p>
+          <h2 className="section-title">Journal</h2>
+          <Button variant="ghost" href="/journal" chevron>View All Articles</Button>
+        </div>
         <div className="rule" />
         {JOURNAL.map((post) => (
           <div key={post.title} className="journal__row">

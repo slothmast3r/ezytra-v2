@@ -1,6 +1,6 @@
+export const revalidate = 0
+
 import React from 'react'
-import { REVALIDATE_TIME } from '../constants'
-export const revalidate = REVALIDATE_TIME
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Nav from '../components/Nav'
