@@ -1,0 +1,53 @@
+/* ==========================================================================
+06 — Process
+   ========================================================================== */
+
+.process {
+  background: var(--bg);
+  padding: 4rem var(--px) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.process .section-title {
+  margin-bottom: 0;
+}
+
+.process__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 4rem 0 5rem;
+}
+
+.process__num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.process__rule {
+  width: 17.5rem;
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 1rem;
+}
+
+.process__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.364;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.process__desc {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.833;
+  color: var(--muted);
+  max-width: 17.5rem;
+}
+

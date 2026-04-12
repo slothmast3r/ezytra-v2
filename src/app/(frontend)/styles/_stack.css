@@ -1,0 +1,65 @@
+/* ==========================================================================
+03 — Stack
+   ========================================================================== */
+
+.stack {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 var(--px);
+}
+
+.stack__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: end;
+  min-height: 12.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.stack__item {
+  padding-top: 2.5rem;
+}
+
+.stack__top {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+  height: 2.5rem;
+}
+
+.stack__dot {
+  width: 1px;
+  height: 1px;
+  background: var(--border-2);
+}
+
+.stack__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.stack__icon {
+  display: block;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.stack__name {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.stack__desc {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+

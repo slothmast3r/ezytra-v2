@@ -34,12 +34,14 @@ export default function Nav() {
           Let&apos;s Talk
         </Button>
         <button
-          className="nav__hamburger"
+          className={`nav__hamburger ${open ? 'nav__hamburger--open' : ''}`}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? '✕' : '☰'}
+          <span />
+          <span />
+          <span />
         </button>
       </nav>
 

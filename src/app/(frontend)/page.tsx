@@ -1,5 +1,8 @@
 import React from 'react'
 import Nav from './components/Nav'
+import { REVALIDATE_TIME } from './constants'
+
+export const revalidate = REVALIDATE_TIME
 import HeroStats from './components/HeroStats'
 import HeroHeadline from './components/HeroHeadline'
 import Button from './components/Button'
@@ -155,9 +158,9 @@ export default async function HomePage() {
         <h2 className="section-title">Projects</h2>
         <div className="rule" />
 
-        {projects.map((p, i) => {
+        {(projects as any[]).map((p, i) => {
           const num = String(i + 1).padStart(2, '0')
-          const tags = (p.tags ?? []).map((t) => t.tag)
+          const tags = (p.tags ?? []).map((t: any) => t.tag)
           return (
             <div key={p.id} className="work__row">
               {/* left col: header + expandable desc */}
@@ -168,7 +171,7 @@ export default async function HomePage() {
                     <h3 className="work__name">{p.name}</h3>
                     <p className="work__location">{p.location}</p>
                     <div className="work__tags">
-                      {tags.map((tag) => (
+                      {tags.map((tag: string) => (
                         <span key={tag} className="tag">{tag}</span>
                       ))}
                     </div>

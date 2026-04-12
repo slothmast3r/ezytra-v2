@@ -1,0 +1,242 @@
+/* ==========================================================================
+02 — Hero
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* subtle column grid lines */
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  pointer-events: none;
+}
+.hero__grid-line {
+  width: 1px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.hero__body {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 5rem;
+  padding: 5.5rem var(--px) 3.5rem;
+  min-height: 40.5rem;
+}
+
+.hero__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.hero__headline {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 5.375rem;
+  line-height: 1.083;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 2rem;
+  white-space: nowrap;
+}
+
+.hero__headline-line {
+  display: block;
+}
+
+.hero__headline-clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+
+.hero__headline-char {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero__headline-char--in {
+  transform: translateY(0);
+}
+
+.hero__tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.hero__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  max-width: 43.75rem;
+}
+
+.hero__desc {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.867;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.hero__available {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 2.25rem;
+  padding: 0 1rem;
+  width: fit-content;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  border-radius: 0.125rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.hero__dot {
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
+  animation: dot-pulse 2s ease-in-out infinite;
+}
+
+.hero__dot::after {
+  content: '';
+  position: absolute;
+  inset: -0.25rem;
+  border-radius: 50%;
+  background: #4ade80;
+  opacity: 0;
+  animation: dot-ring 2s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 6px 3px rgba(74, 222, 128, 0);
+  }
+}
+
+@keyframes dot-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  70% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.hero__ctas {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.hero__stats {
+  display: flex;
+  gap: 0;
+  margin-top: 6rem;
+}
+
+.hero__stat {
+  flex: 1;
+}
+
+.hero__stat-rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.hero__stat-value {
+  display: block;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 2.25rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.hero__stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* marquee */
+.hero__marquee {
+  height: 3rem;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.hero__marquee-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  height: 100%;
+  align-items: center;
+  will-change: transform;
+  animation: marquee 36s linear infinite;
+}
+
+.hero__marquee-track span {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+

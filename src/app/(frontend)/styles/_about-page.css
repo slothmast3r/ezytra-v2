@@ -1,0 +1,263 @@
+/* ==========================================================================
+About page
+   ========================================================================== */
+
+/* 01 — About Hero */
+.about-hero {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-hero__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 5rem;
+  padding: 5.5rem var(--px) 4rem;
+  min-height: 32rem;
+}
+
+.about-hero__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.about-hero__headline {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 5.375rem;
+  line-height: 1.083;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-top: 1.5rem;
+}
+
+.about-hero__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 43.75rem;
+}
+
+.about-hero__tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.about-hero__desc {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.867;
+  color: var(--muted);
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+.about-hero__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about-hero__info {
+  display: flex;
+  gap: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* 02 — Bio */
+.about-bio {
+  background: var(--bg-2);
+  padding: 4rem var(--px);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-bio__grid {
+  display: grid;
+  grid-template-columns: 18rem 1fr;
+  gap: 0 4rem;
+  margin-top: 2rem;
+}
+
+.about-bio__placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: 1px dashed var(--border-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.about-bio__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-bio__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 2.25rem;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+.about-bio__p {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.867;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.about-bio__p:last-child { margin-bottom: 0; }
+
+/* 03 — Skills */
+.about-skills {
+  background: var(--bg);
+  padding: 4rem var(--px) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-skills .section-title {
+  margin-bottom: 0;
+}
+
+.about-skills__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 4rem 0 5rem;
+}
+
+.about-skills__col {
+  padding-right: 2rem;
+  border-right: 1px solid var(--border);
+  padding-left: 2rem;
+}
+.about-skills__col:first-child { padding-left: 0; }
+.about-skills__col:last-child { border-right: none; }
+
+.about-skills__cat {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.about-skills__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.about-skills__item {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* 04 — Values */
+.about-values {
+  background: var(--bg);
+  padding: 4rem var(--px) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-values .section-title {
+  margin-bottom: 0;
+}
+
+.about-values__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 4rem 0 5rem;
+}
+
+.about-values__item {
+  padding-right: 2rem;
+}
+
+.about-values__num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.about-values__rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 1rem;
+}
+
+.about-values__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.about-values__desc {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.867;
+  color: var(--muted);
+}
+
+/* 05 — Interests */
+.about-interests {
+  background: var(--bg);
+  padding: 4rem var(--px) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-interests .section-title {
+  margin-bottom: 0;
+}
+
+.about-interests__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 4rem 0 5rem;
+}
+
+.about-interests__item {
+  padding-right: 2rem;
+}
+
+.about-interests__icon {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-interests__name {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.about-interests__desc {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.867;
+  color: var(--muted);
+}
+

@@ -1,0 +1,111 @@
+/* ==========================================================================
+08 — Contact / Footer
+   ========================================================================== */
+
+.contact {
+  background: var(--bg);
+  padding: 2.5rem var(--px) 0;
+}
+
+.contact__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 2rem 3rem;
+  margin-bottom: 2.5rem;
+}
+
+.contact__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 2.25rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.contact__desc {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+.contact__action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.contact__email {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+/* footer bar */
+.footer__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 3.75rem;
+  padding: 0 var(--px);
+  border-top: 1px solid var(--border);
+}
+
+.contact .footer__bar {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.footer__copy {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  flex: 1;
+}
+
+.footer__brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.footer__links {
+  display: flex;
+  gap: 3.75rem;
+}
+
+.footer__links a {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+.footer__links a:hover {
+  color: var(--text);
+}
+
+/* Base: hide mobile-only elements on desktop */
+.nav__name--short {
+  display: none;
+}
+.nav__hamburger {
+  display: none;
+}
+
+/* Mobile drawer — hidden on desktop */
+.nav__drawer {
+  display: none;
+}
+

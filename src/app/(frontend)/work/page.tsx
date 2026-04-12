@@ -1,4 +1,6 @@
 import { getPayload } from 'payload'
+import { REVALIDATE_TIME } from '../constants'
+export const revalidate = REVALIDATE_TIME
 import config from '@payload-config'
 import Nav from '../components/Nav'
 import SiteFooter from '../components/SiteFooter'

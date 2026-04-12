@@ -1,0 +1,284 @@
+/* ==========================================================================
+Services Page
+   ========================================================================== */
+
+.ser-list {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.ser-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 5rem;
+  padding: 6rem var(--px);
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 6rem;
+}
+
+.ser-item:last-child {
+  border-bottom: none;
+}
+
+.ser-item__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.ser-item__num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.ser-item__sticky {
+  position: sticky;
+  top: 10rem;
+}
+
+.ser-item__title {
+  font-family: var(--font-serif);
+  font-size: 3.375rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.ser-item__tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--accent);
+  max-width: 25rem;
+}
+
+.ser-item__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 2.75rem;
+}
+
+.ser-item__desc {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 3rem;
+}
+
+.ser-item__deliverables {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 2rem 2.5rem;
+}
+
+.ser-item__label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.ser-item__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.ser-item__list-item {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+/* Why Ezytra section */
+.ser-why {
+  padding: 8rem var(--px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.ser-why__header {
+  margin-bottom: 5rem;
+}
+
+.ser-why__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+}
+
+.ser-why__title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.ser-why__rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.ser-why__desc {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+/* Mobile Services */
+@media (max-width: 1100px) {
+  .ser-item {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 4rem var(--px);
+  }
+  .ser-item__title {
+    font-size: 2.25rem;
+  }
+  .ser-item__right {
+    padding-top: 0;
+  }
+  .ser-item__list {
+    grid-template-columns: 1fr;
+  }
+  .ser-why__grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+.jou-grid {
+  background: var(--bg);
+  padding: 0 var(--px) 4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.jou-grid .rule {
+  margin-bottom: 0;
+}
+
+.jou-grid__container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-left: 1px solid var(--border);
+}
+
+.jou-card {
+  padding: 3rem 2.5rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  transition: background 0.3s ease;
+}
+
+.jou-card:hover {
+  background: var(--bg-2);
+}
+
+.jou-card--placeholder {
+  background: rgba(255, 255, 255, 0.01);
+  border-style: solid;
+}
+
+.jou-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.jou-card__stats {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.jou-card__dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border-2);
+}
+
+.jou-card__headline {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
+  flex: 0 0 auto;
+}
+
+.jou-card__link {
+  color: var(--text);
+  transition: color 0.15s;
+}
+
+.jou-card__excerpt {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 3rem;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.jou-card__footer {
+  margin-top: auto;
+}
+
+.jou-card__more {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  transition: color 0.15s;
+}
+
+.jou-card:hover .jou-card__more {
+  color: var(--text);
+}
+
+/* Mobile Journal */
+@media (max-width: 1100px) {
+  .jou-grid__container {
+    grid-template-columns: 1fr;
+    border-left: none;
+  }
+  .jou-card {
+    padding: 2rem 0;
+    border-right: none;
+  }
+  .jou-card__headline {
+    font-size: 1.5rem;
+  }
+}
+
+/* Tablet Journal */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .jou-grid__container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+

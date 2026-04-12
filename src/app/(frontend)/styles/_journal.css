@@ -1,0 +1,43 @@
+/* ==========================================================================
+07 — Journal
+   ========================================================================== */
+
+.journal {
+  background: var(--bg);
+  padding: 4rem var(--px) 4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.journal .section-title {
+  margin-bottom: 4rem;
+}
+
+.journal .rule {
+  margin-bottom: 0;
+}
+
+.journal__row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  min-height: 3.875rem;
+}
+
+.journal__title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text);
+  flex: 1;
+}
+
+.journal__status {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
