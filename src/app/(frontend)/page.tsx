@@ -27,7 +27,7 @@ const SERVICES = [
     num: '01',
     title: 'Web Design',
     id: 'web-design',
-    desc: "Figma-first UI/UX. Clean, fast, conversion-focused. I design for real users, not Dribbble.",
+    desc: 'Figma-first UI/UX. Clean, fast, conversion-focused. I design for real users, not Dribbble.',
   },
   {
     num: '02',
@@ -118,16 +118,20 @@ export default async function HomePage() {
             </p>
 
             <div className="hero__ctas">
-              <Button variant="primary" href="/work" chevron>View My Work</Button>
-              <Button variant="secondary" href="/services" chevron>My Services</Button>
+              <Button variant="primary" href="/work" chevron>
+                View My Work
+              </Button>
+              <Button variant="secondary" href="/services" chevron>
+                My Services
+              </Button>
             </div>
 
             <HeroStats />
           </div>
         </div>
 
-        <div className="marquee">
-          <div className="marquee__inner">
+        <div className="hero__marquee">
+          <div className="hero__marquee-track">
             <span>{MARQUEE_TEXT}</span>
             <span>{MARQUEE_TEXT}</span>
           </div>
@@ -171,7 +175,9 @@ export default async function HomePage() {
                     <p className="work__location">{p.location}</p>
                     <div className="work__tags">
                       {tags.map((tag: string) => (
-                        <span key={tag} className="tag">{tag}</span>
+                        <span key={tag} className="tag">
+                          {tag}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -189,12 +195,18 @@ export default async function HomePage() {
                 <div className="work__right-inner">
                   <div className="work__meta">
                     {p.live && <Button variant="badge">{p.live}</Button>}
-                    {p.href && <AnimatedLink className="btn btn--link" href={p.href}>View →</AnimatedLink>}
+                    {p.href && (
+                      <AnimatedLink className="btn btn--link" href={p.href}>
+                        View →
+                      </AnimatedLink>
+                    )}
                   </div>
                   <div className="mockup">
                     <div className="mockup__chrome">
                       <div className="mockup__dots">
-                        <span /><span /><span />
+                        <span />
+                        <span />
+                        <span />
                       </div>
                       <div className="mockup__url">{p.url}</div>
                     </div>
@@ -247,7 +259,9 @@ export default async function HomePage() {
         <div className="journal__header">
           <p className="eyebrow">— Latest Thinking</p>
           <h2 className="section-title">Journal</h2>
-          <Button variant="ghost" href="/journal" chevron>View All Articles</Button>
+          <Button variant="ghost" href="/journal" chevron>
+            View All Articles
+          </Button>
         </div>
         <div className="rule" />
         {JOURNAL.map((post) => (
