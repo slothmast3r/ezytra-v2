@@ -32,11 +32,11 @@ export default async function JournalPage() {
           </h1>
         </div>
         <div className="wa-hero__right">
-          <p className="wa-hero__count">
-            {count} article{count !== 1 ? 's' : ''} · Sharing what I learn while building for the web.
-          </p>
           <p className="wa-hero__tagline">
             — Practical insights, process deep-dives, and occasional rants.
+          </p>
+          <p className="wa-hero__count">
+            {count} article{count !== 1 ? 's' : ''} · Sharing what I learn while building for the web.
           </p>
         </div>
       </section>

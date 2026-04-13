@@ -30,11 +30,11 @@ export default async function WorkPage() {
           </h1>
         </div>
         <div className="wa-hero__right">
-          <p className="wa-hero__count">
-            {count} project{count !== 1 ? 's' : ''} · Design, development, and everything in between.
-          </p>
           <p className="wa-hero__tagline">
             — I own the work from first conversation to deployed site. No handoffs.
+          </p>
+          <p className="wa-hero__count">
+            {count} project{count !== 1 ? 's' : ''} · Design, development, and everything in between.
           </p>
         </div>
       </section>

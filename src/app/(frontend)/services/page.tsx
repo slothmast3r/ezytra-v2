@@ -67,11 +67,11 @@ export default function ServicesPage() {
           </h1>
         </div>
         <div className="wa-hero__right">
-          <p className="wa-hero__count">
-            4 Core Services · Focused on performance, clarity, and long-term value.
-          </p>
           <p className="wa-hero__tagline">
             — I build tools for businesses that care about their digital footprint.
+          </p>
+          <p className="wa-hero__count">
+            4 Core Services · Focused on performance, clarity, and long-term value.
           </p>
         </div>
       </section>

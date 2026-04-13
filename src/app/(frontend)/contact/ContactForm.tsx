@@ -58,6 +58,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
+  const [isShaking, setIsShaking] = useState(false)
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {}
@@ -93,7 +94,11 @@ export default function ContactForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!validate()) return
+    if (!validate()) {
+      setIsShaking(true)
+      setTimeout(() => setIsShaking(false), 500)
+      return
+    }
 
     setIsSubmitting(true)
     
@@ -108,6 +113,10 @@ export default function ContactForm() {
     <div className="cform__layout">
       {/* Left — form */}
       <div className="cform__left">
+        <div className="hero__available" style={{ marginBottom: '2rem' }}>
+          <span className="hero__dot" />
+          Available for new projects
+        </div>
         <p className="eyebrow">— Send a Message</p>
 
         {sent ? (
@@ -122,9 +131,9 @@ export default function ContactForm() {
                 <label className="cform__label">Name</label>
                 <input
                   name="name"
-                  className={`cform__input ${errors.name ? 'cform__input--error' : ''}`}
+                  className={`cform__input ${errors.name ? 'cform__input--error' : ''} ${isShaking && errors.name ? 'cform__input--shake' : ''}`}
                   type="text"
-                  placeholder="Oskar Straszyński"
+                  placeholder="John Kowalski"
                   value={formData.name}
                   onChange={handleChange}
                 />
@@ -134,7 +143,7 @@ export default function ContactForm() {
                 <label className="cform__label">Email</label>
                 <input
                   name="email"
-                  className={`cform__input ${errors.email ? 'cform__input--error' : ''}`}
+                  className={`cform__input ${errors.email ? 'cform__input--error' : ''} ${isShaking && errors.email ? 'cform__input--shake' : ''}`}
                   type="email"
                   placeholder="hello@example.com"
                   value={formData.email}
@@ -198,7 +207,7 @@ export default function ContactForm() {
               <label className="cform__label">Your message</label>
               <textarea
                 name="message"
-                className={`cform__textarea ${errors.message ? 'cform__input--error' : ''}`}
+                className={`cform__textarea ${errors.message ? 'cform__input--error' : ''} ${isShaking && errors.message ? 'cform__input--shake' : ''}`}
                 rows={5}
                 placeholder="Tell me about your project..."
                 value={formData.message}

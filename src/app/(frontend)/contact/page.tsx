@@ -55,10 +55,6 @@ export default function ContactPage() {
               it, but because I want to do good work. If we&apos;re a fit, you&apos;ll know it
               quickly.
             </p>
-            <div className="hero__available">
-              <span className="hero__dot" />
-              Available for new projects
-            </div>
           </div>
         </div>
       </section>
