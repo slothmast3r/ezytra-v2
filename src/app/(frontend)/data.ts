@@ -1,7 +1,8 @@
 export const SITE_DATA = {
   name: 'Oskar Straszyński',
   brand: 'Ezytra',
-  email: 'hello@ezytra.com',
+  url: 'https://ezytra.com',
+  email: 'oskar@straszynski.pl',
   location: 'Warsaw, Poland',
   github: 'https://github.com/slothmast3r',
   instagram: 'https://instagram.com/ezytra.webdesign',

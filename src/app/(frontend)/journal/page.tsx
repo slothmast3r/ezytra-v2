@@ -46,8 +46,12 @@ export default async function JournalPage() {
         <div className="rule" />
         
         <div className="jou-grid__container">
-          {posts.map((post) => {
+          {(posts as any[]).map((post) => {
             const isPublished = post.status === 'published'
+            const d = new Date(post.createdAt)
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            const fallbackDate = `${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`
+
             return (
               <div key={post.id} className={`jou-card${isPublished ? '' : ' jou-card--coming-soon'}`}>
                 <div className="jou-card__meta">
@@ -55,7 +59,7 @@ export default async function JournalPage() {
                   <div className="jou-card__stats">
                     {isPublished && (
                       <span className="jou-card__date">
-                        {new Date(post.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+                        {post.date || fallbackDate}
                       </span>
                     )}
                     {isPublished && post.readTime && <span className="jou-card__dot" aria-hidden="true" />}

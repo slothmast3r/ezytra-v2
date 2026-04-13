@@ -6,9 +6,9 @@ import FooterBar from '../components/FooterBar'
 const INFO = [
   {
     label: 'Email',
-    value: 'hello@ezytra.com',
+    value: 'oskar@straszynski.pl',
     sub: 'Best for project enquiries',
-    href: 'mailto:hello@ezytra.com',
+    href: 'mailto:oskar@straszynski.pl',
   },
   {
     label: 'LinkedIn',

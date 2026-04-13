@@ -6,6 +6,7 @@ import Nav from '../../components/Nav'
 import FooterBar from '../../components/FooterBar'
 import ArticleTOC from './ArticleTOC'
 import ShareButton from './ShareButton'
+import { SITE_DATA } from '../../data'
 
 /* ─── Body parser ─────────────────────────────────────────────────────────────
    Sections store body as plain text. Conventions:
@@ -112,7 +113,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     populate: { authors: { name: true, role: true, bio: true } },
   })
 
-  const post = docs[0]
+  const post = docs[0] as any
   if (!post || post.status !== 'published') notFound()
 
   // Fetch the actual next article (chronologically older)
@@ -145,6 +146,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   }))
 
   const readTime = calculateReadTime(sections)
+  
+  const d = new Date(post.createdAt)
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const fallbackDate = `${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`
 
   return (
     <>
@@ -155,7 +160,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <div className="art-hero__meta">
           {post.tag && <span className="tag">{post.tag}</span>}
           <span className="art-hero__date">
-            {new Date(post.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+            {post.date || fallbackDate}
           </span>
           <span className="art-hero__read">{readTime}</span>
         </div>
@@ -178,7 +183,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <span className="art-hero__author-role">{author.role}</span>
             </div>
             <div className="art-hero__divider" aria-hidden="true" />
-            <ShareButton title={post.headline} url={`https://ezytra.com/journal/${post.slug}`} />
+            <ShareButton title={post.headline} url={`${SITE_DATA.url}/journal/${post.slug}`} />
           </div>
         )}
       </section>
@@ -190,12 +195,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <div className="art-cover__dots">
               <span /><span /><span />
             </div>
-            <div className="art-cover__url">ezytra.com</div>
+            <div className="art-cover__url">{SITE_DATA.url.replace('https://', '')}</div>
           </div>
           <div className="art-cover__screen" />
         </div>
         <p className="art-cover__caption">
-          The finished site — designed in Figma, built in Next.js, managed with Sanity.
+          The finished site — designed in Figma, built in Next.js, managed with Payload CMS.
         </p>
       </section>
 

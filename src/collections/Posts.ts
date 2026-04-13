@@ -11,7 +11,7 @@ export const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
     useAsTitle: 'headline',
-    defaultColumns: ['headline', 'tag', 'status', 'createdAt', 'updatedAt'],
+    defaultColumns: ['headline', 'tag', 'status', 'date', 'createdAt'],
   },
   access: { read: () => true },
   hooks: {
@@ -39,6 +39,13 @@ export const Posts: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     { name: 'tag', type: 'text' },
+    {
+      name: 'date',
+      type: 'text',
+      admin: {
+        description: 'Optional manual date (e.g. "Apr 2025"). Falls back to creation date if empty.',
+      },
+    },
     {
       name: 'readTime',
       type: 'text',
