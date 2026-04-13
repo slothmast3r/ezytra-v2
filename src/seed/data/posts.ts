@@ -1,4 +1,13 @@
-export const posts = [
+export const posts: Array<{
+  slug: string
+  status: 'published' | 'coming-soon' | 'draft'
+  tag: string
+  headline: string
+  excerpt: string
+  nextTitle: string
+  nextHref: string
+  sections: { anchor: string; label: string; heading: string; body: string }[]
+}> = [
   {
     slug: 'deploying-ezytra-on-vercel-what-actually-worked',
     status: 'coming-soon',
