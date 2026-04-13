@@ -12,7 +12,7 @@ export default async function JournalPage() {
 
   const { docs: posts } = await payload.find({
     collection: 'posts',
-    sort: '-date',
+    sort: '-createdAt',
     limit: 100,
     where: { status: { not_equals: 'draft' } },
   })

@@ -83,7 +83,7 @@ export default async function HomePage() {
 
   const { docs: posts } = await payload.find({
     collection: 'posts',
-    sort: '-date',
+    sort: '-createdAt',
     limit: 4,
     where: { status: { not_equals: 'draft' } },
     select: { slug: true, tag: true, headline: true, status: true },
