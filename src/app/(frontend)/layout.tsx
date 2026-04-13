@@ -1,7 +1,8 @@
 import { IBM_Plex_Mono, IBM_Plex_Serif } from 'next/font/google'
 import React from 'react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import './styles.css'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin', 'latin-ext'],
@@ -32,6 +33,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" className={`${ibmPlexMono.variable} ${ibmPlexSerif.variable}`}>
       <body>
         <main>{children}</main>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
