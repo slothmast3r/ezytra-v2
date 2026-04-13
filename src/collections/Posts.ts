@@ -40,13 +40,6 @@ export const Posts: CollectionConfig = {
     },
     { name: 'tag', type: 'text' },
     {
-      name: 'date',
-      type: 'text',
-      admin: {
-        description: 'Optional manual date (e.g. "Apr 2025"). Falls back to creation date if empty.',
-      },
-    },
-    {
       name: 'readTime',
       type: 'text',
       admin: { readOnly: true, description: 'Auto-calculated from section content on save.' },
