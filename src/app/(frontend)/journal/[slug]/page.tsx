@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import Image from 'next/image'
 import Nav from '../../components/Nav'
 import FooterBar from '../../components/FooterBar'
 import ArticleTOC from './ArticleTOC'
+import ShareButton from './ShareButton'
 
 /* ─── Body parser ─────────────────────────────────────────────────────────────
    Sections store body as plain text. Conventions:
@@ -73,6 +75,30 @@ function renderInline(text: string) {
   )
 }
 
+/* ─── Reading time calculator ────────────────────────────────────────────────── */
+function calculateReadTime(sections: any[]): string {
+  let totalWords = 0
+  const WPM = 200 // Average adult reading speed
+
+  sections.forEach((s) => {
+    if (s.body) {
+      // Count words in body text (stripping code fences for accuracy)
+      const cleanText = s.body.replace(/```[\s\S]*?```/g, '')
+      totalWords += cleanText.split(/\s+/).filter(Boolean).length
+      
+      // Add "virtual words" for code blocks to account for complexity
+      const codeBlocks = s.body.match(/```[\s\S]*?```/g)
+      if (codeBlocks) {
+        totalWords += codeBlocks.length * 50 // Each code block adds ~15 seconds of focus
+      }
+    }
+    if (s.heading) totalWords += s.heading.split(/\s+/).length
+  })
+
+  const minutes = Math.max(1, Math.ceil(totalWords / WPM))
+  return `${minutes} min read`
+}
+
 /* ─── Page ──────────────────────────────────────────────────────────────────── */
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -89,6 +115,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const post = docs[0]
   if (!post || post.status !== 'published') notFound()
 
+  // Fetch the actual next article (chronologically older)
+  const { docs: nextArticles } = await payload.find({
+    collection: 'posts',
+    where: {
+      and: [
+        { status: { equals: 'published' } },
+        { createdAt: { less_than: post.createdAt } },
+      ],
+    },
+    sort: '-createdAt',
+    limit: 1,
+  })
+  const nextPost = nextArticles[0]
+
   const author = post.author && typeof post.author === 'object' ? post.author : null
 
   const sections = (post.sections ?? []) as Array<{
@@ -104,6 +144,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     title: s.heading ?? s.label ?? s.anchor,
   }))
 
+  const readTime = calculateReadTime(sections)
+
   return (
     <>
       <Nav />
@@ -112,8 +154,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <section className="art-hero">
         <div className="art-hero__meta">
           {post.tag && <span className="tag">{post.tag}</span>}
-          {post.date && <span className="art-hero__date">{post.date}</span>}
-          {post.readTime && <span className="art-hero__read">{post.readTime}</span>}
+          <span className="art-hero__date">
+            {new Date(post.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+          </span>
+          <span className="art-hero__read">{readTime}</span>
         </div>
 
         <h1 className="art-hero__headline">{post.headline}</h1>
@@ -122,13 +166,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
         {author && (
           <div className="art-hero__author">
-            <div className="art-hero__avatar" aria-hidden="true" />
+            <Image
+              src={author.photo && typeof author.photo === 'object' && 'url' in author.photo && author.photo.url ? author.photo.url : '/owner.jpg'}
+              alt={author.name}
+              width={40}
+              height={40}
+              className="art-hero__avatar"
+            />
             <div className="art-hero__author-info">
               <span className="art-hero__author-name">{author.name}</span>
               <span className="art-hero__author-role">{author.role}</span>
             </div>
             <div className="art-hero__divider" aria-hidden="true" />
-            <a href="#" className="art-hero__share">Share →</a>
+            <ShareButton title={post.headline} url={`https://ezytra.com/journal/${post.slug}`} />
           </div>
         )}
       </section>
@@ -197,7 +247,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <section className="art-footer">
         {author && (
           <div className="art-author">
-            <div className="art-author__avatar" aria-hidden="true" />
+            <Image
+              src={author.photo && typeof author.photo === 'object' && 'url' in author.photo && author.photo.url ? author.photo.url : '/owner.jpg'}
+              alt={author.name}
+              width={64}
+              height={64}
+              className="art-author__avatar"
+            />
             <div className="art-author__info">
               <span className="art-author__name">{author.name}</span>
               <span className="art-author__role">{author.role}</span>
@@ -206,11 +262,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
         )}
 
-        {post.nextTitle && (
+        {nextPost && (
           <div className="art-next">
             <span className="art-next__label">NEXT ARTICLE</span>
-            <a href={post.nextHref ?? '#'} className="art-next__title">
-              {post.nextTitle} →
+            <a href={`/journal/${nextPost.slug}`} className="art-next__title">
+              {nextPost.headline} →
             </a>
           </div>
         )}

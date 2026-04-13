@@ -1,10 +1,8 @@
 export const posts = [
   {
     slug: 'deploying-ezytra-on-vercel-what-actually-worked',
-    status: 'published',
+    status: 'coming-soon',
     tag: 'Dev',
-    date: 'Mar 2025',
-    readTime: '6 min read',
     headline: 'Deploying Ezytra on Vercel — What Actually Worked',
     excerpt:
       "Moving from a self-managed VPS to Vercel for the Ezytra site. What broke, what surprised me, and whether I'd do it again.",
@@ -45,10 +43,8 @@ export const posts = [
   },
   {
     slug: 'payload-cms-after-six-months',
-    status: 'published',
+    status: 'draft',
     tag: 'Tools',
-    date: 'Feb 2025',
-    readTime: '7 min read',
     headline: 'Payload CMS After Six Months — Honest Review',
     excerpt:
       "I switched from Sanity to Payload for client projects. Here's what I actually think after using it in production.",
@@ -83,10 +79,8 @@ export const posts = [
   },
   {
     slug: 'figma-workflow-for-client-projects',
-    status: 'published',
+    status: 'draft',
     tag: 'Design',
-    date: 'Jan 2025',
-    readTime: '5 min read',
     headline: 'My Figma Workflow for Client Projects',
     excerpt:
       'How I go from a blank Figma file to a approved design in two weeks — without endless revision rounds.',
@@ -121,10 +115,8 @@ export const posts = [
   },
   {
     slug: 'building-with-ai-what-changed',
-    status: 'published',
+    status: 'coming-soon',
     tag: 'Process',
-    date: 'Apr 2025',
-    readTime: '6 min read',
     headline: "Building with AI: What Changed, What Didn't",
     excerpt:
       'A year of using AI tools in real client work. The honest version — what it actually changed, where it still falls short, and why I still fix most of it myself.',

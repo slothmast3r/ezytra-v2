@@ -53,8 +53,12 @@ export default async function JournalPage() {
                 <div className="jou-card__meta">
                   {post.tag && <span className="tag">{post.tag}</span>}
                   <div className="jou-card__stats">
-                    {isPublished && post.date && <span className="jou-card__date">{post.date}</span>}
-                    {isPublished && post.date && post.readTime && <span className="jou-card__dot" aria-hidden="true" />}
+                    {isPublished && (
+                      <span className="jou-card__date">
+                        {new Date(post.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+                      </span>
+                    )}
+                    {isPublished && post.readTime && <span className="jou-card__dot" aria-hidden="true" />}
                     {isPublished && post.readTime && <span className="jou-card__read">{post.readTime}</span>}
                     {!isPublished && <span className="jou-card__status">Coming soon</span>}
                   </div>

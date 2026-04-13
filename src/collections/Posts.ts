@@ -1,12 +1,29 @@
 import type { CollectionConfig } from 'payload'
 
+function calcReadTime(sections: { body?: string | null }[] = []): string {
+  const text = sections.map((s) => s.body ?? '').join(' ')
+  const words = text.trim().split(/\s+/).filter(Boolean).length
+  const minutes = Math.max(1, Math.round(words / 200))
+  return `${minutes} min read`
+}
+
 export const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
     useAsTitle: 'headline',
-    defaultColumns: ['headline', 'tag', 'status', 'date', 'updatedAt'],
+    defaultColumns: ['headline', 'tag', 'status', 'createdAt', 'updatedAt'],
   },
   access: { read: () => true },
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        if (data.sections) {
+          data.readTime = calcReadTime(data.sections)
+        }
+        return data
+      },
+    ],
+  },
   fields: [
     { name: 'slug', type: 'text', required: true, unique: true, index: true },
     {
@@ -19,13 +36,14 @@ export const Posts: CollectionConfig = {
         { label: 'Coming Soon', value: 'coming-soon' },
         { label: 'Draft', value: 'draft' },
       ],
-      admin: {
-        position: 'sidebar',
-      },
+      admin: { position: 'sidebar' },
     },
     { name: 'tag', type: 'text' },
-    { name: 'date', type: 'text' },
-    { name: 'readTime', type: 'text' },
+    {
+      name: 'readTime',
+      type: 'text',
+      admin: { readOnly: true, description: 'Auto-calculated from section content on save.' },
+    },
     { name: 'headline', type: 'text', required: true },
     { name: 'excerpt', type: 'textarea' },
     {

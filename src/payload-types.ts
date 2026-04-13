@@ -226,7 +226,9 @@ export interface Post {
   slug: string;
   status: 'published' | 'coming-soon' | 'draft';
   tag?: string | null;
-  date?: string | null;
+  /**
+   * Auto-calculated from section content on save.
+   */
   readTime?: string | null;
   headline: string;
   excerpt?: string | null;
@@ -417,7 +419,6 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   status?: T;
   tag?: T;
-  date?: T;
   readTime?: T;
   headline?: T;
   excerpt?: T;
