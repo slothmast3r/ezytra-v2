@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Button from '../components/Button'
 import { SITE_DATA } from '../data'
+import { track } from '@vercel/analytics'
+import { sendEmail } from './actions'
 
 const PROJECT_TYPES = ['Web Design', 'Development', 'Brand Identity', 'CMS Setup', 'Full Project', 'Other']
 const BUDGETS = ['< €1k', '€1k–3k', '€3k–8k', '€6k+', "Let's talk"]
@@ -102,11 +104,21 @@ export default function ContactForm() {
 
     setIsSubmitting(true)
     
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    // Send actual email via Resend
+    const result = await sendEmail(formData)
     
+    if (result.success) {
+      // Track conversion
+      track('contact_form_submitted', {
+        projectType: formData.projectType,
+        budget: formData.budget,
+      })
+      setSent(true)
+    } else {
+      alert('Failed to send message. Please try again or email directly.')
+    }
+
     setIsSubmitting(false)
-    setSent(true)
   }
 
   return (
@@ -120,7 +132,7 @@ export default function ContactForm() {
         <p className="eyebrow">— Send a Message</p>
 
         {sent ? (
-          <div className="cform__success">
+          <div className="cform__success cform__success--animate">
             <h2 className="cform__success-title">Message sent.</h2>
             <p className="cform__success-desc">I&apos;ll get back to you within 24 hours.</p>
           </div>
