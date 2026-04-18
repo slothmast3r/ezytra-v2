@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import AnimatedLink from '../components/AnimatedLink'
+import Button from '../components/Button'
 
 interface Project {
   id: number
@@ -68,14 +68,28 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
 
         <div className="wa-card__actions">
           {p.slug && (
-            <a href={`/work/${p.slug}`} className="wa-btn-primary">
-              View Case Study →
-            </a>
+            <Button href={`/work/${p.slug}`} variant="primary" chevron>
+              View Case Study
+            </Button>
           )}
           {p.url && p.href && (
-            <AnimatedLink href={p.href} className="wa-card__live-link" target="_blank" rel="noopener noreferrer">
+            <a href={p.href} className="wa-card__live-link" target="_blank" rel="noopener noreferrer">
               {p.url}
-            </AnimatedLink>
+              <svg 
+                width="14" 
+                height="14" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                style={{ marginLeft: '4px', verticalAlign: 'text-bottom' }}
+              >
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
           )}
         </div>
       </div>
@@ -127,14 +141,28 @@ function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
 
         <div className="wa-card__actions">
           {p.slug && (
-            <a href={`/work/${p.slug}`} className="wa-btn-primary">
-              View Case Study →
-            </a>
+            <Button href={`/work/${p.slug}`} variant="primary" chevron>
+              View Case Study
+            </Button>
           )}
           {p.url && p.href && (
-            <AnimatedLink href={p.href} className="wa-card__live-link" target="_blank" rel="noopener noreferrer">
+            <a href={p.href} className="wa-card__live-link" target="_blank" rel="noopener noreferrer">
               {p.url}
-            </AnimatedLink>
+              <svg 
+                width="14" 
+                height="14" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                style={{ marginLeft: '4px', verticalAlign: 'text-bottom' }}
+              >
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
           )}
         </div>
       </div>

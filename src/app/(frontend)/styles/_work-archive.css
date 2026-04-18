@@ -89,8 +89,9 @@ Work Archive
   border-color: var(--border-2);
 }
 
-.wa-filter--active {
-  color: var(--bg);
+.wa-filter--active,
+.wa-filter--active:hover {
+  color: var(--bg) !important;
   background: var(--text);
   border-color: var(--text);
 }
@@ -104,15 +105,17 @@ Work Archive
 /* ── Grid ── */
 
 .wa-grid {
-  padding: 2rem var(--px) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 4rem var(--px) 4rem;
   border-bottom: 1px solid var(--border);
 }
 
 .wa-grid__row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 2.5rem;
 }
 
 .wa-grid__footer {
@@ -305,12 +308,20 @@ Work Archive
 .wa-btn-primary:hover {
   background: transparent;
   color: var(--accent);
+  filter: brightness(1.2);
 }
 
 .wa-card__live-link {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--muted);
-  transition: color 0.15s;
+  transition: color 0.2s ease, filter 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.wa-card__live-link:hover {
+  color: var(--text);
+  filter: brightness(1.3);
 }
 
