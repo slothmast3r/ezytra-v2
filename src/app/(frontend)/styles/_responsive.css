@@ -633,6 +633,61 @@
   .footer__links a {
     font-size: 0.8125rem;
   }
+
+  /* ── Contact Page Specific ── */
+  .contact-hero__body {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem var(--px);
+    min-height: unset;
+  }
+
+  .contact-hero__headline {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    line-height: 1.05;
+  }
+
+  .contact-hero__right {
+    justify-content: flex-start;
+  }
+
+  .contact-hero__desc {
+    max-width: 100%;
+  }
+
+  .cform-section {
+    padding: 3rem var(--px);
+  }
+
+  .cform__layout {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .cform__row {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .cform__right {
+    position: static;
+  }
+
+  .cinfo__grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .cinfo__item {
+    padding-right: 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+
+  .cinfo__item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 }
 
 /* ==========================================================================

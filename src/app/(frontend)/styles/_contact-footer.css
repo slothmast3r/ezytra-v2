@@ -56,11 +56,6 @@
   border-top: 1px solid var(--border);
 }
 
-.contact .footer__bar {
-  padding-left: 0;
-  padding-right: 0;
-}
-
 .footer__copy {
   font-family: var(--font-mono);
   font-size: 0.75rem;

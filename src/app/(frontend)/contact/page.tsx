@@ -86,7 +86,9 @@ export default function ContactPage() {
       </section>
 
       {/* 04 — Footer */}
-      <FooterBar />
+      <footer className="contact">
+        <FooterBar />
+      </footer>
     </>
   )
 }
