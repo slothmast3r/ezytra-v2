@@ -187,8 +187,11 @@ Work Archive
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: var(--border-2);
 }
+
+.wa-card__dots span:nth-child(1) { background: #ff5f56; }
+.wa-card__dots span:nth-child(2) { background: #ffbd2e; }
+.wa-card__dots span:nth-child(3) { background: #27c93f; }
 
 .wa-card__chrome-url {
   font-family: var(--font-mono);
