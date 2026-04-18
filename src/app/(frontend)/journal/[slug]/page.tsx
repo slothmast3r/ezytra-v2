@@ -2,19 +2,47 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Image from 'next/image'
+import React, { Suspense } from 'react'
 import Nav from '../../components/Nav'
 import FooterBar from '../../components/FooterBar'
 import ArticleTOC from './ArticleTOC'
 import ShareButton from './ShareButton'
 import { SITE_DATA } from '../../data'
+import { ArticleSkeleton } from '../../components/Skeletons'
+import { Metadata } from 'next'
 
-/* ─── Body parser ─────────────────────────────────────────────────────────────
-   Sections store body as plain text. Conventions:
-     • Blank line (\n\n)  → paragraph break
-     • ```lang\n...\n```  → code block
-     • "PRO TIP: ..."     → callout paragraph
-   ──────────────────────────────────────────────────────────────────────────── */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const payload = await getPayload({ config })
 
+  const { docs } = await payload.find({
+    collection: 'posts',
+    where: { slug: { equals: slug } },
+    limit: 1,
+  })
+
+  const post = docs[0] as any
+  if (!post) return {}
+
+  const title = post.meta?.title || post.headline
+  const description = post.meta?.description || post.excerpt
+
+  return {
+    title: `${title} — ${SITE_DATA.brand}`,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      type: 'article',
+    },
+  }
+}
+
+/* ─── Body parser ───────────────────────────────────────────────────────────── */
 type BodyNode =
   | { type: 'paragraph'; text: string }
   | { type: 'code'; lang: string; code: string }
@@ -22,13 +50,11 @@ type BodyNode =
 
 function parseBody(raw: string): BodyNode[] {
   const nodes: BodyNode[] = []
-  // Split on code fences first, then handle paragraphs
   const fenceRe = /```(\w*)\n([\s\S]*?)```/g
   let last = 0
   let match: RegExpExecArray | null
 
   while ((match = fenceRe.exec(raw)) !== null) {
-    // text before the fence
     const before = raw.slice(last, match.index).trim()
     if (before) {
       for (const para of before.split(/\n\n+/)) {
@@ -45,7 +71,6 @@ function parseBody(raw: string): BodyNode[] {
     last = match.index + match[0].length
   }
 
-  // remaining text after last fence
   const tail = raw.slice(last).trim()
   if (tail) {
     for (const para of tail.split(/\n\n+/)) {
@@ -62,7 +87,6 @@ function parseBody(raw: string): BodyNode[] {
   return nodes
 }
 
-/* ─── Inline backtick renderer ─────────────────────────────────────────────── */
 function renderInline(text: string) {
   const parts = text.split(/`([^`]+)`/)
   return parts.map((part, i) =>
@@ -76,21 +100,17 @@ function renderInline(text: string) {
   )
 }
 
-/* ─── Reading time calculator ────────────────────────────────────────────────── */
 function calculateReadTime(sections: any[]): string {
   let totalWords = 0
-  const WPM = 200 // Average adult reading speed
+  const WPM = 200
 
   sections.forEach((s) => {
     if (s.body) {
-      // Count words in body text (stripping code fences for accuracy)
       const cleanText = s.body.replace(/```[\s\S]*?```/g, '')
       totalWords += cleanText.split(/\s+/).filter(Boolean).length
-      
-      // Add "virtual words" for code blocks to account for complexity
       const codeBlocks = s.body.match(/```[\s\S]*?```/g)
       if (codeBlocks) {
-        totalWords += codeBlocks.length * 50 // Each code block adds ~15 seconds of focus
+        totalWords += codeBlocks.length * 50
       }
     }
     if (s.heading) totalWords += s.heading.split(/\s+/).length
@@ -100,10 +120,9 @@ function calculateReadTime(sections: any[]): string {
   return `${minutes} min read`
 }
 
-/* ─── Page ──────────────────────────────────────────────────────────────────── */
+/* ─── Async Content Component ─────────────────────────────────────────────── */
 
-export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+async function ArticleContent({ slug }: { slug: string }) {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -116,7 +135,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const post = docs[0] as any
   if (!post || post.status !== 'published') notFound()
 
-  // Fetch the actual next article (chronologically older)
   const { docs: nextArticles } = await payload.find({
     collection: 'posts',
     where: {
@@ -153,8 +171,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <Nav />
-
       {/* ── 01 Hero ── */}
       <section className="art-hero">
         <div className="art-hero__meta">
@@ -276,8 +292,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
         )}
       </section>
+    </>
+  )
+}
 
-      {/* ── Footer bar ── */}
+/* ─── Page Wrapper ─────────────────────────────────────────────────────────── */
+
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+
+  return (
+    <>
+      <Nav />
+      <Suspense fallback={<ArticleSkeleton />}>
+        <ArticleContent slug={slug} />
+      </Suspense>
       <FooterBar />
     </>
   )

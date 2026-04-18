@@ -32,7 +32,7 @@ const SERVICES_DETAILED = [
     num: '04',
     title: 'SEO & Deployment',
     tagline: 'On-page SEO from day one. Deployed to VPS.',
-    desc: 'I handle the full stack so you don&apos;t have to. I handle the technical SEO (Schema, Metadata, Performance) and deploy your site to a high-performance VPS using Linux and Nginx. Your site will be secure, fast, and ready to climb the search results from day one.',
+    desc: "I handle the full stack so you don't have to. I handle the technical SEO (Schema, Metadata, Performance) and deploy your site to a high-performance VPS using Linux and Nginx. Your site will be secure, fast, and ready to climb the search results from day one.",
     deliverables: ['VPS / Linux Config', 'Technical SEO Audit', 'Core Web Vitals Pass', 'Analytics Setup'],
   },
 ]

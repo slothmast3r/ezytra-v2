@@ -214,6 +214,16 @@ export interface Project {
    */
   year?: string | null;
   featured?: boolean | null;
+  meta?: {
+    /**
+     * Custom title for search engines. If empty, project name will be used.
+     */
+    title?: string | null;
+    /**
+     * Brief summary for search results.
+     */
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -244,6 +254,16 @@ export interface Post {
         id?: string | null;
       }[]
     | null;
+  meta?: {
+    /**
+     * Custom title for search engines. If empty, headline will be used.
+     */
+    title?: string | null;
+    /**
+     * Brief summary for search results. If empty, excerpt will be used.
+     */
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -408,6 +428,12 @@ export interface ProjectsSelect<T extends boolean = true> {
   type?: T;
   year?: T;
   featured?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -433,6 +459,12 @@ export interface PostsSelect<T extends boolean = true> {
         heading?: T;
         body?: T;
         id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
       };
   updatedAt?: T;
   createdAt?: T;

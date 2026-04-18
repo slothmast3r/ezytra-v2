@@ -70,5 +70,28 @@ export const Posts: CollectionConfig = {
         { name: 'body', type: 'textarea' },
       ],
     },
+    {
+      name: 'meta',
+      type: 'group',
+      label: 'SEO / Meta',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Meta Title',
+          admin: {
+            description: 'Custom title for search engines. If empty, headline will be used.',
+          },
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Meta Description',
+          admin: {
+            description: 'Brief summary for search results. If empty, excerpt will be used.',
+          },
+        },
+      ],
+    },
   ],
 }
