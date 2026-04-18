@@ -1,4 +1,4 @@
-export const revalidate = 0
+export const revalidate = 60
 
 import { getPayload } from 'payload'
 import config from '@payload-config'

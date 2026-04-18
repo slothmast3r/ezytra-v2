@@ -1,6 +1,6 @@
-export const revalidate = 0
+export const revalidate = 60
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import Nav from './components/Nav'
 import HeroStats from './components/HeroStats'
 import HeroHeadline from './components/HeroHeadline'
@@ -50,38 +50,72 @@ const SERVICES = [
   },
 ]
 
-const PROCESS = [
-  {
-    num: '01',
-    title: 'Discovery',
-    desc: 'We talk about your goals, audience, and what success looks like. No briefs, just a real conversation.',
-  },
-  {
-    num: '02',
-    title: 'Design',
-    desc: 'I start in Figma — wireframes first, then high-fidelity. You review and give feedback at every stage.',
-  },
-  {
-    num: '03',
-    title: 'Build',
-    desc: 'I code what I designed. Next.js, your CMS of choice, deployed to your server or mine.',
-  },
-  {
-    num: '04',
-    title: 'Launch',
-    desc: 'Full QA, SEO audit, performance check. I stay on hand after go-live.',
-  },
-]
-
-export default async function HomePage() {
+async function ProjectsList() {
   const payload = await getPayload({ config })
-
   const { docs: projects } = await payload.find({
     collection: 'projects',
     sort: 'order',
     limit: 100,
   })
 
+  return (projects as any[]).map((p, i) => {
+    const num = String(i + 1).padStart(2, '0')
+    const tags = (p.tags ?? []).map((t: any) => t.tag)
+    return (
+      <div key={p.id} className="work__row">
+        <div className="work__col-left">
+          <div className="work__header">
+            <span className="work__num">{num}</span>
+            <div className="work__header-info">
+              <h3 className="work__name">{p.name}</h3>
+              <p className="work__location">{p.location}</p>
+              <div className="work__tags">
+                {tags.map((tag: string) => (
+                  <span key={tag} className="tag">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="work__body">
+            <div className="work__body-inner">
+              <p className="work__desc">{p.desc}</p>
+            </div>
+          </div>
+        </div>
+        <div className="work__col-right">
+          <div className="work__right-inner">
+            <div className="work__right-content">
+              <div className="work__meta">
+                {p.live && <Button variant="badge">{p.live}</Button>}
+                {p.href && (
+                  <AnimatedLink className="btn btn--link" href={p.href}>
+                    View →
+                  </AnimatedLink>
+                )}
+              </div>
+              <div className="mockup">
+                <div className="mockup__chrome">
+                  <div className="mockup__dots">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <div className="mockup__url">{p.url}</div>
+                </div>
+                <div className="mockup__screen" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  })
+}
+
+async function JournalList() {
+  const payload = await getPayload({ config })
   const { docs: posts } = await payload.find({
     collection: 'posts',
     sort: '-createdAt',
@@ -89,6 +123,33 @@ export default async function HomePage() {
     where: { status: { not_equals: 'draft' } },
     select: { slug: true, tag: true, headline: true, status: true },
   })
+
+  return (
+    <>
+      {posts.map((post) =>
+        post.status === 'coming-soon' ? (
+          <div key={post.slug} className="journal__row journal__row--muted">
+            <span className="tag">{post.tag}</span>
+            <p className="journal__title">{post.headline}</p>
+            <span className="journal__status">Coming soon</span>
+          </div>
+        ) : (
+          <a
+            key={post.slug}
+            href={`/journal/${post.slug}`}
+            className="journal__row journal__row--link"
+          >
+            <span className="tag">{post.tag}</span>
+            <p className="journal__title">{post.headline}</p>
+            <span className="journal__arrow">→</span>
+          </a>
+        ),
+      )}
+    </>
+  )
+}
+
+export default function HomePage() {
   return (
     <>
       {/* 01 — Nav */}
@@ -163,64 +224,15 @@ export default async function HomePage() {
         <h2 className="section-title">Projects</h2>
         <div className="rule" />
 
-        {(projects as any[]).map((p, i) => {
-          const num = String(i + 1).padStart(2, '0')
-          const tags = (p.tags ?? []).map((t: any) => t.tag)
-          return (
-            <div key={p.id} className="work__row">
-              {/* left col: header + expandable desc */}
-              <div className="work__col-left">
-                <div className="work__header">
-                  <span className="work__num">{num}</span>
-                  <div className="work__header-info">
-                    <h3 className="work__name">{p.name}</h3>
-                    <p className="work__location">{p.location}</p>
-                    <div className="work__tags">
-                      {tags.map((tag: string) => (
-                        <span key={tag} className="tag">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="work__body">
-                  <div className="work__body-inner">
-                    <p className="work__desc">{p.desc}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* right col: appears on hover */}
-              <div className="work__col-right">
-                <div className="work__right-inner">
-                  <div className="work__right-content">
-                    <div className="work__meta">
-                      {p.live && <Button variant="badge">{p.live}</Button>}
-                      {p.href && (
-                        <AnimatedLink className="btn btn--link" href={p.href}>
-                          View →
-                        </AnimatedLink>
-                      )}
-                    </div>
-                    <div className="mockup">
-                      <div className="mockup__chrome">
-                        <div className="mockup__dots">
-                          <span />
-                          <span />
-                          <span />
-                        </div>
-                        <div className="mockup__url">{p.url}</div>
-                      </div>
-                      <div className="mockup__screen" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <Suspense
+          fallback={
+            <div style={{ padding: '2rem', opacity: 0.5, fontStyle: 'italic' }}>
+              Loading projects...
             </div>
-          )
-        })}
+          }
+        >
+          <ProjectsList />
+        </Suspense>
       </section>
 
       {/* 05 — Services */}
@@ -254,21 +266,15 @@ export default async function HomePage() {
         <p className="eyebrow">— Journal</p>
         <h2 className="section-title">Thinking Out Loud</h2>
         <div className="rule" />
-        {posts.map((post) =>
-          post.status === 'coming-soon' ? (
-            <div key={post.slug} className="journal__row journal__row--muted">
-              <span className="tag">{post.tag}</span>
-              <p className="journal__title">{post.headline}</p>
-              <span className="journal__status">Coming soon</span>
+        <Suspense
+          fallback={
+            <div style={{ padding: '2rem', opacity: 0.5, fontStyle: 'italic' }}>
+              Loading journal...
             </div>
-          ) : (
-            <a key={post.slug} href={`/journal/${post.slug}`} className="journal__row journal__row--link">
-              <span className="tag">{post.tag}</span>
-              <p className="journal__title">{post.headline}</p>
-              <span className="journal__arrow">→</span>
-            </a>
-          )
-        )}
+          }
+        >
+          <JournalList />
+        </Suspense>
         <div className="journal__footer">
           <Button variant="ghost" href="/journal" chevron>
             View All Articles
