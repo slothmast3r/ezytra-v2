@@ -7,6 +7,7 @@ import HeroHeadline from './components/HeroHeadline'
 import Button from './components/Button'
 import SiteFooter from './components/SiteFooter'
 import AnimatedLink from './components/AnimatedLink'
+import ProcessSection from './components/ProcessSection'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -245,16 +246,7 @@ export default async function HomePage() {
       <section className="process" id="process">
         <p className="eyebrow">— How I Work</p>
         <h2 className="section-title">My Process</h2>
-        <div className="process__grid">
-          {PROCESS.map((s) => (
-            <div key={s.num} className="process__step">
-              <span className="process__num">{s.num}</span>
-              <div className="process__rule" />
-              <h3 className="process__title">{s.title}</h3>
-              <p className="process__desc">{s.desc}</p>
-            </div>
-          ))}
-        </div>
+        <ProcessSection />
       </section>
 
       {/* 07 — Journal */}

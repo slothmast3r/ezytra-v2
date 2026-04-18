@@ -45,20 +45,25 @@ export default function Nav() {
         </button>
       </nav>
 
-      {open && (
-        <div className="nav__drawer">
-          <ul className="nav__drawer-links">
-            {NAV_LINKS.map((link) => (
-              <li key={link.label}>
-                <NavLink href={link.href} onClick={() => setOpen(false)}>{link.label}</NavLink>
-              </li>
-            ))}
-          </ul>
-          <Button variant="ghost" href="/contact" className="nav__drawer-cta" onClick={() => setOpen(false)} chevron>
-            Let&apos;s Talk
-          </Button>
-        </div>
-      )}
+      <div className={`nav__drawer${open ? ' nav__drawer--open' : ''}`} aria-hidden={!open}>
+        <ul className="nav__drawer-links">
+          {NAV_LINKS.map((link, i) => (
+            <li key={link.label} style={{ '--i': i } as React.CSSProperties}>
+              <NavLink href={link.href} onClick={() => setOpen(false)}>{link.label}</NavLink>
+            </li>
+          ))}
+        </ul>
+        <Button
+          variant="ghost"
+          href="/contact"
+          className="nav__drawer-cta"
+          style={{ '--i': NAV_LINKS.length } as React.CSSProperties}
+          onClick={() => setOpen(false)}
+          chevron
+        >
+          Let&apos;s Talk
+        </Button>
+      </div>
     </>
   )
 }

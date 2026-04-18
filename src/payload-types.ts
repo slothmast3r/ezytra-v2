@@ -227,10 +227,6 @@ export interface Post {
   status: 'published' | 'coming-soon' | 'draft';
   tag?: string | null;
   /**
-   * Optional manual date (e.g. "Apr 2025"). Falls back to creation date if empty.
-   */
-  date?: string | null;
-  /**
    * Auto-calculated from section content on save.
    */
   readTime?: string | null;
@@ -423,7 +419,6 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   status?: T;
   tag?: T;
-  date?: T;
   readTime?: T;
   headline?: T;
   excerpt?: T;

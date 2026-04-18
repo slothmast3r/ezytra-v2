@@ -15,7 +15,53 @@
 .process__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 4rem 0 5rem;
+  padding: 0 0 5rem;
+  margin-top: 4rem;
+  position: relative;
+}
+
+/* Grey track — center of col 1 to center of col 4 */
+.process__grid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: var(--border);
+  z-index: 0;
+}
+
+/* Accent progress bar — animates over the track */
+.process__grid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: var(--accent);
+  z-index: 1;
+}
+
+.process__step {
+  position: relative;
+  padding-top: 2.5rem;
+  padding-right: 2rem;
+}
+
+/* Dot on the timeline */
+.process__step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-50%);
+  z-index: 1;
 }
 
 .process__num {
@@ -28,10 +74,77 @@
 }
 
 .process__rule {
-  width: 17.5rem;
-  height: 1px;
-  background: var(--border);
-  margin-bottom: 1rem;
+  display: none;
+}
+
+/* ==========================================================================
+   Desktop animation (min-width: 1101px)
+   ========================================================================== */
+
+@media (min-width: 1101px) {
+  /* Line draws left → right */
+  .process__grid::before {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .process__grid--animate::before {
+    transform: scaleX(1);
+  }
+
+  /* Steps fade up, staggered */
+  .process__step {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+
+  .process__grid--animate .process__step:nth-child(1) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.15s;
+  }
+  .process__grid--animate .process__step:nth-child(2) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.42s;
+  }
+  .process__grid--animate .process__step:nth-child(3) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.69s;
+  }
+  .process__grid--animate .process__step:nth-child(4) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.96s;
+  }
+
+  /* Dots pop in as line reaches them */
+  .process__step::before {
+    transform: translateY(-50%) scale(0);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .process__grid--animate .process__step:nth-child(1)::before {
+    transform: translateY(-50%) scale(1);
+    transition-delay: 0.05s;
+  }
+  .process__grid--animate .process__step:nth-child(2)::before {
+    transform: translateY(-50%) scale(1);
+    transition-delay: 0.32s;
+  }
+  .process__grid--animate .process__step:nth-child(3)::before {
+    transform: translateY(-50%) scale(1);
+    transition-delay: 0.59s;
+  }
+  .process__grid--animate .process__step:nth-child(4)::before {
+    transform: translateY(-50%) scale(1);
+    transition-delay: 0.86s;
+  }
 }
 
 .process__title {
@@ -50,4 +163,3 @@
   color: var(--muted);
   max-width: 17.5rem;
 }
-
