@@ -137,6 +137,15 @@ export const Projects: CollectionConfig = {
                 { name: 'href', type: 'text', admin: { width: '50%' } },
               ],
             },
+            {
+              name: 'image',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Featured Image',
+              admin: {
+                description: 'Used in the work grid. If empty, a CSS placeholder will be shown.',
+              },
+            },
             { name: 'live', type: 'text' },
             { name: 'featured', type: 'checkbox', defaultValue: false },
           ],

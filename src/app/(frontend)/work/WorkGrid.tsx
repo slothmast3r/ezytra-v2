@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Button from '../components/Button'
+import Image from 'next/image'
 
 interface Project {
   id: number
@@ -17,6 +18,10 @@ interface Project {
   year?: string | null
   featured?: boolean | null
   order: number
+  image?: {
+    url: string
+    alt?: string
+  } | null
 }
 
 const FILTERS = ['All', 'Web Design', 'Development', 'Branding', 'CMS', 'SEO', 'Polish', 'English']
@@ -30,7 +35,17 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
           <div className="wa-card__dots"><span /><span /><span /></div>
           <span className="wa-card__chrome-url">{p.url}</span>
         </div>
-        <div className="wa-card__screen" />
+        <div className="wa-card__screen">
+          {p.image?.url ? (
+            <Image 
+              src={p.image.url} 
+              alt={p.image.alt || p.name} 
+              fill 
+              sizes="(max-width: 1100px) 100vw, 40rem"
+              style={{ objectFit: 'cover' }}
+            />
+          ) : null}
+        </div>
       </div>
 
       {/* right: info */}
@@ -105,7 +120,17 @@ function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
           <div className="wa-card__dots"><span /><span /><span /></div>
           <span className="wa-card__chrome-url">{p.url}</span>
         </div>
-        <div className="wa-card__screen" />
+        <div className="wa-card__screen">
+          {p.image?.url ? (
+            <Image 
+              src={p.image.url} 
+              alt={p.image.alt || p.name} 
+              fill 
+              sizes="(max-width: 1100px) 100vw, 25rem"
+              style={{ objectFit: 'cover' }}
+            />
+          ) : null}
+        </div>
       </div>
 
       <div className="wa-card__info">
@@ -224,7 +249,7 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
               <ProjectCardSmall
                 key={p.id}
                 p={p}
-                num={String(i + 1).padStart(2, '0')}
+                num={String(all.indexOf(p) + 1).padStart(2, '0')}
               />
             ))}
           </div>

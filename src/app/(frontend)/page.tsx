@@ -11,6 +11,7 @@ import AnimatedLink from './components/AnimatedLink'
 import ProcessSection from './components/ProcessSection'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import Image from 'next/image'
 
 const MARQUEE_TEXT =
   'Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  '
@@ -105,7 +106,17 @@ async function ProjectsList() {
                   </div>
                   <div className="mockup__url">{p.url}</div>
                 </div>
-                <div className="mockup__screen" />
+                <div className="mockup__screen">
+                  {p.image && typeof p.image === 'object' && p.image.url ? (
+                    <Image
+                      src={p.image.url}
+                      alt={p.image.alt || p.name}
+                      fill
+                      sizes="(max-width: 1100px) 100vw, 40rem"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  ) : null}
+                </div>
               </div>
             </div>
           </div>

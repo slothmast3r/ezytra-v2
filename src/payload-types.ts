@@ -189,6 +189,10 @@ export interface Project {
   desc: string;
   url?: string | null;
   href?: string | null;
+  /**
+   * Used in the work grid. If empty, a CSS placeholder will be shown.
+   */
+  image?: (number | null) | Media;
   live?: string | null;
   featured?: boolean | null;
   layout?:
@@ -538,6 +542,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   desc?: T;
   url?: T;
   href?: T;
+  image?: T;
   live?: T;
   featured?: T;
   layout?:
