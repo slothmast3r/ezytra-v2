@@ -1,6 +1,7 @@
 export const revalidate = 60
 
 import React, { Suspense } from 'react'
+import { ProjectSkeleton, JournalSkeleton } from './components/Skeletons'
 import Nav from './components/Nav'
 import HeroStats from './components/HeroStats'
 import HeroHeadline from './components/HeroHeadline'
@@ -226,9 +227,11 @@ export default function HomePage() {
 
         <Suspense
           fallback={
-            <div style={{ padding: '2rem', opacity: 0.5, fontStyle: 'italic' }}>
-              Loading projects...
-            </div>
+            <>
+              <ProjectSkeleton />
+              <ProjectSkeleton />
+              <ProjectSkeleton />
+            </>
           }
         >
           <ProjectsList />
@@ -268,9 +271,12 @@ export default function HomePage() {
         <div className="rule" />
         <Suspense
           fallback={
-            <div style={{ padding: '2rem', opacity: 0.5, fontStyle: 'italic' }}>
-              Loading journal...
-            </div>
+            <>
+              <JournalSkeleton />
+              <JournalSkeleton />
+              <JournalSkeleton />
+              <JournalSkeleton />
+            </>
           }
         >
           <JournalList />
