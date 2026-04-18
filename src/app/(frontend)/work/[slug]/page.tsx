@@ -2,9 +2,12 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import React from 'react'
+import Image from 'next/image'
 import Nav from '../../components/Nav'
 import Button from '../../components/Button'
 import FooterBar from '../../components/FooterBar'
+import { RichText } from '../../components/RichText'
+import CaseStudyTOC from './CaseStudyTOC'
 import { Metadata } from 'next'
 import { SITE_DATA } from '../../data'
 
@@ -39,6 +42,18 @@ export async function generateMetadata({
   }
 }
 
+function getBlockTitle(block: any): string {
+  switch (block.blockType) {
+    case 'overview': return 'Overview'
+    case 'challenge': return block.heading || 'Challenge'
+    case 'process': return block.heading || 'Process'
+    case 'results': return 'Results'
+    case 'textSection': return block.heading || 'Details'
+    case 'imageBlock': return block.caption || 'Image'
+    default: return 'Section'
+  }
+}
+
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const payload = await getPayload({ config })
@@ -50,9 +65,9 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   })
 
   const project = docs[0] as any
-  if (!project) notFound()
+  if (!project || !project.hasCaseStudy) notFound()
 
-  // Fetch next project (simple order + 1 or wrap)
+  // Fetch all for pagination
   const { docs: allProjects } = await payload.find({
     collection: 'projects',
     sort: 'order',
@@ -61,14 +76,19 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   
   const currentIndex = allProjects.findIndex((p: any) => p.slug === slug)
   const nextProject = allProjects[currentIndex + 1] || allProjects[0]
-
   const tags = (project.tags ?? []).map((t: any) => t.tag).join(' · ')
+
+  const tocItems = (project.layout ?? []).map((block: any, i: number) => ({
+    num: String(i + 1).padStart(2, '0'),
+    anchor: `section-${i}`,
+    title: getBlockTitle(block)
+  }))
 
   return (
     <>
       <Nav />
 
-      {/* ── Hero ── */}
+      {/* ── 01 Hero ── */}
       <section className="cs-hero">
         <div className="cs-hero__left">
           <p className="cs-hero__eyebrow">CASE STUDY — {String(project.order || 0).padStart(2, '0')}</p>
@@ -104,30 +124,131 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </div>
       </section>
 
-      {/* Note: I'm keeping the rest of the sections empty or using placeholders since the current Project schema 
-          is quite simple compared to the mock case study. You might want to expand the Project schema 
-          later to include these detailed sections like overview, challenge, design process etc. */}
-      
-      <section className="cs-overview">
-        <p className="eyebrow">— Overview</p>
-        <div className="cs-overview__grid">
-          <div className="cs-overview__col">
-            <h3 className="cs-overview__title">The Brief</h3>
-            <p className="cs-overview__text">{project.desc}</p>
-          </div>
-          <div className="cs-overview__col">
-            <h3 className="cs-overview__title">My Role</h3>
-            <p className="cs-overview__text">End-to-end: discovery, design in Figma, development in Next.js, and deployment. Full ownership of the technical stack and creative direction.</p>
-          </div>
-        </div>
-      </section>
+      {/* ── Dynamic Layout Blocks ── */}
+      <div className="art-body">
+        <CaseStudyTOC items={tocItems} />
 
-      {/* ── Placeholder for case study content ── */}
-      <section className="wa-hero" style={{ borderTop: '1px solid var(--border)', padding: '8rem 2rem', textAlign: 'center' }}>
-        <h2 style={{ fontSize: 'var(--fz-h2)', fontWeight: '400', letterSpacing: '-0.03em', maxWidth: '800px', margin: '0 auto' }}>
-          Detailed case study content is managed in Figma. For deep dives into process and technical challenges, let's talk.
-        </h2>
-      </section>
+        <div className="cs-content">
+          {project.layout?.map((block: any, i: number) => {
+            const anchor = `section-${i}`
+            
+            switch (block.blockType) {
+              case 'overview':
+                return (
+                  <section key={i} id={anchor} className="cs-overview" style={{ borderBottom: '1px solid var(--border)', paddingLeft: 0, paddingRight: 0 }}>
+                    <p className="eyebrow">— Overview</p>
+                    <div className="cs-overview__grid">
+                      <div className="cs-overview__col">
+                        <h3 className="cs-overview__title">The Brief</h3>
+                        <RichText content={block.brief} />
+                      </div>
+                      <div className="cs-overview__col">
+                        <h3 className="cs-overview__title">My Role</h3>
+                        <RichText content={block.myRole} />
+                      </div>
+                    </div>
+                  </section>
+                )
+
+              case 'challenge':
+                return (
+                  <section key={i} id={anchor} className="cs-challenge" style={{ borderBottom: '1px solid var(--border)', paddingLeft: 0, paddingRight: 0 }}>
+                    <p className="eyebrow">— The Challenge</p>
+                    <h2 className="cs-challenge__heading">{block.heading}</h2>
+                    <div className="rule" />
+                    <div className="cs-challenge__body">
+                      <RichText content={block.description} />
+                    </div>
+                    {block.constraints && (
+                      <div className="cs-challenge__constraints">
+                        {block.constraints.map((c: any, j: number) => (
+                          <div key={j} className="cs-constraint">— {c.text}</div>
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                )
+
+              case 'process':
+                return (
+                  <section key={i} id={anchor} className="cs-design" style={{ borderBottom: '1px solid var(--border)', paddingLeft: 0, paddingRight: 0 }}>
+                    <p className="eyebrow">— Design Process</p>
+                    <h2 className="cs-design__heading">{block.heading}</h2>
+                    <div className="cs-design__grid">
+                      {block.steps?.map((step: any, j: number) => (
+                        <div key={j} className="cs-week">
+                          <span className="cs-week__label">{step.label}</span>
+                          <div className="cs-week__rule" />
+                          <h3 className="cs-week__title">{step.title}</h3>
+                          <RichText content={step.description} />
+                        </div>
+                      ))}
+                    </div>
+                    {block.note && (
+                      <div className="cs-design__note">
+                        <span className="cs-design__note-icon">✦</span>
+                        <span className="cs-design__note-tag">Designed in Figma</span>
+                        <span className="cs-design__note-text">{block.note}</span>
+                      </div>
+                    )}
+                  </section>
+                )
+
+              case 'results':
+                return (
+                  <section key={i} id={anchor} className="cs-results" style={{ borderBottom: '1px solid var(--border)', paddingLeft: 0, paddingRight: 0 }}>
+                    <p className="eyebrow">— Results</p>
+                    <h2 className="cs-results__heading">What came out of it.</h2>
+                    <div className="rule" />
+                    <div className="cs-results__grid">
+                      {block.stats?.map((stat: any, j: number) => (
+                        <div key={j} className="cs-stat">
+                          <span className="cs-stat__value">{stat.value}</span>
+                          <span className="cs-stat__label">{stat.label}</span>
+                          <p className="cs-stat__desc">{stat.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )
+
+              case 'textSection':
+                return (
+                  <section key={i} id={anchor} className="cs-overview" style={{ borderBottom: '1px solid var(--border)', paddingLeft: 0, paddingRight: 0 }}>
+                    <div className="cs-overview__grid" style={{ gridTemplateColumns: '1fr' }}>
+                      <div className="cs-overview__col">
+                        {block.heading && <h3 className="cs-overview__title" style={{ marginBottom: '1.5rem' }}>{block.heading}</h3>}
+                        <RichText content={block.body} className="cs-overview__text" />
+                      </div>
+                    </div>
+                  </section>
+                )
+
+              case 'imageBlock':
+                const img = block.image
+                if (!img || typeof img !== 'object') return null
+                
+                return (
+                  <section key={i} id={anchor} className={`cs-image cs-image--${block.size || 'large'}`} style={{ borderBottom: '1px solid var(--border)', paddingLeft: 0, paddingRight: 0 }}>
+                    <div className="cs-image__container">
+                      <Image 
+                        src={img.url} 
+                        alt={img.alt || 'Case study image'} 
+                        width={img.width || 1200} 
+                        height={img.height || 800}
+                        className="cs-image__img"
+                      />
+                      {block.caption && <p className="cs-image__caption">{block.caption}</p>}
+                    </div>
+                  </section>
+                )
+
+              default:
+                return null
+            }
+          })}
+        </div>
+      </div>
 
       {/* ── Next Case ── */}
       <section className="cs-next">

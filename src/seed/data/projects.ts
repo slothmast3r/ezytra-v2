@@ -1,3 +1,31 @@
+const rich = (text: string) => ({
+  root: {
+    type: 'root',
+    format: '',
+    indent: 0,
+    version: 1,
+    children: [
+      {
+        type: 'paragraph',
+        format: '',
+        indent: 0,
+        version: 1,
+        children: [
+          {
+            detail: 0,
+            format: 0,
+            mode: 'normal',
+            style: '',
+            text: text,
+            type: 'text',
+            version: 1,
+          },
+        ],
+      },
+    ],
+  },
+})
+
 export const projects = [
   {
     name: 'Pantera',
@@ -5,7 +33,7 @@ export const projects = [
     tags: [
       { tag: 'Web Design' },
       { tag: 'Next.js' },
-      { tag: 'Sanity' },
+      { tag: 'Payload CMS' },
       { tag: 'SEO' },
       { tag: 'Polish' },
     ],
@@ -18,6 +46,54 @@ export const projects = [
     type: 'Full Project',
     year: '2025',
     featured: true,
+    hasCaseStudy: true,
+    layout: [
+      {
+        blockType: 'overview',
+        brief: rich('Pantera needed a professional website that reflected the discipline and energy of their martial arts centre. They had no web presence — just a social media page.'),
+        myRole: rich('End-to-end ownership: discovery, design in Figma, development in Next.js, CMS setup in Payload, local SEO, and VPS deployment.'),
+      },
+      {
+        blockType: 'challenge',
+        heading: 'Starting from zero.',
+        description: rich('The key challenges were building trust for people unfamiliar with martial arts, making the class schedule easy to find, and ensuring the site ranked for local searches like "Krav Maga Warsaw".'),
+        constraints: [
+          { text: 'No existing brand guidelines' },
+          { text: 'Three distinct disciplines to balance' },
+          { text: 'Mobile-first audience' },
+        ],
+      },
+      {
+        blockType: 'process',
+        heading: 'From brief to high-fidelity.',
+        steps: [
+          {
+            label: 'Week 1',
+            title: 'Discovery & Wireframes',
+            description: rich('Competitor analysis and low-fidelity wireframes for 6 key pages.'),
+          },
+          {
+            label: 'Week 2',
+            title: 'Visual Identity',
+            description: rich('Colour palette anchored in dark navy and sharp accent. Built a minimal design system.'),
+          },
+          {
+            label: 'Week 3',
+            title: 'Development',
+            description: rich('Full Next.js build with Payload CMS integration for schedule management.'),
+          },
+        ],
+        note: 'All design screens are available on request.',
+      },
+      {
+        blockType: 'results',
+        stats: [
+          { value: '95+', label: 'Lighthouse Score', description: 'Performance and SEO.' },
+          { value: '#1', label: 'SEO Ranking', description: 'Top result for target keywords.' },
+          { value: '100%', label: 'Editable', description: 'Client manages all content.' },
+        ],
+      },
+    ],
   },
   {
     name: 'ProfilDance',
@@ -37,24 +113,6 @@ export const projects = [
     type: 'Brand + Site',
     year: '2024',
     featured: false,
-  },
-  {
-    name: 'MeeTango',
-    location: 'Community Platform · Warsaw, PL · EN',
-    tags: [
-      { tag: 'Web App' },
-      { tag: 'UX Design' },
-      { tag: 'Next.js' },
-      { tag: 'English' },
-    ],
-    desc: 'English-language platform connecting tango dancers in Warsaw. UX flows, frontend in Next.js, deployed on VPS.',
-    live: 'Live',
-    url: 'meetango.pl',
-    href: 'https://meetango.pl',
-    order: 3,
-    slug: 'meetango',
-    type: 'Web App',
-    year: '2024',
-    featured: false,
+    hasCaseStudy: false,
   },
 ]

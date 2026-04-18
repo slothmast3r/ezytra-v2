@@ -514,9 +514,94 @@ Case Study Template
   color: var(--accent);
 }
 
+/* ── Article content ── */
+
+.cs-content {
+  padding: 0 0 0 4rem;
+}
+
 .cs-next__desc {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--muted);
+}
+
+/* ── Dynamic Image Block ── */
+
+.cs-image {
+  padding: 4rem var(--px);
+  border-bottom: 1px solid var(--border);
+}
+
+.cs-image__container {
+  max-width: 100%;
+}
+
+.cs-image--small .cs-image__container {
+  max-width: 40rem;
+}
+
+.cs-image--large .cs-image__container {
+  max-width: 80rem;
+}
+
+.cs-image--full {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.cs-image--full .cs-image__container {
+  max-width: 100%;
+}
+
+.cs-image__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+}
+
+.cs-image__caption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* ── Rich Text ── */
+
+.rich-text-p {
+  margin-bottom: 1.5rem;
+}
+
+.rich-text-p:last-child {
+  margin-bottom: 0;
+}
+
+.rich-text-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rich-text-list {
+  margin-bottom: 1.5rem;
+  padding-left: 1.25rem;
+}
+
+.rich-text-list li {
+  margin-bottom: 0.5rem;
+}
+
+.rich-text-h1, .rich-text-h2, .rich-text-h3, .rich-text-h4 {
+  font-family: var(--font-serif);
+  color: var(--text);
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+.rich-text-h3 {
+  font-size: 1.5rem;
 }
 

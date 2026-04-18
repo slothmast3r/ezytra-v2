@@ -174,10 +174,12 @@ export interface Media {
 export interface Project {
   id: number;
   name: string;
-  /**
-   * e.g. "Martial Arts Centre — Warsaw, PL"
-   */
   location: string;
+  slug: string;
+  order: number;
+  type?: string | null;
+  year?: string | null;
+  hasCaseStudy?: boolean | null;
   tags?:
     | {
         tag: string;
@@ -185,43 +187,152 @@ export interface Project {
       }[]
     | null;
   desc: string;
-  /**
-   * e.g. "Live · pantera.pl"
-   */
-  live?: string | null;
-  /**
-   * Display URL, e.g. "pantera.pl"
-   */
   url?: string | null;
-  /**
-   * Full link URL, e.g. "https://pantera.pl"
-   */
   href?: string | null;
-  /**
-   * Display order (lower = first)
-   */
-  order: number;
-  /**
-   * URL slug for the case study, e.g. "pantera"
-   */
-  slug?: string | null;
-  /**
-   * e.g. "Full Project", "Brand + Site", "Web App"
-   */
-  type?: string | null;
-  /**
-   * e.g. "2025"
-   */
-  year?: string | null;
+  live?: string | null;
   featured?: boolean | null;
+  layout?:
+    | (
+        | {
+            brief: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            myRole: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'overview';
+          }
+        | {
+            heading: string;
+            description: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            constraints?:
+              | {
+                  text: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'challenge';
+          }
+        | {
+            heading: string;
+            steps?:
+              | {
+                  /**
+                   * e.g. "Week 1"
+                   */
+                  label?: string | null;
+                  title: string;
+                  description: {
+                    root: {
+                      type: string;
+                      children: {
+                        type: any;
+                        version: number;
+                        [k: string]: unknown;
+                      }[];
+                      direction: ('ltr' | 'rtl') | null;
+                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                      indent: number;
+                      version: number;
+                    };
+                    [k: string]: unknown;
+                  };
+                  id?: string | null;
+                }[]
+              | null;
+            note?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'process';
+          }
+        | {
+            stats?:
+              | {
+                  value: string;
+                  label: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'results';
+          }
+        | {
+            heading?: string | null;
+            body: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textSection';
+          }
+        | {
+            image: number | Media;
+            caption?: string | null;
+            size?: ('small' | 'large' | 'full') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageBlock';
+          }
+      )[]
+    | null;
   meta?: {
-    /**
-     * Custom title for search engines. If empty, project name will be used.
-     */
     title?: string | null;
-    /**
-     * Brief summary for search results.
-     */
     description?: string | null;
   };
   updatedAt: string;
@@ -413,6 +524,11 @@ export interface MediaSelect<T extends boolean = true> {
 export interface ProjectsSelect<T extends boolean = true> {
   name?: T;
   location?: T;
+  slug?: T;
+  order?: T;
+  type?: T;
+  year?: T;
+  hasCaseStudy?: T;
   tags?:
     | T
     | {
@@ -420,14 +536,83 @@ export interface ProjectsSelect<T extends boolean = true> {
         id?: T;
       };
   desc?: T;
-  live?: T;
   url?: T;
   href?: T;
-  order?: T;
-  slug?: T;
-  type?: T;
-  year?: T;
+  live?: T;
   featured?: T;
+  layout?:
+    | T
+    | {
+        overview?:
+          | T
+          | {
+              brief?: T;
+              myRole?: T;
+              id?: T;
+              blockName?: T;
+            };
+        challenge?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              constraints?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        process?:
+          | T
+          | {
+              heading?: T;
+              steps?:
+                | T
+                | {
+                    label?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              note?: T;
+              id?: T;
+              blockName?: T;
+            };
+        results?:
+          | T
+          | {
+              stats?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        textSection?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageBlock?:
+          | T
+          | {
+              image?: T;
+              caption?: T;
+              size?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   meta?:
     | T
     | {

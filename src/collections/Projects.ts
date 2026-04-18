@@ -1,4 +1,96 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Block } from 'payload'
+
+const OverviewBlock: Block = {
+  slug: 'overview',
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        { name: 'brief', type: 'richText', required: true, admin: { width: '50%' } },
+        { name: 'myRole', type: 'richText', required: true, admin: { width: '50%' } },
+      ],
+    },
+  ],
+}
+
+const ChallengeBlock: Block = {
+  slug: 'challenge',
+  fields: [
+    { name: 'heading', type: 'text', required: true },
+    { name: 'description', type: 'richText', required: true },
+    {
+      name: 'constraints',
+      type: 'array',
+      fields: [{ name: 'text', type: 'text', required: true }],
+    },
+  ],
+}
+
+const ProcessBlock: Block = {
+  slug: 'process',
+  fields: [
+    { name: 'heading', type: 'text', required: true },
+    {
+      name: 'steps',
+      type: 'array',
+      fields: [
+        { name: 'label', type: 'text', admin: { description: 'e.g. "Week 1"' } },
+        { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'richText', required: true },
+      ],
+    },
+    { name: 'note', type: 'text' },
+  ],
+}
+
+const ResultsBlock: Block = {
+  slug: 'results',
+  fields: [
+    {
+      name: 'stats',
+      type: 'array',
+      fields: [
+        { name: 'value', type: 'text', required: true },
+        { name: 'label', type: 'text', required: true },
+        { name: 'description', type: 'text' },
+      ],
+    },
+  ],
+}
+
+const TextBlock: Block = {
+  slug: 'textSection',
+  fields: [
+    { name: 'heading', type: 'text' },
+    { name: 'body', type: 'richText', required: true },
+  ],
+}
+
+const ImageBlock: Block = {
+  slug: 'imageBlock',
+  fields: [
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+    },
+    {
+      name: 'caption',
+      type: 'text',
+    },
+    {
+      name: 'size',
+      type: 'select',
+      defaultValue: 'large',
+      options: [
+        { label: 'Small', value: 'small' },
+        { label: 'Large', value: 'large' },
+        { label: 'Full Width', value: 'full' },
+      ],
+    },
+  ],
+}
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -6,117 +98,74 @@ export const Projects: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'location', 'order', 'updatedAt'],
   },
-  access: {
-    read: () => true,
-  },
+  access: { read: () => true },
   fields: [
     {
-      name: 'name',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'location',
-      type: 'text',
-      required: true,
-      admin: {
-        description: 'e.g. "Martial Arts Centre — Warsaw, PL"',
-      },
-    },
-    {
-      name: 'tags',
-      type: 'array',
-      fields: [
+      type: 'tabs',
+      tabs: [
         {
-          name: 'tag',
-          type: 'text',
-          required: true,
-        },
-      ],
-    },
-    {
-      name: 'desc',
-      type: 'textarea',
-      required: true,
-    },
-    {
-      name: 'live',
-      type: 'text',
-      admin: {
-        description: 'e.g. "Live · pantera.pl"',
-      },
-    },
-    {
-      name: 'url',
-      type: 'text',
-      admin: {
-        description: 'Display URL, e.g. "pantera.pl"',
-      },
-    },
-    {
-      name: 'href',
-      type: 'text',
-      admin: {
-        description: 'Full link URL, e.g. "https://pantera.pl"',
-      },
-    },
-    {
-      name: 'order',
-      type: 'number',
-      required: true,
-      defaultValue: 1,
-      admin: {
-        description: 'Display order (lower = first)',
-      },
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      unique: true,
-      index: true,
-      admin: {
-        description: 'URL slug for the case study, e.g. "pantera"',
-      },
-    },
-    {
-      name: 'type',
-      type: 'text',
-      admin: {
-        description: 'e.g. "Full Project", "Brand + Site", "Web App"',
-      },
-    },
-    {
-      name: 'year',
-      type: 'text',
-      admin: {
-        description: 'e.g. "2025"',
-      },
-    },
-    {
-      name: 'featured',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
-      name: 'meta',
-      type: 'group',
-      label: 'SEO / Meta',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          label: 'Meta Title',
-          admin: {
-            description: 'Custom title for search engines. If empty, project name will be used.',
-          },
+          label: 'Project Info',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                { name: 'name', type: 'text', required: true, admin: { width: '50%' } },
+                { name: 'location', type: 'text', required: true, admin: { width: '50%' } },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'slug', type: 'text', required: true, admin: { width: '50%' } },
+                { name: 'order', type: 'number', required: true, defaultValue: 1, admin: { width: '50%' } },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'type', type: 'text', admin: { width: '33%' } },
+                { name: 'year', type: 'text', admin: { width: '33%' } },
+                { name: 'hasCaseStudy', type: 'checkbox', defaultValue: true, admin: { width: '33%' } },
+              ],
+            },
+            { name: 'tags', type: 'array', fields: [{ name: 'tag', type: 'text', required: true }] },
+            { name: 'desc', type: 'textarea', required: true, label: 'Hero Description' },
+            {
+              type: 'row',
+              fields: [
+                { name: 'url', type: 'text', admin: { width: '50%' } },
+                { name: 'href', type: 'text', admin: { width: '50%' } },
+              ],
+            },
+            { name: 'live', type: 'text' },
+            { name: 'featured', type: 'checkbox', defaultValue: false },
+          ],
         },
         {
-          name: 'description',
-          type: 'textarea',
-          label: 'Meta Description',
+          label: 'Case Study Builder',
           admin: {
-            description: 'Brief summary for search results.',
+            condition: (data) => data.hasCaseStudy,
           },
+          fields: [
+            {
+              name: 'layout',
+              type: 'blocks',
+              blocks: [OverviewBlock, ChallengeBlock, ProcessBlock, ResultsBlock, TextBlock, ImageBlock],
+            },
+          ],
+        },
+        {
+          label: 'SEO',
+          fields: [
+            {
+              name: 'meta',
+              type: 'group',
+              fields: [
+                { name: 'title', type: 'text' },
+                { name: 'description', type: 'textarea' },
+              ],
+            },
+          ],
         },
       ],
     },
