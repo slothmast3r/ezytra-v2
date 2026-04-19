@@ -575,7 +575,7 @@
 
   /* Contact */
   .contact {
-    padding: 2rem var(--px) 0;
+    padding: 2rem 0 0;
   }
 
   .contact__cta {
@@ -583,7 +583,7 @@
     align-items: flex-start;
     gap: 1.5rem;
     padding: 2rem 1.5rem;
-    margin-bottom: 0;
+    margin: 0 var(--px);
   }
 
   .contact__title {
@@ -609,7 +609,7 @@
   .footer__bar {
     flex-wrap: wrap;
     height: auto;
-    padding: 1.25rem 0;
+    padding: 1.25rem var(--px);
     gap: 1rem;
   }
 
