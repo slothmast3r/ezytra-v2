@@ -152,6 +152,8 @@ Work Archive
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Small — stacked */
@@ -166,6 +168,8 @@ Work Archive
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Chrome bar */

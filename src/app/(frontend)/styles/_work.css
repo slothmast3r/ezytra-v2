@@ -197,5 +197,7 @@
 .mockup__screen {
   height: 9.375rem;
   background: var(--bg-3);
+  position: relative;
+  overflow: hidden;
 }
 
