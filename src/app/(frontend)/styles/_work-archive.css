@@ -147,7 +147,7 @@ Work Archive
 }
 
 .wa-card--featured .wa-card__screen {
-  height: 22rem;
+  aspect-ratio: 16 / 9;
   background: var(--bg-3);
   display: flex;
   align-items: center;
@@ -163,7 +163,7 @@ Work Archive
 }
 
 .wa-card--small .wa-card__screen {
-  height: 14rem;
+  aspect-ratio: 16 / 9;
   background: var(--bg-3);
   display: flex;
   align-items: center;

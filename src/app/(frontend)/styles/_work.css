@@ -148,7 +148,8 @@
   background: var(--bg-3);
   border-radius: 0.25rem;
   overflow: hidden;
-  height: 14rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .mockup__chrome {
@@ -159,6 +160,7 @@
   padding: 0 0.5rem;
   background: #1a1a1f;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 .mockup__dots {
@@ -191,9 +193,10 @@
 }
 
 .mockup__screen {
-  height: 12.125rem;
+  aspect-ratio: 16 / 9;
   background: var(--bg-3);
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 

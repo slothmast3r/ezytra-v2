@@ -46,26 +46,28 @@ const VALUES = [
   },
 ]
 
+import { Shield, TrendingUp, Wind, Home } from 'lucide-react'
+
 const INTERESTS = [
   {
-    icon: '🥋',
-    name: 'Martial arts',
-    desc: 'I train regularly — probably my favourite way to disconnect. Krav Maga, not quite a natural project.',
+    icon: <Shield size={24} strokeWidth={1.5} />,
+    name: 'Krav Maga',
+    desc: 'I train regularly to challenge my body and build stamina. It brings confidence and the mental edge needed to handle crisis situations with clarity.',
   },
   {
-    icon: '📖',
-    name: 'Reading',
-    desc: 'Product design, stoicism, and the occasional thriller. Words always there.',
+    icon: <TrendingUp size={24} strokeWidth={1.5} />,
+    name: 'Growth & Business',
+    desc: 'Business strategy, psychology, and sales. I focus on books that sharpen my social skills and provide practical ways to improve my life.',
   },
   {
-    icon: '🎵',
-    name: 'Music',
-    desc: "Electronic, jazz, and things that don't have a genre. Good taste is half of design.",
+    icon: <Wind size={24} strokeWidth={1.5} />,
+    name: 'Active Life',
+    desc: 'Whether it’s windsurfing, snowboarding, or dancing bachata, I stay in motion. I believe a high-performance body leads to a high-performance mind.',
   },
   {
-    icon: '✈️',
-    name: 'Travelling',
-    desc: 'Warsaw is home but I try to work from somewhere new a few weeks a year.',
+    icon: <Home size={24} strokeWidth={1.5} />,
+    name: 'Real Estate',
+    desc: 'Besides design and code, I am active in the real estate market. I value tangible assets and the strategic thinking required for property investment.',
   },
 ]
 

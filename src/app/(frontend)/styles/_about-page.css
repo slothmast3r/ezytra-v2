@@ -135,9 +135,8 @@ About page
 }
 
 .about-skills__col {
-  padding-right: 2rem;
+  padding: 0 2rem;
   border-right: 1px solid var(--border);
-  padding-left: 2rem;
 }
 .about-skills__col:first-child { padding-left: 0; }
 .about-skills__col:last-child { border-right: none; }

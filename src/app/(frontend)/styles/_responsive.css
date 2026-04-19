@@ -546,13 +546,18 @@
 
   .about-skills__grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    padding: 3rem 0;
+    gap: 3rem 2rem;
+    padding: 3rem 0 5rem;
   }
 
   .about-skills__col {
+    padding: 0 !important;
+    border-right: none !important;
     border-bottom: none;
-    padding-bottom: 0;
+  }
+
+  .about-skills__col:first-child {
+    padding-top: 0;
   }
 
   .about-values__grid {

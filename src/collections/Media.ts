@@ -24,7 +24,7 @@ export const Media: CollectionConfig = {
       {
         name: 'projectCard',
         width: 1200,
-        height: 800,
+        height: 675,
         position: 'centre',
       },
       {
