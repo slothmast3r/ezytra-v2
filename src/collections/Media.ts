@@ -36,7 +36,7 @@ export const Media: CollectionConfig = {
       {
         name: 'caseStudyDetail',
         width: 1440,
-        height: null, // Auto height
+        height: undefined, // Auto height
       },
     ],
     adminThumbnail: 'thumbnail',
