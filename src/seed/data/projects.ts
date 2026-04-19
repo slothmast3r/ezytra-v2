@@ -52,7 +52,7 @@ export const projects = [
         blockType: 'overview',
         brief: rich('Pantera needed a professional website that reflected the discipline and energy of their martial arts centre. They had no web presence — just a social media page.'),
         myRole: rich('End-to-end ownership: discovery, design in Figma, development in Next.js, CMS setup in Payload, local SEO, and VPS deployment.'),
-      },
+      } as any,
       {
         blockType: 'challenge',
         heading: 'Starting from zero.',
@@ -62,7 +62,7 @@ export const projects = [
           { text: 'Three distinct disciplines to balance' },
           { text: 'Mobile-first audience' },
         ],
-      },
+      } as any,
       {
         blockType: 'process',
         heading: 'From brief to high-fidelity.',
@@ -84,7 +84,7 @@ export const projects = [
           },
         ],
         note: 'All design screens are available on request.',
-      },
+      } as any,
       {
         blockType: 'results',
         stats: [
@@ -92,7 +92,7 @@ export const projects = [
           { value: '#1', label: 'SEO Ranking', description: 'Top result for target keywords.' },
           { value: '100%', label: 'Editable', description: 'Client manages all content.' },
         ],
-      },
+      } as any,
     ],
   },
   {
