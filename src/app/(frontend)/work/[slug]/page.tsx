@@ -227,15 +227,19 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               case 'imageBlock':
                 const img = block.image
                 if (!img || typeof img !== 'object') return null
+
+                const caseImageUrl = img.sizes?.caseStudyDetail?.url || img.url
+                const caseImageWidth = img.sizes?.caseStudyDetail?.width || img.width || 1200
+                const caseImageHeight = img.sizes?.caseStudyDetail?.height || img.height || 800
                 
                 return (
                   <section key={i} id={anchor} className={`cs-image cs-image--${block.size || 'large'}`} style={{ borderBottom: '1px solid var(--border)', paddingLeft: 0, paddingRight: 0 }}>
                     <div className="cs-image__container">
                       <Image 
-                        src={img.url} 
+                        src={caseImageUrl} 
                         alt={img.alt || 'Case study image'} 
-                        width={img.width || 1200} 
-                        height={img.height || 800}
+                        width={caseImageWidth} 
+                        height={caseImageHeight}
                         className="cs-image__img"
                       />
                       {block.caption && <p className="cs-image__caption">{block.caption}</p>}

@@ -21,12 +21,19 @@ interface Project {
   image?: {
     url: string
     alt?: string
+    sizes?: {
+      projectCard?: {
+        url?: string | null
+      }
+    }
   } | null
 }
 
 const FILTERS = ['All', 'Web Design', 'Development', 'Branding', 'CMS', 'SEO', 'Polish', 'English']
 
 function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
+  const imageUrl = p.image?.sizes?.projectCard?.url || p.image?.url
+
   return (
     <div className="wa-card wa-card--featured">
       {/* left: mockup */}
@@ -36,10 +43,10 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
           <span className="wa-card__chrome-url">{p.url}</span>
         </div>
         <div className="wa-card__screen">
-          {p.image?.url ? (
+          {imageUrl ? (
             <Image 
-              src={p.image.url} 
-              alt={p.image.alt || p.name} 
+              src={imageUrl} 
+              alt={p.image?.alt || p.name} 
               fill 
               sizes="(max-width: 1100px) 100vw, 40rem"
               style={{ objectFit: 'cover' }}
@@ -113,6 +120,8 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
 }
 
 function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
+  const imageUrl = p.image?.sizes?.projectCard?.url || p.image?.url
+
   return (
     <div className="wa-card wa-card--small">
       <div className="wa-card__mockup">
@@ -121,10 +130,10 @@ function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
           <span className="wa-card__chrome-url">{p.url}</span>
         </div>
         <div className="wa-card__screen">
-          {p.image?.url ? (
+          {imageUrl ? (
             <Image 
-              src={p.image.url} 
-              alt={p.image.alt || p.name} 
+              src={imageUrl} 
+              alt={p.image?.alt || p.name} 
               fill 
               sizes="(max-width: 1100px) 100vw, 25rem"
               style={{ objectFit: 'cover' }}

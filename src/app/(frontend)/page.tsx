@@ -107,9 +107,9 @@ async function ProjectsList() {
                   <div className="mockup__url">{p.url}</div>
                 </div>
                 <div className="mockup__screen">
-                  {p.image && typeof p.image === 'object' && p.image.url ? (
+                  {p.image && typeof p.image === 'object' && (p.image.sizes?.projectCard?.url || p.image.url) ? (
                     <Image
-                      src={p.image.url}
+                      src={p.image.sizes?.projectCard?.url || p.image.url}
                       alt={p.image.alt || p.name}
                       fill
                       sizes="(max-width: 1100px) 100vw, 40rem"
