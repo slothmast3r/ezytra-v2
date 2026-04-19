@@ -26,6 +26,10 @@ export const metadata = {
   title: 'Oskar Straszyński — Ezytra',
 }
 
+export const viewport = {
+  themeColor: '#0b0b0c',
+}
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
