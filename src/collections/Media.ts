@@ -12,5 +12,7 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    disableLocalStorage: !!process.env.BLOB_READ_WRITE_TOKEN,
+  },
 }
