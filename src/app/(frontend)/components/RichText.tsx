@@ -40,9 +40,10 @@ export const RichText: React.FC<RichTextProps> = ({ content, className }) => {
 
       case 'text':
         let text: React.ReactNode = node.text
-        if (node.format & 1) text = <strong key={index}>{text}</strong> // Bold
-        if (node.format & 2) text = <em key={index}>{text}</em> // Italic
-        if (node.format & 8) text = <code key={index}>{text}</code> // Code
+        const format = typeof node.format === 'number' ? node.format : 0
+        if (format & 1) text = <strong key={index}>{text}</strong> // Bold
+        if (format & 2) text = <em key={index}>{text}</em> // Italic
+        if (format & 8) text = <code key={index}>{text}</code> // Code
         return text
 
       case 'link':
@@ -70,7 +71,7 @@ export const RichText: React.FC<RichTextProps> = ({ content, className }) => {
         return <li key={index}>{node.children?.map(renderNode)}</li>
 
       case 'heading':
-        const HeadingTag = `h${node.tag?.replace('h', '') || '3'}` as keyof JSX.IntrinsicElements
+        const HeadingTag = `h${node.tag?.replace('h', '') || '3'}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
         return (
           <HeadingTag key={index} className={`rich-text-${HeadingTag}`}>
             {node.children?.map(renderNode)}
