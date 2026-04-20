@@ -91,11 +91,15 @@ async function ProjectsList() {
             <div className="work__right-content">
               <div className="work__meta">
                 {p.live && <Button variant="badge">{p.live}</Button>}
-                {p.href && (
+                {p.hasCaseStudy && p.slug ? (
+                  <AnimatedLink className="btn btn--link" href={`/work/${p.slug}`}>
+                    Case Study →
+                  </AnimatedLink>
+                ) : p.href ? (
                   <AnimatedLink className="btn btn--link" href={p.href}>
                     View →
                   </AnimatedLink>
-                )}
+                ) : null}
               </div>
               <div className="mockup">
                 <div className="mockup__chrome">

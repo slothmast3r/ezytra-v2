@@ -17,6 +17,7 @@ interface Project {
   type?: string | null
   year?: string | null
   featured?: boolean | null
+  hasCaseStudy?: boolean | null
   order: number
   image?: {
     url: string
@@ -28,8 +29,6 @@ interface Project {
     }
   } | null
 }
-
-const FILTERS = ['All', 'Web Design', 'Development', 'Branding', 'CMS', 'SEO', 'Polish', 'English']
 
 function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
   const imageUrl = p.image?.sizes?.projectCard?.url || p.image?.url
@@ -89,7 +88,7 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
         </div>
 
         <div className="wa-card__actions">
-          {p.slug && (
+          {p.hasCaseStudy && p.slug && (
             <Button href={`/work/${p.slug}`} variant="primary" chevron>
               View Case Study
             </Button>
@@ -174,7 +173,7 @@ function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
         </div>
 
         <div className="wa-card__actions">
-          {p.slug && (
+          {p.hasCaseStudy && p.slug && (
             <Button href={`/work/${p.slug}`} variant="primary" chevron>
               View Case Study
             </Button>
@@ -207,16 +206,28 @@ function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
 export default function WorkGrid({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState('All')
 
+  // Generate dynamic filters from project tags
+  const dynamicFilters = useMemo(() => {
+    const tags = new Set<string>()
+    projects.forEach((p) => {
+      p.tags?.forEach((t) => tags.add(t.tag))
+    })
+    // Return All, Case Study, then alphabetically sorted tags
+    return ['All', 'Case Study', ...Array.from(tags).sort()]
+  }, [projects])
+
   const filtered = useMemo(() => {
     if (active === 'All') return projects
+    if (active === 'Case Study') return projects.filter((p) => p.hasCaseStudy)
     return projects.filter((p) =>
-      p.tags.some((t) => t.tag.toLowerCase() === active.toLowerCase())
+      p.tags.some((t) => t.tag === active)
     )
   }, [active, projects])
 
-  const featured = filtered.find((p) => p.featured)
-  const rest = filtered.filter((p) => !p.featured)
-  const all = featured ? [featured, ...rest] : filtered
+  // Consolidate grid rendering: First featured project is special, others are small.
+  const featuredProject = filtered.find((p) => p.featured)
+  const otherProjects = filtered.filter((p) => p.id !== featuredProject?.id)
+  const allProjects = featuredProject ? [featuredProject, ...otherProjects] : otherProjects
 
   return (
     <>
@@ -224,7 +235,7 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
       <div className="wa-filters">
         <div className="wa-filters__left">
           <span className="wa-filters__label">FILTER:</span>
-          {FILTERS.map((f) => (
+          {dynamicFilters.map((f) => (
             <button
               key={f}
               className={`wa-filter${active === f ? ' wa-filter--active' : ''}`}
@@ -239,26 +250,17 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
 
       {/* Grid */}
       <div className="wa-grid">
-        {featured && <ProjectCardFeatured p={featured} num="01" />}
-        {rest.length > 0 && (
-          <div className="wa-grid__row">
-            {rest.map((p, i) => (
-              <ProjectCardSmall
-                key={p.id}
-                p={p}
-                num={String(all.indexOf(p) + 1).padStart(2, '0')}
-              />
-            ))}
-          </div>
+        {featuredProject && (
+          <ProjectCardFeatured p={featuredProject} num="01" />
         )}
-        {/* If no featured, just show all as small */}
-        {!featured && all.length > 0 && (
+        
+        {otherProjects.length > 0 && (
           <div className="wa-grid__row">
-            {all.map((p, i) => (
+            {otherProjects.map((p) => (
               <ProjectCardSmall
                 key={p.id}
                 p={p}
-                num={String(all.indexOf(p) + 1).padStart(2, '0')}
+                num={String(allProjects.indexOf(p) + 1).padStart(2, '0')}
               />
             ))}
           </div>
