@@ -18,6 +18,7 @@ interface Project {
   year?: string | null
   featured?: boolean | null
   hasCaseStudy?: boolean | null
+  status?: 'live' | 'dev' | 'completed' | 'archived' | null
   order: number
   image?: {
     url: string
@@ -28,6 +29,13 @@ interface Project {
       }
     }
   } | null
+}
+
+const STATUS_LABELS: Record<string, string> = {
+  live: 'Live',
+  dev: 'In Development',
+  completed: 'Completed',
+  archived: 'Archived',
 }
 
 function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
@@ -79,10 +87,12 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
               <span className="wa-card__meta-value">{p.year}</span>
             </div>
           )}
-          {p.live && (
+          {p.status && (
             <div className="wa-card__meta-item">
               <span className="wa-card__meta-label">Status</span>
-              <span className="wa-card__meta-value wa-card__meta-value--live">{p.live}</span>
+              <span className={`wa-card__meta-value wa-card__meta-value--${p.status}`}>
+                {STATUS_LABELS[p.status] || p.status}
+              </span>
             </div>
           )}
         </div>
@@ -164,10 +174,12 @@ function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
               <span className="wa-card__meta-value">{p.year}</span>
             </div>
           )}
-          {p.live && (
+          {p.status && (
             <div className="wa-card__meta-item">
               <span className="wa-card__meta-label">Status</span>
-              <span className="wa-card__meta-value wa-card__meta-value--live">{p.live}</span>
+              <span className={`wa-card__meta-value wa-card__meta-value--${p.status}`}>
+                {STATUS_LABELS[p.status] || p.status}
+              </span>
             </div>
           )}
         </div>
