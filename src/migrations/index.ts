@@ -4,6 +4,7 @@ import * as migration_20260412_231641 from './20260412_231641';
 import * as migration_20260418_120456 from './20260418_120456';
 import * as migration_20260418_120648 from './20260418_120648';
 import * as migration_20260419_203056_add_image_sizes from './20260419_203056_add_image_sizes';
+import * as migration_20260420_000729_update_project_status_field from './20260420_000729_update_project_status_field';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20260419_203056_add_image_sizes.up,
     down: migration_20260419_203056_add_image_sizes.down,
-    name: '20260419_203056_add_image_sizes'
+    name: '20260419_203056_add_image_sizes',
+  },
+  {
+    up: migration_20260420_000729_update_project_status_field.up,
+    down: migration_20260420_000729_update_project_status_field.down,
+    name: '20260420_000729_update_project_status_field'
   },
 ];

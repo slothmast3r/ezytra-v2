@@ -228,6 +228,7 @@ export interface Project {
    */
   image?: (number | null) | Media;
   status?: ('live' | 'dev' | 'completed' | 'archived') | null;
+  featured?: boolean | null;
   layout?:
     | (
         | {
@@ -621,6 +622,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   href?: T;
   image?: T;
   status?: T;
+  featured?: T;
   layout?:
     | T
     | {
