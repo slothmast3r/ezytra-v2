@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import Button from './Button'
 import NavLink from './NavLink'
 
@@ -18,11 +19,11 @@ export default function Nav() {
   return (
     <>
       <nav className="nav">
-        <a href="/" className="nav__brand">
+        <Link href="/" className="nav__brand">
           <span className="nav__name">Oskar Straszyński</span>
           <span className="nav__name--short">Oskar S.</span>
           <span className="nav__sub">— Ezytra</span>
-        </a>
+        </Link>
         <ul className="nav__links">
           {NAV_LINKS.map((link) => (
             <li key={link.label}>

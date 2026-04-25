@@ -1,4 +1,5 @@
 import { IBM_Plex_Mono, IBM_Plex_Serif } from 'next/font/google'
+import Link from 'next/link'
 import React from 'react'
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -147,8 +148,8 @@ export default function RootNotFound() {
       </head>
       <body>
         <nav className="nf-nav">
-          <a href="/" className="nf-nav__brand">EZYTRA</a>
-          <a href="/" className="nf-nav__home">← Back to home</a>
+          <Link href="/" className="nf-nav__brand">EZYTRA</Link>
+          <Link href="/" className="nf-nav__home">← Back to home</Link>
         </nav>
 
         <section className="nf">
@@ -163,8 +164,8 @@ export default function RootNotFound() {
                 You followed a broken link, or the page was moved. Either way — nothing here.
               </p>
               <div className="nf__actions">
-                <a href="/" className="nf__btn nf__btn--primary">Back to Home</a>
-                <a href="/journal" className="nf__btn nf__btn--secondary">Read the Journal</a>
+                <Link href="/" className="nf__btn nf__btn--primary">Back to Home</Link>
+                <Link href="/journal" className="nf__btn nf__btn--secondary">Read the Journal</Link>
               </div>
             </div>
           </div>
