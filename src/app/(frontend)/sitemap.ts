@@ -2,7 +2,6 @@ import { MetadataRoute } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { SITE_DATA } from './data'
-import type { Post, Project } from '@/payload-types'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config })
@@ -38,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // 3. Map Dynamic Project Routes
-  const projectRoutes = projects.docs.map((project: Project) => ({
+  const projectRoutes = projects.docs.map((project) => ({
     url: `${SITE_DATA.url}/work/${project.slug}`,
     lastModified: project.updatedAt || new Date().toISOString(),
     changeFrequency: 'weekly' as const,
@@ -46,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // 4. Map Dynamic Post Routes
-  const postRoutes = posts.docs.map((post: Post) => ({
+  const postRoutes = posts.docs.map((post) => ({
     url: `${SITE_DATA.url}/journal/${post.slug}`,
     lastModified: post.updatedAt || new Date().toISOString(),
     changeFrequency: 'weekly' as const,
