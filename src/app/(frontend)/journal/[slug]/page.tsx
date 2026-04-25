@@ -1,6 +1,4 @@
 import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import Image from 'next/image'
 import React, { Suspense } from 'react'
 import Nav from '../../components/Nav'
@@ -10,6 +8,9 @@ import ShareButton from './ShareButton'
 import { SITE_DATA } from '../../data'
 import { ArticleSkeleton } from '../../components/Skeletons'
 import { Metadata } from 'next'
+import { getPostBySlug, getNextPost } from '../../../../lib/api/posts'
+import { parseBody, renderInline } from '../../../../lib/parser'
+import type { Post, Author, Media } from '../../../../payload-types'
 
 export async function generateMetadata({
   params,
@@ -17,15 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'posts',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  })
-
-  const post = docs[0] as any
+  const post = await getPostBySlug(slug)
   if (!post) return {}
 
   const title = post.meta?.title || post.headline
@@ -35,72 +28,14 @@ export async function generateMetadata({
     title: `${title} — ${SITE_DATA.brand}`,
     description: description,
     openGraph: {
-      title: title,
-      description: description,
+      title: title ?? undefined,
+      description: description ?? undefined,
       type: 'article',
     },
   }
 }
 
-/* ─── Body parser ───────────────────────────────────────────────────────────── */
-type BodyNode =
-  | { type: 'paragraph'; text: string }
-  | { type: 'code'; lang: string; code: string }
-  | { type: 'callout'; text: string }
-
-function parseBody(raw: string): BodyNode[] {
-  const nodes: BodyNode[] = []
-  const fenceRe = /```(\w*)\n([\s\S]*?)```/g
-  let last = 0
-  let match: RegExpExecArray | null
-
-  while ((match = fenceRe.exec(raw)) !== null) {
-    const before = raw.slice(last, match.index).trim()
-    if (before) {
-      for (const para of before.split(/\n\n+/)) {
-        const t = para.trim()
-        if (!t) continue
-        if (t.startsWith('PRO TIP:')) {
-          nodes.push({ type: 'callout', text: t.replace(/^PRO TIP:\s*/, '') })
-        } else {
-          nodes.push({ type: 'paragraph', text: t })
-        }
-      }
-    }
-    nodes.push({ type: 'code', lang: match[1] || 'code', code: match[2].trimEnd() })
-    last = match.index + match[0].length
-  }
-
-  const tail = raw.slice(last).trim()
-  if (tail) {
-    for (const para of tail.split(/\n\n+/)) {
-      const t = para.trim()
-      if (!t) continue
-      if (t.startsWith('PRO TIP:')) {
-        nodes.push({ type: 'callout', text: t.replace(/^PRO TIP:\s*/, '') })
-      } else {
-        nodes.push({ type: 'paragraph', text: t })
-      }
-    }
-  }
-
-  return nodes
-}
-
-function renderInline(text: string) {
-  const parts = text.split(/`([^`]+)`/)
-  return parts.map((part, i) =>
-    i % 2 === 1 ? (
-      <code key={i} className="art-inline-code">
-        {part}
-      </code>
-    ) : (
-      part
-    ),
-  )
-}
-
-function calculateReadTime(sections: any[]): string {
+function calculateReadTime(sections: Array<{ body?: string | null; heading?: string | null }>): string {
   let totalWords = 0
   const WPM = 200
 
@@ -123,32 +58,12 @@ function calculateReadTime(sections: any[]): string {
 /* ─── Async Content Component ─────────────────────────────────────────────── */
 
 async function ArticleContent({ slug }: { slug: string }) {
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'posts',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    populate: { authors: { name: true, role: true, bio: true } },
-  })
-
-  const post = docs[0] as any
+  const post = await getPostBySlug(slug)
   if (!post || post.status !== 'published') notFound()
 
-  const { docs: nextArticles } = await payload.find({
-    collection: 'posts',
-    where: {
-      and: [
-        { status: { equals: 'published' } },
-        { createdAt: { less_than: post.createdAt } },
-      ],
-    },
-    sort: '-createdAt',
-    limit: 1,
-  })
-  const nextPost = nextArticles[0]
+  const nextPost = await getNextPost(post.createdAt)
 
-  const author = post.author && typeof post.author === 'object' ? post.author : null
+  const author = post.author && typeof post.author === 'object' ? (post.author as Author) : null
 
   const sections = (post.sections ?? []) as Array<{
     anchor: string
@@ -164,10 +79,15 @@ async function ArticleContent({ slug }: { slug: string }) {
   }))
 
   const readTime = calculateReadTime(sections)
-  
+
   const d = new Date(post.createdAt)
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const fallbackDate = `${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`
+
+  const authorPhotoUrl =
+    author?.photo && typeof author.photo === 'object'
+      ? ((author.photo as Media).url ?? '/owner.jpg')
+      : '/owner.jpg'
 
   return (
     <>
@@ -176,7 +96,7 @@ async function ArticleContent({ slug }: { slug: string }) {
         <div className="art-hero__meta">
           {post.tag && <span className="tag">{post.tag}</span>}
           <span className="art-hero__date">
-            {post.date || fallbackDate}
+            {fallbackDate}
           </span>
           <span className="art-hero__read">{readTime}</span>
         </div>
@@ -188,7 +108,7 @@ async function ArticleContent({ slug }: { slug: string }) {
         {author && (
           <div className="art-hero__author">
             <Image
-              src={author.photo && typeof author.photo === 'object' && 'url' in author.photo && author.photo.url ? author.photo.url : '/owner.jpg'}
+              src={authorPhotoUrl}
               alt={author.name}
               width={40}
               height={40}
@@ -269,7 +189,7 @@ async function ArticleContent({ slug }: { slug: string }) {
         {author && (
           <div className="art-author">
             <Image
-              src={author.photo && typeof author.photo === 'object' && 'url' in author.photo && author.photo.url ? author.photo.url : '/owner.jpg'}
+              src={authorPhotoUrl}
               alt={author.name}
               width={64}
               height={64}
