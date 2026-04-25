@@ -1,20 +1,14 @@
 export const revalidate = 60;
 
 import React, { Suspense } from "react";
-import { getPayload } from "payload";
-import config from "@payload-config";
 import Nav from "../components/Nav";
 import FooterBar from "../components/FooterBar";
 import AnimatedLink from "../components/AnimatedLink";
 import { JournalGridSkeleton } from "../components/Skeletons";
+import { getPosts, getPostCount } from "../../../lib/api/posts";
 
 async function JournalHero() {
-  const payload = await getPayload({ config });
-  const { totalDocs } = await payload.find({
-    collection: "posts",
-    where: { status: { equals: "published" } },
-    limit: 0,
-  });
+  const totalDocs = await getPostCount();
 
   return (
     <div className="wa-hero__right">
@@ -30,18 +24,11 @@ async function JournalHero() {
 }
 
 async function JournalGrid() {
-  const payload = await getPayload({ config });
-
-  const { docs: posts } = await payload.find({
-    collection: "posts",
-    sort: "-createdAt",
-    limit: 100,
-    where: { status: { not_equals: "draft" } },
-  });
+  const posts = await getPosts();
 
   return (
     <div className="jou-grid__container">
-      {(posts as any[]).map((post) => {
+      {posts.map((post) => {
         const isPublished = post.status === "published";
         const d = new Date(post.createdAt);
         const months = [
@@ -70,7 +57,7 @@ async function JournalGrid() {
               <div className="jou-card__stats">
                 {isPublished && (
                   <span className="jou-card__date">
-                    {post.date || fallbackDate}
+                    {fallbackDate}
                   </span>
                 )}
                 {isPublished && post.readTime && (

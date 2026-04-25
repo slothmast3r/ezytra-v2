@@ -1,6 +1,4 @@
 import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import React from 'react'
 import Image from 'next/image'
 import Nav from '../../components/Nav'
@@ -10,6 +8,10 @@ import { RichText } from '../../components/RichText'
 import TableOfContents from '../../components/TableOfContents'
 import { Metadata } from 'next'
 import { SITE_DATA } from '../../data'
+import { getProjectBySlug, getProjects } from '../../../../lib/api/projects'
+import type { Project, Media } from '../../../../payload-types'
+
+type LayoutBlock = NonNullable<Project['layout']>[number]
 
 export async function generateMetadata({
   params,
@@ -17,15 +19,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'projects',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  })
-
-  const project = docs[0] as any
+  const project = await getProjectBySlug(slug)
   if (!project) return {}
 
   const title = project.meta?.title || project.name
@@ -42,7 +36,7 @@ export async function generateMetadata({
   }
 }
 
-function getBlockTitle(block: any): string {
+function getBlockTitle(block: LayoutBlock): string {
   switch (block.blockType) {
     case 'overview': return 'Overview'
     case 'challenge': return block.heading || 'Challenge'
@@ -56,29 +50,18 @@ function getBlockTitle(block: any): string {
 
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const payload = await getPayload({ config })
 
-  const { docs } = await payload.find({
-    collection: 'projects',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  })
-
-  const project = docs[0] as any
+  const project = await getProjectBySlug(slug)
   if (!project || !project.hasCaseStudy) notFound()
 
   // Fetch all for pagination
-  const { docs: allProjects } = await payload.find({
-    collection: 'projects',
-    sort: 'order',
-    limit: 100,
-  })
-  
-  const currentIndex = allProjects.findIndex((p: any) => p.slug === slug)
-  const nextProject = allProjects[currentIndex + 1] || allProjects[0]
-  const tags = (project.tags ?? []).map((t: any) => t.tag).join(' · ')
+  const allProjects = await getProjects()
 
-  const tocItems = (project.layout ?? []).map((block: any, i: number) => ({
+  const currentIndex = allProjects.findIndex((p) => p.slug === slug)
+  const nextProject = allProjects[currentIndex + 1] || allProjects[0]
+  const tags = (project.tags ?? []).map((t) => t.tag).join(' · ')
+
+  const tocItems = (project.layout ?? []).map((block, i) => ({
     num: String(i + 1).padStart(2, '0'),
     anchor: `section-${i}`,
     title: getBlockTitle(block)
@@ -129,9 +112,9 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         <TableOfContents items={tocItems} label="Navigation" hideWhenEmpty />
 
         <div className="cs-content">
-          {project.layout?.map((block: any, i: number) => {
+          {project.layout?.map((block, i) => {
             const anchor = `section-${i}`
-            
+
             switch (block.blockType) {
               case 'overview':
                 return (
@@ -161,7 +144,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                     </div>
                     {block.constraints && (
                       <div className="cs-challenge__constraints">
-                        {block.constraints.map((c: any, j: number) => (
+                        {block.constraints.map((c, j) => (
                           <div key={j} className="cs-constraint">— {c.text}</div>
                         ))}
                       </div>
@@ -175,7 +158,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                     <p className="eyebrow">— Design Process</p>
                     <h2 className="cs-design__heading">{block.heading}</h2>
                     <div className="cs-design__grid">
-                      {block.steps?.map((step: any, j: number) => (
+                      {block.steps?.map((step, j) => (
                         <div key={j} className="cs-week">
                           <span className="cs-week__label">{step.label}</span>
                           <div className="cs-week__rule" />
@@ -201,7 +184,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                     <h2 className="cs-results__heading">What came out of it.</h2>
                     <div className="rule" />
                     <div className="cs-results__grid">
-                      {block.stats?.map((stat: any, j: number) => (
+                      {block.stats?.map((stat, j) => (
                         <div key={j} className="cs-stat">
                           <span className="cs-stat__value">{stat.value}</span>
                           <span className="cs-stat__label">{stat.label}</span>
@@ -224,28 +207,31 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   </section>
                 )
 
-              case 'imageBlock':
+              case 'imageBlock': {
                 const img = block.image
                 if (!img || typeof img !== 'object') return null
 
-                const caseImageUrl = img.sizes?.caseStudyDetail?.url || img.url
-                const caseImageWidth = img.sizes?.caseStudyDetail?.width || img.width || 1200
-                const caseImageHeight = img.sizes?.caseStudyDetail?.height || img.height || 800
-                
+                const imgMedia = img as Media
+                const caseImageUrl = imgMedia.sizes?.caseStudyDetail?.url || imgMedia.url
+                const caseImageWidth = imgMedia.sizes?.caseStudyDetail?.width || imgMedia.width || 1200
+                const caseImageHeight = imgMedia.sizes?.caseStudyDetail?.height || imgMedia.height || 800
+                if (!caseImageUrl) return null
+
                 return (
                   <section key={i} id={anchor} className={`cs-image cs-image--${block.size || 'large'}`} style={{ borderBottom: '1px solid var(--border)', paddingLeft: 0, paddingRight: 0 }}>
                     <div className="cs-image__container">
-                      <Image 
-                        src={caseImageUrl} 
-                        alt={img.alt || 'Case study image'} 
-                        width={caseImageWidth} 
-                        height={caseImageHeight}
+                      <Image
+                        src={caseImageUrl}
+                        alt={imgMedia.alt || 'Case study image'}
+                        width={caseImageWidth ?? 1200}
+                        height={caseImageHeight ?? 800}
                         className="cs-image__img"
                       />
                       {block.caption && <p className="cs-image__caption">{block.caption}</p>}
                     </div>
                   </section>
                 )
+              }
 
               default:
                 return null

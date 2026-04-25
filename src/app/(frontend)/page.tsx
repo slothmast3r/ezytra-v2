@@ -12,6 +12,8 @@ import ProcessSection from './components/ProcessSection'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Image from 'next/image'
+import { getProjects } from '../../lib/api/projects'
+import type { Media } from '../../payload-types'
 
 const MARQUEE_TEXT =
   'Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  '
@@ -53,16 +55,13 @@ const SERVICES = [
 ]
 
 async function ProjectsList() {
-  const payload = await getPayload({ config })
-  const { docs: projects } = await payload.find({
-    collection: 'projects',
-    sort: 'order',
-    limit: 100,
-  })
+  const projects = await getProjects()
 
-  return (projects as any[]).map((p, i) => {
+  return projects.map((p, i) => {
     const num = String(i + 1).padStart(2, '0')
-    const tags = (p.tags ?? []).map((t: any) => t.tag)
+    const tags = (p.tags ?? []).map((t) => t.tag)
+    const img = p.image && typeof p.image === 'object' ? p.image as Media : null
+    const imgSrc = img ? img.sizes?.projectCard?.url || img.url : null
     return (
       <div key={p.id} className="work__row">
         <div className="work__col-left">
@@ -72,7 +71,7 @@ async function ProjectsList() {
               <h3 className="work__name">{p.name}</h3>
               <p className="work__location">{p.location}</p>
               <div className="work__tags">
-                {tags.map((tag: string) => (
+                {tags.map((tag) => (
                   <span key={tag} className="tag">
                     {tag}
                   </span>
@@ -90,7 +89,6 @@ async function ProjectsList() {
           <div className="work__right-inner">
             <div className="work__right-content">
               <div className="work__meta">
-                {p.live && <Button variant="badge">{p.live}</Button>}
                 {p.hasCaseStudy && p.slug ? (
                   <AnimatedLink className="btn btn--link" href={`/work/${p.slug}`}>
                     Case Study →
@@ -111,10 +109,10 @@ async function ProjectsList() {
                   <div className="mockup__url">{p.url}</div>
                 </div>
                 <div className="mockup__screen">
-                  {p.image && typeof p.image === 'object' && (p.image.sizes?.projectCard?.url || p.image.url) ? (
+                  {imgSrc && img ? (
                     <Image
-                      src={p.image.sizes?.projectCard?.url || p.image.url}
-                      alt={p.image.alt || p.name}
+                      src={imgSrc}
+                      alt={img.alt || p.name}
                       fill
                       sizes="(max-width: 1100px) 100vw, 40rem"
                       style={{ objectFit: 'cover' }}

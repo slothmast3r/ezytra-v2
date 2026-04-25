@@ -1,15 +1,37 @@
-const rich = (text: string) => ({
+import type { Project } from '@/payload-types'
+
+type LayoutBlock = NonNullable<Project['layout']>[number]
+
+type RichTextContent = {
+  root: {
+    type: string
+    children: {
+      type: string
+      version: number
+      [k: string]: unknown
+    }[]
+    direction: ('ltr' | 'rtl') | null
+    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+    indent: number
+    version: number
+  }
+  [k: string]: unknown
+}
+
+const rich = (text: string): RichTextContent => ({
   root: {
     type: 'root',
     format: '',
     indent: 0,
     version: 1,
+    direction: null,
     children: [
       {
         type: 'paragraph',
         format: '',
         indent: 0,
         version: 1,
+        direction: null,
         children: [
           {
             detail: 0,
@@ -52,7 +74,7 @@ export const projects = [
         blockType: 'overview',
         brief: rich('Pantera needed a professional website that reflected the discipline and energy of their martial arts centre. They had no web presence — just a social media page.'),
         myRole: rich('End-to-end ownership: discovery, design in Figma, development in Next.js, CMS setup in Payload, local SEO, and VPS deployment.'),
-      } as any,
+      } satisfies Extract<LayoutBlock, { blockType: 'overview' }>,
       {
         blockType: 'challenge',
         heading: 'Starting from zero.',
@@ -62,7 +84,7 @@ export const projects = [
           { text: 'Three distinct disciplines to balance' },
           { text: 'Mobile-first audience' },
         ],
-      } as any,
+      } satisfies Extract<LayoutBlock, { blockType: 'challenge' }>,
       {
         blockType: 'process',
         heading: 'From brief to high-fidelity.',
@@ -84,7 +106,7 @@ export const projects = [
           },
         ],
         note: 'All design screens are available on request.',
-      } as any,
+      } satisfies Extract<LayoutBlock, { blockType: 'process' }>,
       {
         blockType: 'results',
         stats: [
@@ -92,7 +114,7 @@ export const projects = [
           { value: '#1', label: 'SEO Ranking', description: 'Top result for target keywords.' },
           { value: '100%', label: 'Editable', description: 'Client manages all content.' },
         ],
-      } as any,
+      } satisfies Extract<LayoutBlock, { blockType: 'results' }>,
     ],
   },
   {

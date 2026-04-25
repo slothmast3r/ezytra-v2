@@ -1,10 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import Button from '../components/Button'
 import { SITE_DATA } from '../data'
-import { track } from '@vercel/analytics'
-import { sendEmail } from './actions'
+import { useContactForm } from '../../../hooks/useContactForm'
 
 const PROJECT_TYPES = ['Web Design', 'Development', 'Brand Identity', 'CMS Setup', 'Full Project', 'Other']
 const BUDGETS = ['< €1k', '€1k–3k', '€3k–8k', '€6k+', "Let's talk"]
@@ -32,94 +30,9 @@ const WHAT_TO_EXPECT = [
   },
 ]
 
-interface FormData {
-  name: string
-  email: string
-  company: string
-  message: string
-  projectType: string
-  budget: string
-}
-
-interface FormErrors {
-  name?: string
-  email?: string
-  message?: string
-}
-
 export default function ContactForm() {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    company: '',
-    message: '',
-    projectType: 'Full Project',
-    budget: '€3k–8k',
-  })
-
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [sent, setSent] = useState(false)
-  const [isShaking, setIsShaking] = useState(false)
-
-  const validate = (): boolean => {
-    const newErrors: FormErrors = {}
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'Please enter your name'
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email'
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = 'Tell me a bit about your project'
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Your message is a bit too short'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    // Clear error when user types
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }))
-    }
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!validate()) {
-      setIsShaking(true)
-      setTimeout(() => setIsShaking(false), 500)
-      return
-    }
-
-    setIsSubmitting(true)
-    
-    // Send actual email via Resend
-    const result = await sendEmail(formData)
-    
-    if (result.success) {
-      // Track conversion
-      track('contact_form_submitted', {
-        projectType: formData.projectType,
-        budget: formData.budget,
-      })
-      setSent(true)
-    } else {
-      alert('Failed to send message. Please try again or email directly.')
-    }
-
-    setIsSubmitting(false)
-  }
+  const { formData, errors, isSubmitting, sent, isShaking, handleChange, handleSubmit, setField } =
+    useContactForm()
 
   return (
     <div className="cform__layout">
@@ -185,7 +98,7 @@ export default function ContactForm() {
                     key={t}
                     type="button"
                     className={`cform__toggle${formData.projectType === t ? ' cform__toggle--active' : ''}`}
-                    onClick={() => setFormData(prev => ({ ...prev, projectType: t }))}
+                    onClick={() => setField('projectType', t)}
                   >
                     <svg className={`cform__check ${formData.projectType === t ? 'cform__check--active' : ''}`} width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M1 4.5L3.5 7L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -204,7 +117,7 @@ export default function ContactForm() {
                     key={b}
                     type="button"
                     className={`cform__toggle${formData.budget === b ? ' cform__toggle--active' : ''}`}
-                    onClick={() => setFormData(prev => ({ ...prev, budget: b }))}
+                    onClick={() => setField('budget', b)}
                   >
                     <svg className={`cform__check ${formData.budget === b ? 'cform__check--active' : ''}`} width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M1 4.5L3.5 7L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
