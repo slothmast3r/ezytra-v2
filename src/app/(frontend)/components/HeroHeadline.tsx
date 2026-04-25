@@ -1,28 +1,13 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
+import { useObservedVisibility } from '../../../hooks/useObservedVisibility'
 
 const LINES = ['I design and', 'build websites,', 'end to end.']
 
 export default function HeroHeadline() {
   const ref = useRef<HTMLHeadingElement>(null)
-  const [active, setActive] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setActive(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.2 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
+  const active = useObservedVisibility(ref, 0.2)
 
   let globalIndex = 0
 

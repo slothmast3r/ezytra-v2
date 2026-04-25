@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { SplitText } from './AnimatedLink'
+import { useObservedVisibility } from '../../../hooks/useObservedVisibility'
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'badge' | 'link'
 
@@ -46,26 +47,10 @@ export default function Button({
   ...rest
 }: ButtonProps) {
   const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null)
-  const [revealed, setRevealed] = useState(false)
+  const nullRef = useRef<HTMLElement>(null)
   const [hovered, setHovered] = useState(false)
   const [everHovered, setEverHovered] = useState(false)
-
-  useEffect(() => {
-    if (!chevron) return
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setRevealed(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.6 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [chevron])
+  const revealed = useObservedVisibility(chevron ? ref : nullRef, 0.6)
 
   const cls = `btn btn--${variant}${chevron ? ' btn--animated' : ''}${className ? ` ${className}` : ''}`
 
