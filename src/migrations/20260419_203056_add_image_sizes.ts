@@ -1,6 +1,6 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db, payload: _payload, req: _req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    ALTER TABLE "media" ADD COLUMN "sizes_thumbnail_url" varchar;
   ALTER TABLE "media" ADD COLUMN "sizes_thumbnail_width" numeric;
@@ -32,7 +32,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "media_sizes_case_study_detail_sizes_case_study_detail_fi_idx" ON "media" USING btree ("sizes_case_study_detail_filename");`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db, payload: _payload, req: _req }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
   DROP INDEX "media_sizes_thumbnail_sizes_thumbnail_filename_idx";
   DROP INDEX "media_sizes_project_card_sizes_project_card_filename_idx";

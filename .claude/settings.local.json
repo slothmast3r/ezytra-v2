@@ -2,7 +2,18 @@
   "permissions": {
     "allow": [
       "Bash(npx payload:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(pnpm build *)",
+      "Bash(gh --version)",
+      "Bash(git -C \"C:\\\\Users\\\\oskar\\\\Documents\\\\Programowanie\\\\ezytra-v2\" remote get-url origin)",
+      "Bash(env)",
+      "Bash(python3 -c \"import sys,json; s=json.load\\(sys.stdin\\); print\\(json.dumps\\(s.get\\('scripts', {}\\), indent=2\\)\\)\")",
+      "Bash(git checkout *)",
+      "Bash(git merge *)",
+      "Bash(git stash *)",
+      "Bash(pnpm lint *)",
+      "Bash(python3 -c \"import sys,json; p=json.load\\(sys.stdin\\); print\\(p['version']\\)\")",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

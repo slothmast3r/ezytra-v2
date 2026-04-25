@@ -1,6 +1,6 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db, payload: _payload, req: _req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    ALTER TABLE "projects" ADD COLUMN "slug" varchar;
   ALTER TABLE "projects" ADD COLUMN "type" varchar;
@@ -9,7 +9,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE UNIQUE INDEX "projects_slug_idx" ON "projects" USING btree ("slug");`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db, payload: _payload, req: _req }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    DROP INDEX "projects_slug_idx";
   ALTER TABLE "projects" DROP COLUMN "slug";
