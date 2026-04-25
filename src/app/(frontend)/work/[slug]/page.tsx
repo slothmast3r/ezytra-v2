@@ -7,7 +7,7 @@ import Nav from '../../components/Nav'
 import Button from '../../components/Button'
 import FooterBar from '../../components/FooterBar'
 import { RichText } from '../../components/RichText'
-import CaseStudyTOC from './CaseStudyTOC'
+import TableOfContents from '../../components/TableOfContents'
 import { Metadata } from 'next'
 import { SITE_DATA } from '../../data'
 
@@ -126,7 +126,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
 
       {/* ── Dynamic Layout Blocks ── */}
       <div className="art-body">
-        <CaseStudyTOC items={tocItems} />
+        <TableOfContents items={tocItems} label="Navigation" hideWhenEmpty />
 
         <div className="cs-content">
           {project.layout?.map((block: any, i: number) => {

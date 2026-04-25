@@ -5,7 +5,7 @@ import Image from 'next/image'
 import React, { Suspense } from 'react'
 import Nav from '../../components/Nav'
 import FooterBar from '../../components/FooterBar'
-import ArticleTOC from './ArticleTOC'
+import TableOfContents from '../../components/TableOfContents'
 import ShareButton from './ShareButton'
 import { SITE_DATA } from '../../data'
 import { ArticleSkeleton } from '../../components/Skeletons'
@@ -222,7 +222,7 @@ async function ArticleContent({ slug }: { slug: string }) {
 
       {/* ── 03 Body ── */}
       <div className="art-body">
-        <ArticleTOC items={tocItems} />
+        <TableOfContents items={tocItems} />
 
         <article className="art-content">
           {sections.map((section) => {
