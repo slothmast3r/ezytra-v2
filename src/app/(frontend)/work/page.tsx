@@ -1,19 +1,14 @@
 export const revalidate = 60;
 
 import React, { Suspense } from "react";
-import { getPayload } from "payload";
-import config from "@payload-config";
 import Nav from "../components/Nav";
 import SiteFooter from "../components/SiteFooter";
 import WorkGrid from "./WorkGrid";
 import { WorkGridSkeleton } from "../components/Skeletons";
+import { getProjects, getProjectsCount } from "../../../lib/api/projects";
 
 async function WorkHero() {
-  const payload = await getPayload({ config });
-  const { totalDocs } = await payload.find({
-    collection: "projects",
-    limit: 0,
-  });
+  const totalDocs = await getProjectsCount();
 
   return (
     <div className="wa-hero__right">
@@ -29,15 +24,10 @@ async function WorkHero() {
 }
 
 async function WorkContent() {
-  const payload = await getPayload({ config });
-
-  const { docs: projects } = await payload.find({
-    collection: "projects",
-    sort: "order",
-    limit: 100,
-  });
-
-  return <WorkGrid projects={projects as any} />;
+  const projects = await getProjects();
+  // WorkGrid has its own local Project interface; Payload's type is a superset so the cast is safe.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <WorkGrid projects={projects as any[]} />;
 }
 
 export default function WorkPage() {
