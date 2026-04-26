@@ -1,6 +1,13 @@
 import React from 'react'
 import Nav from '../components/Nav'
 import SiteFooter from '../components/SiteFooter'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Services',
+  description: 'End-to-end web services: UX design, Next.js development, Payload CMS, deployment.',
+  alternates: { canonical: '/services' },
+}
 
 const SERVICES_DETAILED = [
   {

@@ -2,7 +2,7 @@ import React from 'react'
 
 interface LexicalNode {
   children?: LexicalNode[]
-  direction?: string
+  direction?: string | null
   format?: number | string
   indent?: number
   type: string

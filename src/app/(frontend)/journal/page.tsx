@@ -1,6 +1,13 @@
 export const revalidate = 60;
 
 import React, { Suspense } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Journal",
+  description: "Articles on design, development, and building products on the web.",
+  alternates: { canonical: "/journal" },
+};
 import Nav from "../components/Nav";
 import FooterBar from "../components/FooterBar";
 import AnimatedLink from "../components/AnimatedLink";

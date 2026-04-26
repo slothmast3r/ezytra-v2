@@ -10,7 +10,10 @@ import { ArticleSkeleton } from '../../components/Skeletons'
 import { Metadata } from 'next'
 import { getPostBySlug, getNextPost } from '../../../../lib/api/posts'
 import { parseBody, renderInline } from '../../../../lib/parser'
-import type { Post, Author, Media } from '../../../../payload-types'
+import type { Author, Media } from '../../../../payload-types'
+import JsonLd from '../../components/JsonLd'
+
+export const revalidate = 3600
 
 export async function generateMetadata({
   params,
@@ -23,14 +26,26 @@ export async function generateMetadata({
 
   const title = post.meta?.title || post.headline
   const description = post.meta?.description || post.excerpt
-
   return {
-    title: `${title} — ${SITE_DATA.brand}`,
-    description: description,
+    title: title ?? undefined,
+    description: description ?? undefined,
+    alternates: { canonical: `/journal/${slug}` },
     openGraph: {
+      type: 'article',
+      url: `${SITE_DATA.url}/journal/${slug}`,
+      locale: 'en_US',
+      siteName: SITE_DATA.brand,
       title: title ?? undefined,
       description: description ?? undefined,
-      type: 'article',
+      images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
+      publishedTime: post.createdAt,
+      authors: [SITE_DATA.name],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: title ?? undefined,
+      description: description ?? undefined,
+      images: ['/opengraph-image'],
     },
   }
 }
@@ -91,6 +106,25 @@ async function ArticleContent({ slug }: { slug: string }) {
 
   return (
     <>
+      <JsonLd
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: post.headline,
+          description: post.excerpt ?? undefined,
+          datePublished: post.createdAt,
+          dateModified: post.updatedAt,
+          url: `${SITE_DATA.url}/journal/${post.slug}`,
+          author: author
+            ? { '@type': 'Person', name: author.name, url: SITE_DATA.url }
+            : { '@type': 'Person', name: SITE_DATA.name, url: SITE_DATA.url },
+          publisher: {
+            '@type': 'Person',
+            name: SITE_DATA.name,
+            url: SITE_DATA.url,
+          },
+        }}
+      />
       {/* ── 01 Hero ── */}
       <section className="art-hero">
         <div className="art-hero__meta">

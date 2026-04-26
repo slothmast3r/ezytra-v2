@@ -3,6 +3,13 @@ import Nav from '../components/Nav'
 import SiteFooter from '../components/SiteFooter'
 import { SITE_DATA } from '../data'
 import Image from 'next/image'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'Designer and developer based in Warsaw, Poland. Background, skills, and approach.',
+  alternates: { canonical: '/about' },
+}
 
 const SKILLS = [
   {

@@ -2,6 +2,13 @@ import React from 'react'
 import Nav from '../components/Nav'
 import ContactForm from './ContactForm'
 import FooterBar from '../components/FooterBar'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Get in touch to discuss your project — web design, development, and CMS solutions.',
+  alternates: { canonical: '/contact' },
+}
 
 const INFO = [
   {

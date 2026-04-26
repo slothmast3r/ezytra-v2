@@ -10,8 +10,11 @@ import { Metadata } from 'next'
 import { SITE_DATA } from '../../data'
 import { getProjectBySlug, getProjects } from '../../../../lib/api/projects'
 import type { Project, Media } from '../../../../payload-types'
+import JsonLd from '../../components/JsonLd'
 
 type LayoutBlock = NonNullable<Project['layout']>[number]
+
+export const revalidate = 3600
 
 export async function generateMetadata({
   params,
@@ -24,14 +27,24 @@ export async function generateMetadata({
 
   const title = project.meta?.title || project.name
   const description = project.meta?.description || project.desc
-
   return {
-    title: `${title} — ${SITE_DATA.brand}`,
-    description: description,
+    title: title,
+    description: description ?? undefined,
+    alternates: { canonical: `/work/${slug}` },
     openGraph: {
-      title: title,
-      description: description,
       type: 'website',
+      url: `${SITE_DATA.url}/work/${slug}`,
+      locale: 'en_US',
+      siteName: SITE_DATA.brand,
+      title: title,
+      description: description ?? undefined,
+      images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: title,
+      description: description ?? undefined,
+      images: ['/opengraph-image'],
     },
   }
 }
@@ -69,6 +82,17 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
 
   return (
     <>
+      <JsonLd
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_DATA.url },
+            { '@type': 'ListItem', position: 2, name: 'Work', item: `${SITE_DATA.url}/work` },
+            { '@type': 'ListItem', position: 3, name: project.name, item: `${SITE_DATA.url}/work/${project.slug}` },
+          ],
+        }}
+      />
       <Nav />
 
       {/* ── 01 Hero ── */}

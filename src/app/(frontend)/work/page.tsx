@@ -1,6 +1,13 @@
 export const revalidate = 60;
 
 import React, { Suspense } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Work",
+  description: "Case studies and projects — branding, web design, and full-stack development.",
+  alternates: { canonical: "/work" },
+};
 import Nav from "../components/Nav";
 import SiteFooter from "../components/SiteFooter";
 import WorkGrid from "./WorkGrid";
