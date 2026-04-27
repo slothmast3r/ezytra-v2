@@ -4,6 +4,7 @@ import SiteFooter from '../components/SiteFooter'
 import { SITE_DATA } from '../data'
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import ownerImg from '../../../../public/owner.jpg'
 
 export const metadata: Metadata = {
   title: 'About',
@@ -116,17 +117,16 @@ export default function AboutPage() {
         <div className="about-bio__grid">
           <div className="about-bio__image">
             <Image
-              src="/owner.jpg"
+              src={ownerImg}
               alt={SITE_DATA.name}
-              width={400}
-              height={533}
               className="about-bio__photo"
               priority
-              style={{ 
-                width: '100%', 
-                height: 'auto', 
+              placeholder="blur"
+              style={{
+                width: '100%',
+                height: 'auto',
                 display: 'block',
-                border: '1px solid var(--border)' 
+                border: '1px solid var(--border)'
               }}
             />
           </div>
