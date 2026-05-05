@@ -69,7 +69,6 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    projects: Project;
     posts: Post;
     authors: Author;
     'payload-kv': PayloadKv;
@@ -81,7 +80,6 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -203,181 +201,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects".
- */
-export interface Project {
-  id: number;
-  name: string;
-  location: string;
-  slug: string;
-  order: number;
-  type?: string | null;
-  year?: string | null;
-  hasCaseStudy?: boolean | null;
-  tags?:
-    | {
-        tag: string;
-        id?: string | null;
-      }[]
-    | null;
-  desc: string;
-  url?: string | null;
-  href?: string | null;
-  /**
-   * Used in the work grid. If empty, a CSS placeholder will be shown.
-   */
-  image?: (number | null) | Media;
-  status?: ('live' | 'dev' | 'completed' | 'archived') | null;
-  featured?: boolean | null;
-  layout?:
-    | (
-        | {
-            brief: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            myRole: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'overview';
-          }
-        | {
-            heading: string;
-            description: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            constraints?:
-              | {
-                  text: string;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'challenge';
-          }
-        | {
-            heading: string;
-            steps?:
-              | {
-                  /**
-                   * e.g. "Week 1"
-                   */
-                  label?: string | null;
-                  title: string;
-                  description: {
-                    root: {
-                      type: string;
-                      children: {
-                        type: any;
-                        version: number;
-                        [k: string]: unknown;
-                      }[];
-                      direction: ('ltr' | 'rtl') | null;
-                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                      indent: number;
-                      version: number;
-                    };
-                    [k: string]: unknown;
-                  };
-                  id?: string | null;
-                }[]
-              | null;
-            note?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'process';
-          }
-        | {
-            stats?:
-              | {
-                  value: string;
-                  label: string;
-                  description?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'results';
-          }
-        | {
-            heading?: string | null;
-            body: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textSection';
-          }
-        | {
-            image: number | Media;
-            caption?: string | null;
-            size?: ('small' | 'large' | 'full') | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'imageBlock';
-          }
-      )[]
-    | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
 export interface Post {
@@ -460,10 +283,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
-      } | null)
-    | ({
-        relationTo: 'projects';
-        value: number | Project;
       } | null)
     | ({
         relationTo: 'posts';
@@ -598,112 +417,6 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects_select".
- */
-export interface ProjectsSelect<T extends boolean = true> {
-  name?: T;
-  location?: T;
-  slug?: T;
-  order?: T;
-  type?: T;
-  year?: T;
-  hasCaseStudy?: T;
-  tags?:
-    | T
-    | {
-        tag?: T;
-        id?: T;
-      };
-  desc?: T;
-  url?: T;
-  href?: T;
-  image?: T;
-  status?: T;
-  featured?: T;
-  layout?:
-    | T
-    | {
-        overview?:
-          | T
-          | {
-              brief?: T;
-              myRole?: T;
-              id?: T;
-              blockName?: T;
-            };
-        challenge?:
-          | T
-          | {
-              heading?: T;
-              description?: T;
-              constraints?:
-                | T
-                | {
-                    text?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        process?:
-          | T
-          | {
-              heading?: T;
-              steps?:
-                | T
-                | {
-                    label?: T;
-                    title?: T;
-                    description?: T;
-                    id?: T;
-                  };
-              note?: T;
-              id?: T;
-              blockName?: T;
-            };
-        results?:
-          | T
-          | {
-              stats?:
-                | T
-                | {
-                    value?: T;
-                    label?: T;
-                    description?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        textSection?:
-          | T
-          | {
-              heading?: T;
-              body?: T;
-              id?: T;
-              blockName?: T;
-            };
-        imageBlock?:
-          | T
-          | {
-              image?: T;
-              caption?: T;
-              size?: T;
-              id?: T;
-              blockName?: T;
-            };
-      };
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

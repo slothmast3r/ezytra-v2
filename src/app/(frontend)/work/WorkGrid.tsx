@@ -5,30 +5,20 @@ import Button from '../components/Button'
 import Image from 'next/image'
 
 interface Project {
-  id: number
+  slug: string
   name: string
   location: string
-  tags: { tag: string }[]
+  tags?: string[]
   desc: string
-  live?: string | null
-  url?: string | null
-  href?: string | null
-  slug?: string | null
-  type?: string | null
-  year?: string | null
-  featured?: boolean | null
-  hasCaseStudy?: boolean | null
-  status?: 'live' | 'dev' | 'completed' | 'archived' | null
+  url?: string
+  href?: string
+  type?: string
+  year?: string
+  featured?: boolean
+  hasCaseStudy?: boolean
+  status?: 'live' | 'dev' | 'completed' | 'archived'
   order: number
-  image?: {
-    url: string
-    alt?: string
-    sizes?: {
-      projectCard?: {
-        url?: string | null
-      }
-    }
-  } | null
+  image?: string
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -39,8 +29,6 @@ const STATUS_LABELS: Record<string, string> = {
 }
 
 function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
-  const imageUrl = p.image?.sizes?.projectCard?.url || p.image?.url
-
   return (
     <div className="wa-card wa-card--featured">
       {/* left: mockup */}
@@ -50,11 +38,11 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
           <span className="wa-card__chrome-url">{p.url}</span>
         </div>
         <div className="wa-card__screen">
-          {imageUrl ? (
-            <Image 
-              src={imageUrl} 
-              alt={p.image?.alt || p.name} 
-              fill 
+          {p.image ? (
+            <Image
+              src={p.image}
+              alt={p.name}
+              fill
               sizes="(max-width: 1100px) 100vw, 40rem"
               style={{ objectFit: 'cover' }}
             />
@@ -71,7 +59,7 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
         <p className="wa-card__desc">{p.desc}</p>
 
         <div className="wa-card__tags">
-          {p.tags.map((t) => <span key={t.tag} className="tag">{t.tag}</span>)}
+          {(p.tags ?? []).map((t) => <span key={t} className="tag">{t}</span>)}
         </div>
 
         <div className="wa-card__meta">
@@ -129,8 +117,6 @@ function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
 }
 
 function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
-  const imageUrl = p.image?.sizes?.projectCard?.url || p.image?.url
-
   return (
     <div className="wa-card wa-card--small">
       <div className="wa-card__mockup">
@@ -139,11 +125,11 @@ function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
           <span className="wa-card__chrome-url">{p.url}</span>
         </div>
         <div className="wa-card__screen">
-          {imageUrl ? (
-            <Image 
-              src={imageUrl} 
-              alt={p.image?.alt || p.name} 
-              fill 
+          {p.image ? (
+            <Image
+              src={p.image}
+              alt={p.name}
+              fill
               sizes="(max-width: 1100px) 100vw, 25rem"
               style={{ objectFit: 'cover' }}
             />
@@ -158,7 +144,7 @@ function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
         <p className="wa-card__desc">{p.desc}</p>
 
         <div className="wa-card__tags">
-          {p.tags.map((t) => <span key={t.tag} className="tag">{t.tag}</span>)}
+          {(p.tags ?? []).map((t) => <span key={t} className="tag">{t}</span>)}
         </div>
 
         <div className="wa-card__meta">
@@ -222,23 +208,19 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
   const dynamicFilters = useMemo(() => {
     const tags = new Set<string>()
     projects.forEach((p) => {
-      p.tags?.forEach((t) => tags.add(t.tag))
+      p.tags?.forEach((t) => tags.add(t))
     })
-    // Return All, Case Study, then alphabetically sorted tags
     return ['All', 'Case Study', ...Array.from(tags).sort()]
   }, [projects])
 
   const filtered = useMemo(() => {
     if (active === 'All') return projects
     if (active === 'Case Study') return projects.filter((p) => p.hasCaseStudy)
-    return projects.filter((p) =>
-      p.tags.some((t) => t.tag === active)
-    )
+    return projects.filter((p) => (p.tags ?? []).includes(active))
   }, [active, projects])
 
-  // Consolidate grid rendering: First featured project is special, others are small.
   const featuredProject = filtered.find((p) => p.featured)
-  const otherProjects = filtered.filter((p) => p.id !== featuredProject?.id)
+  const otherProjects = filtered.filter((p) => p.slug !== featuredProject?.slug)
   const allProjects = featuredProject ? [featuredProject, ...otherProjects] : otherProjects
 
   return (
@@ -270,7 +252,7 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
           <div className="wa-grid__row">
             {otherProjects.map((p) => (
               <ProjectCardSmall
-                key={p.id}
+                key={p.slug}
                 p={p}
                 num={String(allProjects.indexOf(p) + 1).padStart(2, '0')}
               />

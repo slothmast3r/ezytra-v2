@@ -1,19 +1,15 @@
 export const revalidate = 60;
 
 import React, { Suspense } from "react";
-import { getPayload } from "payload";
-import config from "@payload-config";
 import Nav from "../components/Nav";
 import SiteFooter from "../components/SiteFooter";
 import WorkGrid from "./WorkGrid";
 import { WorkGridSkeleton } from "../components/Skeletons";
+import { getAllProjects } from "@/lib/projects";
 
 async function WorkHero() {
-  const payload = await getPayload({ config });
-  const { totalDocs } = await payload.find({
-    collection: "projects",
-    limit: 0,
-  });
+  const projects = await getAllProjects();
+  const totalDocs = projects.length;
 
   return (
     <div className="wa-hero__right">
@@ -29,14 +25,7 @@ async function WorkHero() {
 }
 
 async function WorkContent() {
-  const payload = await getPayload({ config });
-
-  const { docs: projects } = await payload.find({
-    collection: "projects",
-    sort: "order",
-    limit: 100,
-  });
-
+  const projects = await getAllProjects();
   return <WorkGrid projects={projects as any} />;
 }
 

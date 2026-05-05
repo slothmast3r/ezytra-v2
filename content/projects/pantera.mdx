@@ -1,0 +1,355 @@
+---
+slug: pantera
+name: Pantera Family & Sport Club
+location: Mokotów, Warsaw
+type: Marketing site + CMS
+year: '2026'
+order: 1
+status: live
+featured: true
+hasCaseStudy: true
+url: pantera.waw.pl
+href: https://pantera.waw.pl
+desc: Full redesign and infrastructure migration for a Warsaw martial arts and family sport club. From a generic WordPress theme on shared hosting to a custom Next.js + Payload CMS stack on a dedicated VPS.
+tags:
+  - Next.js
+  - Payload CMS
+toc:
+  - id: overview
+    title: Overview
+  - id: eight-decisions
+    title: Eight decisions
+  - id: what-needed-solving
+    title: What needed solving
+  - id: design
+    title: Design
+    children:
+      - id: hero-anatomy
+        title: Hero anatomy
+      - id: audience-segmentation
+        title: Audience segmentation
+      - id: rejected-layouts
+        title: Rejected layouts
+      - id: reviews
+        title: Social proof — reviews
+      - id: pricing
+        title: Pricing section
+  - id: performance
+    title: Performance
+    children:
+      - id: lighthouse
+        title: Lighthouse before & after
+      - id: insights
+        title: What actually changed
+      - id: old-issues
+        title: What the old site communicated
+  - id: stack
+    title: Stack
+    children:
+      - id: stack-migration
+        title: Stack migration
+      - id: architecture
+        title: How it fits together
+      - id: why-this-stack
+        title: Why this stack
+  - id: tradeoffs
+    title: Honest trade-offs
+---
+
+import {
+  Overview, Challenge, Chapter, HeroAnatomy, DecisionGrid, BeforeAfter, Quote,
+  LighthouseCompare, InsightGrid, IssueList, StackCompare, ArchDiagram,
+  Tradeoffs, Pills, Figure
+} from '@/app/(frontend)/components/case-study'
+
+<Overview
+  id="overview"
+  brief="Pantera is a martial arts and family sport club in Warsaw's Mokotów district, offering Krav Maga, karate, power training, and Tai Chi across age groups. The club needed a website that could serve three very different audiences — parents enrolling children, adults seeking self-defense training, and seniors drawn to Tai Chi — while projecting the authority and warmth of a trusted local club."
+  role="End-to-end: sitemap, wireframes, custom design system, and a production build on a modern headless stack. Self-managed VPS replacing shared hosting."
+/>
+
+<HeroAnatomy
+  id="eight-decisions"
+  heading="The eight decisions this case study explains"
+  intro="Each item below is expanded later in its own section. This list exists at the top so the argument is visible even if you only skim — and so the rest of the page reads as evidence, not surprise."
+  items={[
+    { title: 'Video hero over photography', description: 'Hand-edited 10-second loop of real training — kids first, then Krav Maga, then Tai Chi. Authentic proof of the training environment, not a stock substitute.' },
+    { title: 'Diagonal headline arrangement', description: 'The three fragments of the headline are indented progressively — each line shifted further right than the one above it. The text itself forms a diagonal that reads as motion and guides the eye toward the CTA. No graphic overlay needed.' },
+    { title: 'Audience segmentation below the fold', description: 'Three cards route parents, adults, and Tai Chi seekers immediately. The page asks one question and routes — it does not try to be one thing.' },
+    { title: 'Varied section rhythm', description: 'Marquee reviews, 50/50 USP, 3-col instructors. Rhythm variation signals hierarchy; uniform grids signal "nothing matters most".' },
+    { title: 'No "most popular" pricing badge', description: 'Standard SaaS pattern, wrong tool here. Pantera has no online checkout — every CTA leads to a human conversation.' },
+    { title: 'Instructor section kept', description: 'In martial arts, students choose the instructor before the club. Real names and faces close the trial booking; this also feeds Google E-E-A-T.' },
+    { title: 'Torn-paper divider rejected', description: 'Organic shapes conflict with the sharp, geometric brand. Background-color shift between sections does the separation job without competing for attention.' },
+    { title: 'Headless stack migration', description: 'Next.js + Payload + Postgres + Coolify on a Hetzner VPS replaces WordPress on shared hosting. Performance is the visible win; control is the structural one.' },
+  ]}
+/>
+
+<Challenge
+  id="what-needed-solving"
+  heading="What needed solving"
+  constraints={[
+    'Three audiences in one homepage',
+    'Free-trial conversion path, no checkout',
+    'WordPress baseline: Lighthouse 83, CLS 0.235',
+  ]}
+>
+The primary design challenge was audience breadth. A single hero had to speak to a parent looking for safe children's classes, a 30-year-old wanting real self-defense, and someone older interested in low-impact movement. A secondary challenge was conversion logic: Pantera's sales process runs through a free trial class, not online purchase — every CTA had to funnel toward contact, not checkout.
+</Challenge>
+
+<Chapter id="design" title="Design">
+
+The hardest part of Pantera was not the layout — it was deciding who the homepage was for. A martial arts club in Mokotów has at least three audiences that share almost nothing in common: parents looking for a safe place to send a seven-year-old, adults wanting practical self-defense, and seniors interested in low-impact movement. The three groups arrive on the page asking different questions, in different vocabulary, with different fears. A single hero either picks one audience and ignores the others, or tries to address all three and ends up sounding generic — the same as every other sports school in Warsaw. The decision was to stop pretending the homepage could be one thing. Instead, the page asks one question — *which class are you here for?* — and routes immediately. Three cards, real training photos, audience-specific copy from that point forward. Everything below assumes you have already made that choice.
+
+The hero above this routing decision had to do its own job: prove that this is a real club, not a stock-photo facade. The choice was a 10-second video loop instead of photography, edited by hand into three beats — kids having fun, adult Krav Maga, Tai Chi — in that specific order. Kids open the loop because they are the largest audience segment; a parent visiting the page sees their child within the first three seconds. The visual mix mirrors the actual class mix at the club. It is not a montage that could belong to any sports school.
+
+Two earlier directions were explored and discarded. The first was a torn-paper SVG divider between the hero and the first content section, intended to add visual dynamism. It conflicted with the brand's geometric, sharp visual language, and at the execution quality achievable without a custom illustrator, it read as a generic template element. The second was a uniform 3-column grid repeated for offers, instructors, reviews, and pricing. Convenient to build, fatal to scan: every section had identical visual weight, so the page communicated that nothing mattered more than anything else. The final layout uses a deliberate variation in rhythm — a 50/50 split for the USP, a counter-scrolling marquee for reviews, a standard 3-column grid for instructors. The variation itself signals hierarchy.
+
+Reviews are presented as two horizontal marquees scrolling in opposite directions, with pause-on-hover for accessibility. A static grid of six testimonials would communicate "here are all our reviews." An infinite marquee communicates "there are too many to count" — which is the accurate framing for a club with over a hundred Google reviews. Pricing follows a similar logic-to-form mapping: three tiers, no "most popular" badge. The badge is a SaaS pattern that works when clicking a plan leads to checkout. At Pantera there is no checkout — every CTA leads to "Skontaktuj się" or "Zapisz się," every path goes through a human. The first tier reads "Zapytaj o cenę," removing the price entirely for B2B and corporate clients to prevent premature price objections on high-LTV contracts. Instructors are kept as a section despite the conventional format because in martial arts, students choose the instructor before the club. Real names, real faces, real credentials remove the abstraction — a parent is no longer enrolling in "Pantera," they are trusting their child to Michał Jaworski.
+
+</Chapter>
+
+<HeroAnatomy
+  id="hero-anatomy"
+  heading="Hero anatomy"
+  intro="The hero uses a 10-second loop of training sessions as the background — a deliberate choice over photography. The cut was edited by hand into three beats in a specific order: kids having fun, adult Krav Maga, then Tai Chi. Kids open the video because the majority of Pantera's classes are for kids — the footage mirrors the actual class mix, not a generic montage."
+  items={[
+    { title: 'Google rating', description: 'Star rating anchors trust immediately — real reviews visible before any copy is read.' },
+    { title: 'Three-fragment headline', description: 'Each fragment targets a different audience concern: methodology, parent trust, local proximity.' },
+    { title: 'Color emphasis on "Bezpiecznie"', description: 'The single word most likely to stop a parent from bouncing — color emphasis replaces a separate USP block.' },
+    { title: 'One CTA', description: '"Pierwszy trening za darmo" removes financial friction. No secondary link, no menu of options.' },
+    { title: 'Diagonal headline arrangement', description: 'Each headline line is indented further than the one above it. The text itself forms a diagonal across the dark side of the hero, reading as motion and pointing the eye toward the CTA. No overlay graphic — the type is the diagonal.' },
+    { title: 'Curated footage order — kids first', description: "Hand-edited 10s loop runs kids → adult Krav Maga → Tai Chi. Kids open the cut because they're the largest audience segment; visitors immediately see themselves (or their child) within the first 3 seconds." },
+  ]}
+/>
+
+<Figure caption="dofbur.pl hero — full-bleed video loop with diagonally arranged three-fragment headline. (screenshot to come)" size="full" />
+
+<Quote>
+The diagonal in the hero is not a graphic overlay — it is the headline itself. Each of the three lines is indented further right than the one above, so the type forms a falling slope across the dark zone. A flush-left block of text would feel static. Letting the text become the diagonal pulls the eye down toward the CTA without adding a single decorative element.
+</Quote>
+
+<DecisionGrid
+  id="audience-segmentation"
+  heading="Audience segmentation"
+  intro="Immediately below the fold, three cards split the offer by audience group. This is the site's most critical UX decision: instead of making every visitor read through everything, the page asks one question and routes them to their own path."
+  cards={[
+    { label: 'Problem', title: 'Three audiences, one homepage', body: "Parents, adult learners, and Tai Chi students have different fears, motivations, and vocabulary. A single narrative can't address all three without feeling vague." },
+    { label: 'Decision', title: 'Segment first, sell second', body: 'Three visually distinct cards with real training photos route each visitor immediately. Copy is audience-specific from this point forward.' },
+    { label: 'Effect', title: 'Reduced cognitive load', body: "Visitors don't have to figure out if Pantera is for them — they see themselves in the card and continue. Bounce probability drops at this section." },
+  ]}
+/>
+
+<Figure caption="Three audience cards as rendered on dofbur.pl — children, adults, seniors. (screenshot to come)" />
+
+<BeforeAfter
+  id="rejected-layouts"
+  heading="Rejected layouts"
+  intro="Two alternative directions were explored and discarded before arriving at the final design."
+  pairs={[
+    {
+      rejectedLabel: 'Rejected — v1',
+      rejectedTitle: 'Torn paper divider between sections',
+      rejectedBody: 'Organic "ripped" SVG edge between hero and first content section. Intended to add visual dynamism. Discarded because it clashed with the geometric, sharp visual language of the brand — and at execution quality achievable without custom illustration, read as a generic template element.',
+      finalLabel: 'Final',
+      finalTitle: 'Clean section break, no divider',
+      finalBody: "Background color shift from dark hero to light content section provides sufficient visual separation. No additional element needed. A neutral transition doesn't compete with the content — which is the point.",
+    },
+    {
+      rejectedLabel: 'Rejected — v2',
+      rejectedTitle: 'Repeating 3-column grid throughout',
+      rejectedBody: 'Offer cards, instructor cards, review cards, and pricing all used identical 3-column grid. Created visual fatigue — every section had equal visual weight, removing hierarchy. Users stopped scanning because the layout gave no signal about what mattered most.',
+      finalLabel: 'Final',
+      finalTitle: 'Varied layout rhythm',
+      finalBody: '50/50 split for USP section, marquee scroll for reviews, standard 3-col for instructors. Rhythm variation signals hierarchy: marquee reviews feel infinite (more social proof), 50/50 sections feel deliberate. Each section has a distinct visual signature.',
+    },
+  ]}
+/>
+
+<DecisionGrid
+  id="reviews"
+  heading="Social proof — reviews"
+  intro="Rather than a static grid of testimonials, reviews are presented as two horizontal marquee rows scrolling in opposite directions."
+  cards={[
+    { label: 'Motion direction', title: 'Counter-scroll rows', body: "Row 1 scrolls left, row 2 scrolls right. The visual tension between them draws attention and creates a sense of depth — reviews feel like they're arriving from multiple sources simultaneously." },
+    { label: 'Psychological effect', title: 'Implied scale', body: 'A static grid of 6 reviews communicates "here are all our reviews." An infinite marquee communicates "there are too many to count." The latter is the accurate framing for a club with 100+ Google reviews.' },
+    { label: 'UX note', title: 'Pause on hover', body: 'Animation pauses on hover, allowing users who want to read a full review to do so without chasing a moving card. Accessibility baseline for motion-sensitive users.' },
+  ]}
+/>
+
+<Quote>
+In martial arts schools, students choose their instructor before they choose the club. Michał, Tomasz, and Janusz are the product. Presenting them as real people with credentials and faces removes the abstraction — a parent is no longer enrolling in "Pantera," they're trusting their child to Michał Jaworski, Krav Maga instructor.
+</Quote>
+
+<BeforeAfter
+  id="pricing"
+  heading="Pricing section"
+  intro='The pricing section presents three tiers but deliberately avoids the "most popular" badge found in the rejected layout.'
+  pairs={[
+    {
+      rejectedLabel: 'Rejected approach',
+      rejectedTitle: '"Most popular" badge on middle tier',
+      rejectedBody: "Standard SaaS pricing pattern. Works when clicking a plan leads to checkout. At Pantera, there is no checkout — the action is to call or send a message. The badge creates urgency toward a decision that can't actually be made on the page. Empty pattern.",
+      finalLabel: 'Final',
+      finalTitle: 'Three tiers, contact-first CTAs',
+      finalBody: 'Each plan leads to "Skontaktuj się" or "Zapisz się" — every path goes through a human. The first tier ("Zapytaj o cenę") removes the price entirely for B2B/corporate clients, preventing premature price objections for high-LTV contracts.',
+    },
+  ]}
+/>
+
+<Chapter id="performance" title="Performance">
+
+The redesign reaches a Lighthouse score of 94 / 92 / 100 / 100, up from 83 / 86 / 73 / 85. The headline numbers are useful, but the most meaningful gain is the metric that does not appear in marketing: Cumulative Layout Shift dropping from 0.235 to 0.015. CLS is the only Core Web Vital users actually feel — visible jumps in content as the page loads, the button that moves under your finger as you tap it, the image that pushes the headline downward. The old site was sitting near Google's "poor" threshold of 0.25. The new one is comfortably inside the "good" range, a 94% improvement.
+
+What fixed CLS was unglamorous: every image now has explicit width and height attributes so the browser reserves space before the bytes arrive; display fonts are preloaded with `font-display: swap` instead of letting them block render; and the WordPress theme CSS that loaded asynchronously and competed with the page during render is simply gone. These are not optimizations in the clever sense. They are the absence of choices the previous theme made by accident.
+
+The Lighthouse jump from 83 to 94 in performance is partly structural, not just optimization. Static generation means the public pages are pre-rendered HTML with no PHP execution per request and no database query on page load. The video hero is heavier than the old static image, but the rest of the page is faster by enough margin that net load time still falls inside Google's "good" thresholds. The 100/100 in Best Practices and SEO is a quieter win: clean dependency management, proper HTTPS on every asset, schema.org markup for LocalBusiness and SportsActivityLocation — none of which existed on the old site, all of which compound over time in organic search.
+
+</Chapter>
+
+<LighthouseCompare
+  id="lighthouse"
+  heading="Lighthouse before & after"
+  oldLabel="pantera.waw.pl — old site"
+  newLabel="dofbur.pl — redesign"
+  metrics={[
+    { name: 'Performance', oldScore: 83, newScore: 94 },
+    { name: 'Accessibility', oldScore: 86, newScore: 92 },
+    { name: 'Best Practices', oldScore: 73, newScore: 100 },
+    { name: 'SEO', oldScore: 85, newScore: 100 },
+  ]}
+/>
+
+<Figure caption="PageSpeed Insights panel for dofbur.pl — Performance 94, Accessibility 92, Best Practices 100, SEO 100. (screenshot to come)" />
+
+<InsightGrid
+  id="insights"
+  heading="What actually changed"
+  intro={'The most meaningful improvement is Cumulative Layout Shift — the metric users actually feel. The old site scored 0.235, sitting near Google\'s "poor" threshold of 0.25, which meant visible content jumps as the page loaded. The redesign brings it to 0.015, fully inside the "good" range.'}
+  cards={[
+    { label: 'CLS 0.235 → 0.015', body: 'The headline win. Layout shift was caused by images without explicit dimensions and late-loading fonts on the old site. Fixed by setting width/height attributes on every image and using font-display: swap with proper preload.' },
+    { label: 'Best Practices 73 → 100', body: 'Old site had mixed content warnings, insecure third-party scripts, and deprecated APIs from old plugins. Perfect 100 reflects clean dependency management and proper HTTPS across all assets.' },
+    { label: 'SEO 85 → 100', body: 'Correct heading hierarchy, meta descriptions, alt attributes, and structured data — all absent or broken on the old site. The new site ships with proper schema.org markup for LocalBusiness and SportsActivityLocation.' },
+    { label: 'Performance 83 → 94', body: 'Static generation eliminates per-request PHP execution. The redesign also serves a video hero — load times remain comfortably within Google\'s "good" thresholds despite the heavier above-the-fold asset.' },
+  ]}
+/>
+
+<IssueList
+  id="old-issues"
+  heading="What the old site communicated"
+  intro="The previous pantera.waw.pl used a generic WordPress theme with no brand-specific design system. Several structural decisions actively worked against conversion."
+  issues={[
+    { title: 'No visual hierarchy', description: "Six 3-column cards on the homepage with equal weight — Krav Maga, children's classes, birthday parties competing identically. No segmentation, no routing." },
+    { title: 'No trust signals above fold', description: 'No stars, no social proof, no instructor faces visible without scrolling. The hero shows a stock-style image with text overlay — generic.' },
+    { title: 'ALL CAPS in headings', description: '"PANTERA – KLUB SAMOOBRONY KRAV MAGA" in uppercase with small caps — dated typographic convention that reduces readability and trust.' },
+    { title: 'Buried CTA', description: '"Zapisz on-line" is a single nav item among six others — same visual weight as "Kontakt." No primary CTA button above the fold.' },
+    { title: 'Fragmented dark zones', description: 'Navigation bar in dark navy, hero in a separate dark treatment — two competing dark zones with no relationship, creating visual fragmentation.' },
+    { title: 'CLS 0.235', description: 'Layout shift in the poor range — visible jumps on load, damaging both user experience and Google ranking signals.' },
+  ]}
+/>
+
+<Chapter id="stack" title="Stack">
+
+Replacing WordPress was not necessary purely for performance — it was necessary for control. Shared hosting cannot run Node.js or PostgreSQL, schema lives inside the host's database with no migrations and no version control, and every plugin is a third-party dependency operating outside your codebase. The new stack moves all of those concerns into the project: collections defined in TypeScript, schema migrations handled by Payload, deployment and SSL handled by Coolify on a Hetzner VPS. Performance is the visible win; the structural win is that nothing about content management or hosting requires me to log into someone else's dashboard to do my job.
+
+Payload was chosen over the obvious alternatives for specific reasons. Sanity is excellent but charges per editor seat at scale, and for a single-location club where the staff who edit content might grow from one to four people over a few years, that pricing model is hostile in the long term. Strapi is closer to Payload in shape but rougher around the edges, and its v5 migration discouraged committing to it for a production build that needs to last. Contentful is mature and expensive in a way that makes no sense at this size. Payload is open source, self-hosted, type-safe by default, and the admin UI is significantly cleaner than WordPress for non-technical users — no plugin menu, no theme customizer, no fifteen-year-old UX debt. The client sees only the collections they need, with field labels in Polish.
+
+Hosting on Hetzner via Coolify rather than Vercel was a deliberate trade-off. Vercel is the path of least resistance for Next.js — push to git, get a deploy. The catch is that Vercel's pricing scales with traffic and bandwidth in ways that punish video-heavy sites the moment they become successful, and the abstractions hide the underlying server in a way that becomes painful when you need to debug something specific. Coolify on a €5/month Hetzner VPS gives you Vercel-like ergonomics — automatic deploys from git, built-in reverse proxy, automatic SSL — on a flat-rate machine you fully control. It is more setup up front in exchange for predictable cost and a server that does not surprise you. For a project that is also a template for future agency clients, that predictability matters more than the convenience of zero configuration.
+
+</Chapter>
+
+<StackCompare
+  id="stack-migration"
+  heading="Stack migration"
+  intro="The Pantera project is being rebuilt from a shared-hosting WordPress install to a modern headless stack — Next.js as the frontend framework, Payload CMS as the content layer, PostgreSQL as the database, and a Hetzner VPS replacing shared hosting. This is not just a redesign: it's a full infrastructure replacement."
+  oldHeader="Old stack — pantera.waw.pl"
+  newHeader="New stack — dofbur.pl → pantera.waw.pl"
+  oldItems={[
+    { name: 'WordPress (theme-based)', desc: 'Generic theme, no design system, content and presentation tightly coupled' },
+    { name: 'Shared hosting', desc: 'No control over PHP version, server config, or caching strategy' },
+    { name: 'MySQL (managed by host)', desc: 'No direct access, no migrations, no version control on schema' },
+    { name: 'Plugin-dependent', desc: 'SEO, forms, caching, security — all via third-party plugins of varying quality' },
+  ]}
+  newItems={[
+    { name: 'Next.js 14 (App Router)', desc: 'React server components, static generation for public pages, API routes for forms' },
+    { name: 'Payload CMS 3.x', desc: 'Headless CMS with typed collections, admin panel for client, no plugin dependency' },
+    { name: 'PostgreSQL on Hetzner VPS', desc: 'Full control, schema migrations via Payload, no shared-resource bottlenecks' },
+    { name: 'Hetzner VPS (CX22) + Coolify', desc: 'Dedicated compute managed via Coolify — automatic deploys from git, built-in reverse proxy and SSL, full server access' },
+  ]}
+/>
+
+<ArchDiagram
+  id="architecture"
+  heading="How it fits together"
+  rows={[
+    {
+      label: 'Content layer',
+      nodes: [
+        { text: 'Payload CMS admin', accent: true, connector: 'arrow' },
+        { text: 'PostgreSQL', connector: 'arrow' },
+        { text: 'Payload REST / GraphQL API', connector: 'none' },
+      ],
+    },
+    {
+      label: 'Frontend layer',
+      nodes: [
+        { text: 'Next.js App Router', accent: true, connector: 'arrow' },
+        { text: 'Static pages (ISR)', connector: 'plus' },
+        { text: 'API routes (forms)', connector: 'none' },
+      ],
+    },
+    {
+      label: 'Hosting layer',
+      nodes: [
+        { text: 'Hetzner VPS', connector: 'arrow' },
+        { text: 'Coolify', accent: true, connector: 'arrow' },
+        { text: 'Reverse proxy + SSL', connector: 'none' },
+      ],
+    },
+  ]}
+/>
+
+<Figure caption="Coolify dashboard — Pantera deployment with auto-deploys from main branch. (screenshot to come)" />
+
+<Figure caption="Payload CMS admin — Pantera Projects collection with case study builder open. (screenshot to come)" />
+
+<DecisionGrid
+  id="why-this-stack"
+  heading="Why this stack"
+  cards={[
+    { label: 'Next.js over WordPress', title: 'Performance by default', body: 'Static generation means public pages are pre-rendered HTML — no PHP execution on request, no database query on page load. The Lighthouse gap between old and new site is partly structural, not just optimization.' },
+    { label: 'Payload over ACF', title: 'Type-safe content schema', body: 'Payload collections are defined in TypeScript — instructors, classes, schedules have validated schemas. No more broken content from accidentally deleted required fields. Clean admin panel, not a duct-taped WordPress backend.' },
+    { label: 'Payload over Sanity', title: 'No seat-based pricing', body: 'Sanity charges per editor seat at scale. Payload is self-hosted and open source — the client owns their CMS with no recurring SaaS cost. For a single-location sports club, this is the right trade-off.' },
+    { label: 'VPS over shared hosting', title: 'Full infrastructure control', body: "Shared hosting can't run Node.js processes or PostgreSQL. The VPS enables the entire stack, plus Coolify handles deploys, reverse proxy, and SSL out of the box — none of which were possible on the old host." },
+    { label: 'PostgreSQL over MySQL', title: "Payload's native target", body: 'Payload 3.x uses Drizzle ORM with PostgreSQL as the primary target. Running the recommended combination avoids adapter quirks and gives access to full SQL capabilities — useful for future booking or reporting features.' },
+    { label: 'Scalability', title: 'Reusable agency template', body: 'The Next.js + Payload + Postgres + Hetzner stack is now a repeatable base for future sport and martial arts school clients. WordPress was client-specific; this stack is productizable.' },
+  ]}
+/>
+
+<Quote>
+Payload's admin UI is significantly cleaner than WordPress for non-technical users — no plugin menu, no theme customizer, no 15-year-old UX debt. The client sees only the collections they need, with field labels in Polish.
+</Quote>
+
+<Tradeoffs
+  id="tradeoffs"
+  heading="Honest trade-offs"
+  intro="The new stack is the right choice, but it's not free. Documenting both sides keeps the case study honest."
+  prosLabel="Gains"
+  consLabel="Costs"
+  pros={[
+    'Full control over server, caching, SSL',
+    'Type-safe content with no plugin dependencies',
+    'Performance ceiling much higher than WordPress shared',
+    'No recurring CMS licensing cost',
+    'Reusable stack for future clients',
+    'SEO 85 → 100, Best Practices 73 → 100',
+  ]}
+  cons={[
+    'Higher initial build time vs WordPress theme',
+    'VPS requires manual server maintenance',
+    'No plugin ecosystem — custom code for edge cases',
+    'Client onboarding to Payload takes more time than WP',
+    'Manual updates for Next.js / Payload security patches',
+  ]}
+/>
+
+<Pills items={['Next.js 14', 'Payload CMS 3.x', 'PostgreSQL', 'Drizzle ORM', 'TypeScript', 'Tailwind CSS', 'Hetzner VPS', 'Coolify']} />

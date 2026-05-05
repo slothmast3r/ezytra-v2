@@ -2,7 +2,6 @@ import 'dotenv/config'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { authors } from './seed/data/authors'
-import { projects } from './seed/data/projects'
 import { posts } from './seed/data/posts'
 
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL ?? 'admin@ezytra.pl'
@@ -18,9 +17,6 @@ async function seed() {
 
   const { docs: existingAuthors } = await payload.find({ collection: 'authors', limit: 100 })
   for (const a of existingAuthors) await payload.delete({ collection: 'authors', id: a.id })
-
-  const { docs: existingProjects } = await payload.find({ collection: 'projects', limit: 100 })
-  for (const p of existingProjects) await payload.delete({ collection: 'projects', id: p.id })
 
   // ── Users ──────────────────────────────────────────────────────────────────
   console.log('Seeding admin user...')
@@ -40,13 +36,6 @@ async function seed() {
     const created = await payload.create({ collection: 'authors', data: author })
     seededAuthors[author.name] = created.id
     console.log(`  ✓ ${author.name}`)
-  }
-
-  // ── Projects ───────────────────────────────────────────────────────────────
-  console.log('Seeding projects...')
-  for (const project of projects) {
-    await payload.create({ collection: 'projects', data: project })
-    console.log(`  ✓ ${project.name}`)
   }
 
   // ── Posts ──────────────────────────────────────────────────────────────────
