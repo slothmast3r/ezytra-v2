@@ -5,6 +5,13 @@
   scroll-margin-top: 6rem;
 }
 
+.cs-chapter,
+.cs-overview,
+.cs-challenge,
+.cs-image {
+  padding-inline: 0;
+}
+
 .cs-content {
   --cs-success-bg: rgba(120, 180, 130, 0.1);
   --cs-success-text: #a8d4ad;

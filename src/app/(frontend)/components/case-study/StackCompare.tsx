@@ -27,8 +27,8 @@ export function StackCompare({
       <div className="cs-stack-compare">
         <div className="cs-stack-col">
           <div className="cs-stack-col-header old">{oldHeader}</div>
-          {oldItems.map((it, j) => (
-            <div key={j} className="cs-stack-item">
+          {oldItems.map((it) => (
+            <div key={it.name} className="cs-stack-item">
               <span className="cs-si-dot old" />
               <div>
                 <div className="cs-si-name">{it.name}</div>
@@ -39,8 +39,8 @@ export function StackCompare({
         </div>
         <div className="cs-stack-col">
           <div className="cs-stack-col-header new">{newHeader}</div>
-          {newItems.map((it, j) => (
-            <div key={j} className="cs-stack-item">
+          {newItems.map((it) => (
+            <div key={it.name} className="cs-stack-item">
               <span className="cs-si-dot new" />
               <div>
                 <div className="cs-si-name">{it.name}</div>

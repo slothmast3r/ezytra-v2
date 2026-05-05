@@ -8,7 +8,7 @@ export function Overview({
   role: React.ReactNode
 }) {
   return (
-    <section id={id} className="cs-overview" style={{ paddingLeft: 0, paddingRight: 0 }}>
+    <section id={id} className="cs-overview">
       <p className="eyebrow">— Overview</p>
       <div className="cs-overview__grid">
         <div className="cs-overview__col">

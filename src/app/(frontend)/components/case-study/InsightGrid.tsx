@@ -19,8 +19,8 @@ export function InsightGrid({
       {heading && <h2 className="cs-block__heading">{heading}</h2>}
       {intro && <p className="cs-block__intro">{intro}</p>}
       <div className="cs-insight-grid">
-        {cards.map((card, j) => (
-          <div key={j} className="cs-insight-card">
+        {cards.map((card) => (
+          <div key={card.label} className="cs-insight-card">
             <div className="cs-ic-label">{card.label}</div>
             <p>{card.body}</p>
           </div>

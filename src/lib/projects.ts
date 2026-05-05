@@ -1,12 +1,12 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import type { ComponentType } from 'react'
+import { cache, type ComponentType } from 'react'
 import type { ProjectMeta } from './project-meta'
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'projects')
 
-async function readFrontmatter(slug: string): Promise<ProjectMeta | null> {
+const readFrontmatter = cache(async (slug: string): Promise<ProjectMeta | null> => {
   const filePath = path.join(CONTENT_DIR, `${slug}.mdx`)
   try {
     const raw = await fs.readFile(filePath, 'utf8')
@@ -15,35 +15,31 @@ async function readFrontmatter(slug: string): Promise<ProjectMeta | null> {
   } catch {
     return null
   }
-}
+})
 
-export async function getProjectSlugs(): Promise<string[]> {
+export const getProjectSlugs = cache(async (): Promise<string[]> => {
   try {
     const files = await fs.readdir(CONTENT_DIR)
     return files.filter((f) => f.endsWith('.mdx')).map((f) => f.replace(/\.mdx$/, ''))
   } catch {
     return []
   }
-}
+})
 
-export async function getAllProjects(): Promise<ProjectMeta[]> {
+export const getAllProjects = cache(async (): Promise<ProjectMeta[]> => {
   const slugs = await getProjectSlugs()
   const projects = await Promise.all(slugs.map((slug) => readFrontmatter(slug)))
   return projects
     .filter((p): p is ProjectMeta => p !== null)
     .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
-}
-
-export async function getProjectMeta(slug: string): Promise<ProjectMeta | null> {
-  return readFrontmatter(slug)
-}
+})
 
 export interface LoadedProject {
   meta: ProjectMeta
   Content: ComponentType
 }
 
-export async function getProjectBySlug(slug: string): Promise<LoadedProject | null> {
+export const getProjectBySlug = cache(async (slug: string): Promise<LoadedProject | null> => {
   const meta = await readFrontmatter(slug)
   if (!meta) return null
   try {
@@ -52,4 +48,4 @@ export async function getProjectBySlug(slug: string): Promise<LoadedProject | nu
   } catch {
     return { meta, Content: () => null }
   }
-}
+})

@@ -18,7 +18,7 @@ export function Figure({
   size?: 'small' | 'large' | 'full'
 }) {
   return (
-    <section id={id} className={`cs-image cs-image--${size}`} style={{ paddingLeft: 0, paddingRight: 0 }}>
+    <section id={id} className={`cs-image cs-image--${size}`}>
       <div className="cs-image__container">
         {src ? (
           <Image src={src} alt={alt || caption || ''} width={width} height={height} className="cs-image__img" />

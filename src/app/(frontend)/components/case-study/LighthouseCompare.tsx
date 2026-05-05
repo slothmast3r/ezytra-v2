@@ -10,6 +10,33 @@ function tier(score: number): 'good' | 'mid' | 'bad' {
   return 'bad'
 }
 
+function MetricColumn({
+  metrics,
+  pick,
+}: {
+  metrics: LighthouseMetric[]
+  pick: (m: LighthouseMetric) => number
+}) {
+  return (
+    <div className="cs-score-card">
+      {metrics.map((m) => {
+        const score = pick(m)
+        return (
+          <div key={m.name} className="cs-bar-row">
+            <div className="cs-bar-label">
+              <span>{m.name}</span>
+              <span>{score}</span>
+            </div>
+            <div className="cs-bar-track">
+              <div className={`cs-bar-fill ${tier(score)}`} style={{ width: `${score}%` }} />
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export function LighthouseCompare({
   id,
   heading,
@@ -34,32 +61,8 @@ export function LighthouseCompare({
         <div className="cs-col-label cs-col-new">{newLabel}</div>
       </div>
       <div className="cs-score-grid">
-        <div className="cs-score-card">
-          {metrics.map((m, j) => (
-            <div key={j} className="cs-bar-row">
-              <div className="cs-bar-label">
-                <span>{m.name}</span>
-                <span>{m.oldScore}</span>
-              </div>
-              <div className="cs-bar-track">
-                <div className={`cs-bar-fill ${tier(m.oldScore)}`} style={{ width: `${m.oldScore}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="cs-score-card">
-          {metrics.map((m, j) => (
-            <div key={j} className="cs-bar-row">
-              <div className="cs-bar-label">
-                <span>{m.name}</span>
-                <span>{m.newScore}</span>
-              </div>
-              <div className="cs-bar-track">
-                <div className={`cs-bar-fill ${tier(m.newScore)}`} style={{ width: `${m.newScore}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
+        <MetricColumn metrics={metrics} pick={(m) => m.oldScore} />
+        <MetricColumn metrics={metrics} pick={(m) => m.newScore} />
       </div>
     </section>
   )

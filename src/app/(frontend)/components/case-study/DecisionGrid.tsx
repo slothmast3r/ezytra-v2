@@ -20,8 +20,8 @@ export function DecisionGrid({
       {heading && <h2 className="cs-block__heading">{heading}</h2>}
       {intro && <p className="cs-block__intro">{intro}</p>}
       <div className="cs-decision-grid">
-        {cards.map((card, j) => (
-          <div key={j} className="cs-decision-card">
+        {cards.map((card) => (
+          <div key={card.title} className="cs-decision-card">
             <div className="cs-dc-label">{card.label}</div>
             <h3 className="cs-dc-title">{card.title}</h3>
             <p>{card.body}</p>
