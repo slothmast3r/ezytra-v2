@@ -22,8 +22,8 @@ export function BeforeAfter({
     <section id={id} className="cs-block cs-ba">
       {heading && <h2 className="cs-block__heading">{heading}</h2>}
       {intro && <p className="cs-block__intro">{intro}</p>}
-      {pairs.map((pair, j) => (
-        <div key={j} className="cs-before-after">
+      {pairs.map((pair) => (
+        <div key={pair.finalTitle} className="cs-before-after">
           <div className="cs-ba-card">
             <div className="cs-ba-label rejected">{pair.rejectedLabel || 'Rejected'}</div>
             <div className="cs-ba-body">

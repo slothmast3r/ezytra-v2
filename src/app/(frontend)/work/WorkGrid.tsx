@@ -3,23 +3,9 @@
 import { useState, useMemo } from 'react'
 import Button from '../components/Button'
 import Image from 'next/image'
+import type { ProjectMeta } from '@/lib/project-meta'
 
-interface Project {
-  slug: string
-  name: string
-  location: string
-  tags?: string[]
-  desc: string
-  url?: string
-  href?: string
-  type?: string
-  year?: string
-  featured?: boolean
-  hasCaseStudy?: boolean
-  status?: 'live' | 'dev' | 'completed' | 'archived'
-  order: number
-  image?: string
-}
+type Project = ProjectMeta
 
 const STATUS_LABELS: Record<string, string> = {
   live: 'Live',

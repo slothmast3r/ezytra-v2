@@ -26,7 +26,7 @@ async function WorkHero() {
 
 async function WorkContent() {
   const projects = await getAllProjects();
-  return <WorkGrid projects={projects as any} />;
+  return <WorkGrid projects={projects} />;
 }
 
 export default function WorkPage() {

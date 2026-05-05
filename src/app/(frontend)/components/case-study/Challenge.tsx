@@ -1,3 +1,5 @@
+import { Constraints } from './Constraints'
+
 export function Challenge({
   id,
   heading,
@@ -10,19 +12,11 @@ export function Challenge({
   constraints?: string[]
 }) {
   return (
-    <section id={id} className="cs-challenge" style={{ paddingLeft: 0, paddingRight: 0 }}>
+    <section id={id} className="cs-challenge">
       <p className="eyebrow">— The Challenge</p>
       <h2 className="cs-challenge__heading">{heading}</h2>
       <div className="cs-challenge__body">{children}</div>
-      {constraints && constraints.length > 0 && (
-        <div className="cs-challenge__constraints">
-          {constraints.map((text, j) => (
-            <div key={j} className="cs-constraint">
-              — {text}
-            </div>
-          ))}
-        </div>
-      )}
+      {constraints && constraints.length > 0 && <Constraints items={constraints} />}
     </section>
   )
 }
