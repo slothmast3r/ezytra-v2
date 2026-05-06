@@ -12,6 +12,13 @@
   padding-inline: 0;
 }
 
+.cs-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
 .cs-content {
   --cs-success-bg: rgba(120, 180, 130, 0.1);
   --cs-success-text: #a8d4ad;
