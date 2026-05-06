@@ -299,8 +299,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
+.cs-col-label--inline {
+  display: none;
+  margin-bottom: 1rem;
+}
 @media (max-width: 768px) {
-  .cs-score-grid, .cs-compare-header { grid-template-columns: 1fr; }
+  .cs-score-grid { grid-template-columns: 1fr; }
+  .cs-compare-header { display: none; }
+  .cs-col-label--inline { display: block; }
 }
 .cs-score-card {
   background: var(--bg-2);
@@ -682,4 +688,28 @@
 .cs-pill:hover {
   color: var(--accent);
   border-color: var(--border-2);
+}
+
+/* ===== Mobile sweep ===== */
+@media (max-width: 768px) {
+  .cs-content .cs-overview__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .cs-challenge__constraints {
+    grid-template-columns: 1fr;
+  }
+  .cs-chapter {
+    padding: 3rem 0 1.5rem;
+  }
+  .cs-chapter__heading {
+    margin-bottom: 1.75rem;
+  }
+  .cs-anno-list li {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .cs-arch-diagram {
+    padding: 1.25rem;
+  }
 }

@@ -13,12 +13,17 @@ function tier(score: number): 'good' | 'mid' | 'bad' {
 function MetricColumn({
   metrics,
   pick,
+  label,
+  variant,
 }: {
   metrics: LighthouseMetric[]
   pick: (m: LighthouseMetric) => number
+  label: string
+  variant: 'old' | 'new'
 }) {
   return (
     <div className="cs-score-card">
+      <div className={`cs-col-label cs-col-label--inline cs-col-${variant}`}>{label}</div>
       {metrics.map((m) => {
         const score = pick(m)
         return (
@@ -61,8 +66,8 @@ export function LighthouseCompare({
         <div className="cs-col-label cs-col-new">{newLabel}</div>
       </div>
       <div className="cs-score-grid">
-        <MetricColumn metrics={metrics} pick={(m) => m.oldScore} />
-        <MetricColumn metrics={metrics} pick={(m) => m.newScore} />
+        <MetricColumn metrics={metrics} pick={(m) => m.oldScore} label={oldLabel} variant="old" />
+        <MetricColumn metrics={metrics} pick={(m) => m.newScore} label={newLabel} variant="new" />
       </div>
     </section>
   )

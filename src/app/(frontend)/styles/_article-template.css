@@ -169,6 +169,16 @@ Article Template
   border-bottom: 1px solid var(--border);
 }
 
+@media (max-width: 1024px) {
+  .art-body {
+    grid-template-columns: 1fr;
+  }
+
+  .art-toc {
+    display: none;
+  }
+}
+
 /* ── TOC sidebar ── */
 
 .art-toc {
