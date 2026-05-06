@@ -10,6 +10,7 @@ const dirname = path.dirname(__filename)
 const nextConfig: NextConfig = {
   pageExtensions: ['ts', 'tsx', 'mdx'],
   images: {
+    qualities: [70, 75],
     localPatterns: [
       {
         pathname: '/api/media/file/**',

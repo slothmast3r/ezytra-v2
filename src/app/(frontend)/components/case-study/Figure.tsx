@@ -8,6 +8,7 @@ export function Figure({
   width = 1200,
   height = 800,
   size = 'large',
+  priority = false,
 }: {
   id?: string
   src?: string
@@ -16,12 +17,13 @@ export function Figure({
   width?: number
   height?: number
   size?: 'small' | 'large' | 'full'
+  priority?: boolean
 }) {
   return (
     <section id={id} className={`cs-image cs-image--${size}`}>
       <div className="cs-image__container">
         {src ? (
-          <Image src={src} alt={alt || caption || ''} width={width} height={height} className="cs-image__img" />
+          <Image src={src} alt={alt || caption || ''} width={width} height={height} className="cs-image__img" priority={priority} quality={70} />
         ) : (
           <div className="cs-image__placeholder">
             <span className="cs-image__placeholder-label">Image placeholder</span>
