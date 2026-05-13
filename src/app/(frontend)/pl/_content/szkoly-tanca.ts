@@ -19,6 +19,28 @@ export const szkolyTanca: NicheContent = {
     socialProof:
       "Zaprojektowane i zakodowane w Warszawie — bez podwykonawców i pośredników.",
   },
+  reality: {
+    heading: "Twoja strona może wyglądać OK. To nie znaczy, że działa.",
+    intro:
+      "Na pierwszy rzut oka wszystko jest. Logo, zdjęcia z pokazów, zakładki. Ale to, czy ktoś faktycznie się zapisze na zajęcia, zależy od trzech rzeczy — i one zwykle nie są w porządku.",
+    items: [
+      {
+        stat: "3 sekundy",
+        title: "Jeśli strona ładuje się wolno — wyjdą zanim ją obejrzą",
+        body: "Według badań Google ponad 50% użytkowników mobile zamyka stronę, jeśli ładuje się dłużej niż 3 sekundy. Twoje zdjęcia z pokazów po prostu nie zdążą się załadować.",
+      },
+      {
+        stat: "10 sek.",
+        title: "Wejście ≠ znalezienie tego, czego szukają",
+        body: "Po wejściu masz kilkanaście sekund, żeby pokazać: kto jesteś, co oferujesz, ile to kosztuje i jak się zapisać. Jeśli to nie jest oczywiste w pierwszym ekranie — wracają do Google.",
+      },
+      {
+        stat: "70%",
+        title: "Większość wchodzi z telefonu, nie z laptopa",
+        body: "Twoja strona musi działać bez zarzutu na ekranie 5-calowym. Mała czcionka, formularz na 5 kroków, grafik w PDF-ie — to powody, dla których nikt się nie zapisuje.",
+      },
+    ],
+  },
   problems: {
     heading: "Co najczęściej blokuje zapisy w szkołach tańca",
     items: [

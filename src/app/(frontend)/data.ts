@@ -3,6 +3,8 @@ export const SITE_DATA = {
   brand: 'Ezytra',
   url: 'https://ezytra.com',
   email: 'oskar@straszynski.pl',
+  phone: '+48 577 966 612',
+  phoneTel: '+48577966612',
   location: 'Warsaw, Poland',
   github: 'https://github.com/slothmast3r',
   instagram: 'https://instagram.com/ezytra.webdesign',

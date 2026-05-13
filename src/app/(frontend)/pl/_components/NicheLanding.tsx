@@ -13,6 +13,7 @@ export function NicheLanding({ content }: Props) {
     <div className={`pl-landing ${accentClass}`}>
       <JsonLd content={content} />
       <Hero content={content} />
+      <Reality content={content} />
       <Problems content={content} />
       <Features content={content} />
       <CaseStudy content={content} />
@@ -40,6 +41,26 @@ function Hero({ content }: Props) {
           </a>
         </div>
         <p className="pl-hero__proof">{content.hero.socialProof}</p>
+      </div>
+    </section>
+  )
+}
+
+function Reality({ content }: Props) {
+  return (
+    <section className="pl-section pl-reality">
+      <div className="pl-reality__intro">
+        <h2 className="pl-section__h2 pl-reality__h2">{content.reality.heading}</h2>
+        <p className="pl-reality__lede">{content.reality.intro}</p>
+      </div>
+      <div className="pl-reality__grid">
+        {content.reality.items.map((item, i) => (
+          <div key={i} className="pl-reality__card">
+            <div className="pl-reality__stat">{item.stat}</div>
+            <h3 className="pl-reality__title">{item.title}</h3>
+            <p className="pl-reality__body">{item.body}</p>
+          </div>
+        ))}
       </div>
     </section>
   )
@@ -156,13 +177,26 @@ function Contact({ content }: Props) {
     <section id="kontakt" className="pl-section pl-contact">
       <h2 className="pl-section__h2">{content.contact.heading}</h2>
       <p className="pl-contact__sub">{content.contact.subheading}</p>
-      <ContactForm
-        niche={content.niche}
-        schoolFieldLabel={content.contact.schoolFieldLabel}
-        schoolFieldPlaceholder={content.contact.schoolFieldPlaceholder}
-        submitLabel={content.contact.submitLabel}
-        successMessage={content.contact.successMessage}
-      />
+      <div className="pl-contact__grid">
+        <ContactForm
+          niche={content.niche}
+          schoolFieldLabel={content.contact.schoolFieldLabel}
+          schoolFieldPlaceholder={content.contact.schoolFieldPlaceholder}
+          submitLabel={content.contact.submitLabel}
+          successMessage={content.contact.successMessage}
+        />
+        <aside className="pl-contact__direct">
+          <p className="pl-contact__direct-label">Albo skontaktuj się bezpośrednio</p>
+          <p className="pl-contact__direct-name">{SITE_DATA.name}</p>
+          <a className="pl-contact__direct-link" href={`tel:${SITE_DATA.phoneTel}`}>
+            {SITE_DATA.phone}
+          </a>
+          <a className="pl-contact__direct-link" href={`mailto:${SITE_DATA.email}`}>
+            {SITE_DATA.email}
+          </a>
+          <p className="pl-contact__direct-hours">Pon.–pt., 9:00–18:00</p>
+        </aside>
+      </div>
     </section>
   )
 }

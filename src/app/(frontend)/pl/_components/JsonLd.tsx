@@ -17,6 +17,7 @@ export function JsonLd({ content }: { content: NicheContent }) {
         name: SITE_DATA.brand,
         url: `${SITE_DATA.url}/pl/${content.slug}`,
         email: SITE_DATA.email,
+        telephone: SITE_DATA.phone,
         founder: SITE_DATA.name,
         areaServed: 'Warszawa, Polska',
         address: {

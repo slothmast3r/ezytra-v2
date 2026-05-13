@@ -13,6 +13,13 @@ export type NicheContent = {
     ctaPrimary: string
     ctaSecondary: string
     socialProof: string
+    availability: string
+    marqueeKeywords: string[]
+  }
+  reality: {
+    heading: string
+    intro: string
+    items: { stat: string; title: string; body: string }[]
   }
   problems: {
     heading: string
