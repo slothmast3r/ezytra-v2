@@ -44,6 +44,16 @@ const nextConfig: NextConfig = {
         destination: '/about',
         permanent: true,
       },
+      {
+        source: '/featured',
+        destination: '/work',
+        permanent: true,
+      },
+      {
+        source: '/privacy-policy',
+        destination: '/pl/polityka-prywatnosci',
+        permanent: false,
+      },
     ]
   },
 }

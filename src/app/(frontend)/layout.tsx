@@ -4,6 +4,7 @@ import { headers } from 'next/headers'
 import './styles.css'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { SITE_DATA } from './data'
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin', 'latin-ext'],
@@ -22,6 +23,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
 })
 
 export const metadata = {
+  metadataBase: new URL(SITE_DATA.url),
   description:
     'Designer & Developer based in Warsaw. I design and build websites, end to end — design, code, CMS, and deployment.',
   title: 'Oskar Straszyński — Ezytra',
