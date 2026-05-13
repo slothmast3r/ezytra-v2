@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { SITE_DATA } from './data'
+import { SITE_DATA } from './(frontend)/data'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,5 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       disallow: '/admin/',
     },
     sitemap: `${SITE_DATA.url}/sitemap.xml`,
+    host: SITE_DATA.url,
   }
 }
