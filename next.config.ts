@@ -32,6 +32,15 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(dirname),
   },
+  async redirects() {
+    return [
+      {
+        source: '/pl',
+        destination: '/',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 const withMDX = createMDX({

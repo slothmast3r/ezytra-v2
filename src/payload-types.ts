@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     posts: Post;
     authors: Author;
+    leads: Lead;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -254,6 +256,24 @@ export interface Author {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: number;
+  name: string;
+  school: string;
+  contact: string;
+  message?: string | null;
+  niche?: ('taniec' | 'walki' | 'inne') | null;
+  /**
+   * URL strony, z której przyszedł lead
+   */
+  source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -291,6 +311,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'authors';
         value: number | Author;
+      } | null)
+    | ({
+        relationTo: 'leads';
+        value: number | Lead;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -459,6 +483,20 @@ export interface AuthorsSelect<T extends boolean = true> {
   role?: T;
   bio?: T;
   photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  name?: T;
+  school?: T;
+  contact?: T;
+  message?: T;
+  niche?: T;
+  source?: T;
   updatedAt?: T;
   createdAt?: T;
 }

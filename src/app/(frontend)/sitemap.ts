@@ -33,6 +33,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1 : 0.8,
   }))
 
+  // 2b. Polish niche landings
+  const plRoutes = [
+    { path: '/pl/strony-dla-szkol-tanca', priority: 0.9 },
+    { path: '/pl/strony-dla-szkol-walki', priority: 0.9 },
+    { path: '/pl/polityka-prywatnosci', priority: 0.2 },
+  ].map(({ path, priority }) => ({
+    url: `${SITE_DATA.url}${path}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: 'monthly' as const,
+    priority,
+  }))
+
   // 3. Map Dynamic Project Routes
   const projectRoutes = projects.map((project) => ({
     url: `${SITE_DATA.url}/work/${project.slug}`,
@@ -49,5 +61,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticRoutes, ...projectRoutes, ...postRoutes]
+  return [...staticRoutes, ...plRoutes, ...projectRoutes, ...postRoutes]
 }

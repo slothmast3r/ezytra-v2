@@ -1,5 +1,6 @@
 import { IBM_Plex_Mono, IBM_Plex_Serif } from 'next/font/google'
 import React from 'react'
+import { headers } from 'next/headers'
 import './styles.css'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -30,11 +31,13 @@ export const viewport = {
   themeColor: '#0b0b0c',
 }
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
+  const pathname = (await headers()).get('x-pathname') ?? ''
+  const lang = pathname.startsWith('/pl') ? 'pl' : 'en'
 
   return (
-    <html lang="en" className={`${ibmPlexMono.variable} ${ibmPlexSerif.variable}`}>
+    <html lang={lang} className={`${ibmPlexMono.variable} ${ibmPlexSerif.variable}`}>
       <body>
         <main>{children}</main>
         <Analytics />
