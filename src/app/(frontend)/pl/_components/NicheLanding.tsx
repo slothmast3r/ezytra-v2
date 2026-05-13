@@ -7,10 +7,8 @@ import { SITE_DATA } from '../../data'
 type Props = { content: NicheContent }
 
 export function NicheLanding({ content }: Props) {
-  const accentClass = content.niche === 'walki' ? 'pl-landing--walki' : 'pl-landing--taniec'
-
   return (
-    <div className={`pl-landing ${accentClass}`}>
+    <div className="pl-landing">
       <JsonLd content={content} />
       <Hero content={content} />
       <Reality content={content} />

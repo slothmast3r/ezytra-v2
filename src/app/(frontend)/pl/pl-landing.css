@@ -8,11 +8,6 @@
   font-family: var(--font-mono);
 }
 
-.pl-landing--walki {
-  --pl-accent: #d96b4a;
-  --pl-accent-strong: #ff7a52;
-}
-
 /* --- Nav --- */
 .pl-nav {
   position: sticky;
