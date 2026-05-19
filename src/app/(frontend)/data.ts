@@ -14,5 +14,5 @@ export const SITE_DATA = {
 export const SOCIAL_LINKS = [
   { label: 'GitHub', href: SITE_DATA.github },
   { label: 'Hype4', href: SITE_DATA.hype4 },
-  { label: 'Instagram', href: SITE_DATA.instagram },
+  // { label: 'Instagram', href: SITE_DATA.instagram },
 ]
