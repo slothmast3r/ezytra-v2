@@ -13,19 +13,19 @@ const INFO = [
   {
     label: 'LinkedIn',
     value: '/in/oskarstraszynski',
-    sub: 'For professional background',
+    sub: 'Career history and recommendations',
     href: 'https://linkedin.com/in/oskarstraszynski',
   },
   {
     label: 'GitHub',
     value: 'github.com/slothmast3r',
-    sub: "See what I'm building",
+    sub: 'Open source and side projects',
     href: 'https://github.com/slothmast3r',
   },
   {
     label: 'Location',
     value: 'Warsaw, Poland',
-    sub: 'CET · Open to remote work',
+    sub: 'CET. Open to remote work.',
     href: null,
   },
 ]
@@ -48,12 +48,12 @@ export default function ContactPage() {
           </div>
           <div className="contact-hero__right">
             <p className="contact-hero__tagline">
-              — Tell me about your project. I&apos;ll get back within 24 hours.
+              Tell me about your project. I reply within one working day.
             </p>
             <p className="contact-hero__desc">
-              I&apos;m selective about the projects I take on — not because I&apos;m precious about
-              it, but because I want to do good work. If we&apos;re a fit, you&apos;ll know it
-              quickly.
+              I&apos;m selective about the work I take on. Not for the sake of it, but because
+              I&apos;d rather do one project well than three at half-attention. If we&apos;re a fit,
+              you&apos;ll know quickly.
             </p>
           </div>
         </div>

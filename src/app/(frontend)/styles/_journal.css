@@ -149,7 +149,7 @@
 }
 
 .jou-card__headline {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--text);

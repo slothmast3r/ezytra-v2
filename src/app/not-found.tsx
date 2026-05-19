@@ -1,25 +1,17 @@
-import { IBM_Plex_Mono, IBM_Plex_Serif } from 'next/font/google'
+import { IBM_Plex_Mono } from 'next/font/google'
 import React from 'react'
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500', '700'],
+  weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
   variable: '--font-mono',
   display: 'swap',
 })
 
-const ibmPlexSerif = IBM_Plex_Serif({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
-  display: 'swap',
-})
-
 export default function RootNotFound() {
   return (
-    <html lang="en" className={`${ibmPlexMono.variable} ${ibmPlexSerif.variable}`}>
+    <html lang="en" className={ibmPlexMono.variable}>
       <head>
         <style>{`
           *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +24,6 @@ export default function RootNotFound() {
             --border: #2e2e32;
             --border-2: #47474d;
             --font-mono: 'IBM Plex Mono', monospace;
-            --font-serif: 'IBM Plex Serif', serif;
             --px: clamp(5rem, 11.67vw, 20rem);
           }
           body { background: var(--bg); color: var(--text); }
@@ -89,7 +80,7 @@ export default function RootNotFound() {
             color: var(--muted);
           }
           .nf__code {
-            font-family: var(--font-serif);
+            font-family: var(--font-mono);
             font-weight: 700;
             font-size: clamp(7rem, 16vw, 14rem);
             line-height: 1;
@@ -105,7 +96,7 @@ export default function RootNotFound() {
             max-width: 43.75rem;
           }
           .nf__tagline {
-            font-family: var(--font-serif);
+            font-family: var(--font-mono);
             font-style: italic;
             font-size: 1.5rem;
             line-height: 1.4;

@@ -4,40 +4,80 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export async function sendEmail(formData: any) {
-  const { name, email, company, projectType, budget, message } = formData
+export interface ContactFormPayload {
+  name: string
+  email: string
+  company: string
+  message: string
+  projectType: string
+  budget: string
+}
+
+export type SendEmailResult =
+  | { success: true }
+  | { success: false; error: string }
+
+const MAX_LEN = {
+  name: 120,
+  email: 200,
+  company: 160,
+  projectType: 60,
+  budget: 60,
+  message: 5000,
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function clean(value: unknown, max: number): string {
+  if (typeof value !== 'string') return ''
+  return value.trim().slice(0, max)
+}
+
+export async function sendEmail(formData: ContactFormPayload): Promise<SendEmailResult> {
+  const name = clean(formData?.name, MAX_LEN.name)
+  const email = clean(formData?.email, MAX_LEN.email)
+  const company = clean(formData?.company, MAX_LEN.company)
+  const projectType = clean(formData?.projectType, MAX_LEN.projectType)
+  const budget = clean(formData?.budget, MAX_LEN.budget)
+  const message = clean(formData?.message, MAX_LEN.message)
+
+  if (!name || !email || !message) {
+    return { success: false, error: 'Missing required fields.' }
+  }
+  if (!EMAIL_RE.test(email)) {
+    return { success: false, error: 'Invalid email address.' }
+  }
+
+  // Subject is built from validated fields; strip CR/LF defensively to prevent header injection.
+  const safeSubjectName = name.replace(/[\r\n]/g, ' ')
+  const safeSubjectType = projectType.replace(/[\r\n]/g, ' ') || 'Project'
+
+  const text = [
+    'New project enquiry',
+    '',
+    `Name:         ${name}`,
+    `Email:        ${email}`,
+    `Company:      ${company || '—'}`,
+    `Project type: ${projectType || '—'}`,
+    `Budget:       ${budget || '—'}`,
+    '',
+    'Message:',
+    message,
+    '',
+    '— Sent from the ezytra.com contact form.',
+  ].join('\n')
 
   try {
-    const data = await resend.emails.send({
+    await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
       to: ['oskar.straszynski@gmail.com'],
-      subject: `New Project Enquiry: ${projectType} from ${name}`,
+      subject: `New Project Enquiry: ${safeSubjectType} from ${safeSubjectName}`,
       replyTo: email,
-      html: `
-        <div style="font-family: sans-serif; line-height: 1.6; color: #111;">
-          <h2 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">New Project Enquiry</h2>
-          
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Company:</strong> ${company || 'Not provided'}</p>
-          <p><strong>Project Type:</strong> ${projectType}</p>
-          <p><strong>Budget Range:</strong> ${budget}</p>
-          
-          <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 4px;">
-            <strong>Message:</strong><br/>
-            ${message.replace(/\n/g, '<br/>')}
-          </div>
-          
-          <p style="font-size: 12px; color: #666; margin-top: 30px;">
-            Sent from your portfolio website contact form.
-          </p>
-        </div>
-      `,
+      text,
     })
-
-    return { success: true, data }
+    return { success: true }
   } catch (error) {
     console.error('Email error:', error)
-    return { success: false, error }
+    return { success: false, error: 'Email service unavailable.' }
   }
 }

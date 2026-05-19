@@ -1,4 +1,5 @@
 :root {
+  /* ── Color ──────────────────────────────────────────────────────────── */
   --bg: #0b0b0c;
   --bg-2: #171719;
   --bg-3: #1f1f23;
@@ -6,10 +7,67 @@
   --muted: #b4b4b8;
   --accent: #e2d1a7;
   --accent-hover: #f0e4c0;
+  --ok: #6fcf6f;
+  --danger: #ef4444;
   --border: #2e2e32;
   --border-2: #47474d;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-  --font-serif: var(--font-mono);
+
+  /* ── Font families ──────────────────────────────────────────────────── */
+  /* IBM Plex Mono carries the whole identity — display, prose, UI, labels.
+     No separate serif: there is only mono, in committed weights and sizes. */
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── Type scale (fluid headings, fixed body) ────────────────────────── */
+  --text-micro: 0.6875rem;   /* 11px — eyebrow, kicker, meta dt */
+  --text-caption: 0.8125rem; /* 13px — captions, meta dd */
+  --text-small: 0.9375rem;   /* 15px — secondary prose, footnotes */
+  --text-body: 1rem;         /* 16px — body baseline */
+  --text-lede: 1.125rem;     /* 18px — ledes, large body */
+  --text-h4: clamp(1.25rem, 1.6vw, 1.5rem);
+  --text-h3: clamp(1.5rem, 2.4vw, 2rem);
+  --text-h2: clamp(2rem, 4.4vw, 3.5rem);
+  --text-h1: clamp(2.5rem, 5vw, 4rem);
+  --text-display: clamp(2.75rem, 9.5vw, 8rem);
+
+  /* ── Line height ────────────────────────────────────────────────────── */
+  --lh-tight: 0.92;     /* hero display */
+  --lh-snug: 1.05;      /* large headings */
+  --lh-heading: 1.2;    /* h3 / h4 */
+  --lh-normal: 1.5;     /* short copy */
+  --lh-body: 1.8;       /* long-form prose (mono needs the air) */
+
+  /* ── Tracking ───────────────────────────────────────────────────────── */
+  --track-display: -0.045em;
+  --track-heading: -0.035em;
+  --track-snug: -0.02em;
+  --track-default: -0.01em;
+  --track-caps: 0.18em;
+  --track-wide: 0.22em;
+
+  /* ── Weights (must stay in sync with layout.tsx font loader) ────────── */
+  --w-light: 300;
+  --w-regular: 400;
+  --w-medium: 500;
+  --w-semibold: 600;
+  --w-bold: 700;
+
+  /* ── Prose measure ──────────────────────────────────────────────────── */
+  --measure: 70ch;        /* long-form paragraph max */
+  --measure-narrow: 56ch; /* secondary copy, captions */
+
+  /* ── Spacing scale ──────────────────────────────────────────────────── */
+  /* Discrete: tight groupings of related elements */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  /* Fluid: section-level rhythm */
+  --space-2xl: clamp(3.5rem, 7vh, 6rem);
+  --space-3xl: clamp(5rem, 10vh, 8rem);
+  --space-4xl: clamp(7rem, 14vh, 11rem);
+
+  /* ── Layout ─────────────────────────────────────────────────────────── */
+  --nav-height: 5.5rem;
   --px: clamp(5rem, 11.67vw, 20rem);
 }
-

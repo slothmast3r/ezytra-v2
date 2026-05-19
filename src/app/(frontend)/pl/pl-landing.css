@@ -24,7 +24,7 @@
   padding: 1rem var(--px);
 }
 .pl-nav__brand {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text);
@@ -80,7 +80,7 @@
   border-top: 1px solid var(--border);
 }
 .pl-section__h2 {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: clamp(1.75rem, 3.5vw, 2.75rem);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -108,7 +108,7 @@
   border-radius: 999px;
 }
 .pl-hero__h1 {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: clamp(2.25rem, 6vw, 5rem);
   font-weight: 700;
   line-height: 1.05;
@@ -167,7 +167,7 @@
   flex-direction: column;
 }
 .pl-reality__stat {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: clamp(2.25rem, 4vw, 3rem);
   font-weight: 700;
   line-height: 1;
@@ -176,7 +176,7 @@
   margin-bottom: 1.25rem;
 }
 .pl-reality__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.3;
@@ -222,7 +222,7 @@
   padding-top: 0.4rem;
 }
 .pl-problems__h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: clamp(1.25rem, 2.2vw, 1.75rem);
   font-weight: 700;
   margin: 0 0 0.75rem;
@@ -253,7 +253,7 @@
   transform: translateY(-2px);
 }
 .pl-features__h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.15rem;
   font-weight: 700;
   margin: 0 0 0.6rem;
@@ -362,7 +362,7 @@
   font-weight: 600;
 }
 .pl-pricing__name {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.4rem;
   margin: 0 0 0.4rem;
   font-weight: 700;
@@ -427,7 +427,7 @@
   background: var(--bg-3);
 }
 .pl-faq__q {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.05rem;
   font-weight: 700;
   cursor: pointer;
@@ -528,7 +528,7 @@
   margin: 0 0 0.5rem;
 }
 .pl-contact__direct-name {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.15rem;
   font-weight: 700;
   margin: 0 0 0.25rem;
@@ -611,7 +611,7 @@
   margin: 0;
 }
 .pl-form__success {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.25rem;
   color: var(--pl-accent);
   padding: 2rem;
@@ -675,7 +675,7 @@
   text-transform: uppercase;
 }
 .pl-legal__h1 {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: clamp(2rem, 4.5vw, 3.25rem);
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -691,7 +691,7 @@
   margin-bottom: 2.5rem;
 }
 .pl-legal__section h2 {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: -0.01em;

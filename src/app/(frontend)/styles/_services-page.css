@@ -35,7 +35,7 @@ Services Page
 
 .ser-item__sticky {
   position: sticky;
-  top: 7rem;
+  top: calc(var(--nav-height) + 1.5rem);
 }
 
 .ser-item__title {

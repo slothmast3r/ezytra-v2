@@ -7,19 +7,19 @@ import Image from 'next/image'
 const SKILLS = [
   {
     cat: 'Design',
-    items: ['Figma', 'UI / UX', 'Wireframing', 'Branding', 'Design Systems'],
+    items: ['Figma', 'Relume', 'UI / UX', 'Wireframing', 'Branding', 'Design Systems'],
   },
   {
     cat: 'Development',
-    items: ['Next.js / React', 'TypeScript', 'Tailwind CSS', 'REST APIs', 'Git'],
+    items: ['Next.js / React', 'TypeScript', 'REST APIs'],
   },
   {
     cat: 'CMS & Data',
-    items: ['Payload CMS', 'Sanity', 'PostgreSQL', 'Prisma', 'Windsurf / MBO'],
+    items: ['Payload CMS', 'Sanity', 'PostgreSQL'],
   },
   {
     cat: 'Infra & SEO',
-    items: ['VPS / Linux', 'Nginx', 'On-page SEO', 'Core Web Vitals', 'Analytics'],
+    items: ['VPS / Linux', 'Nginx', 'On-page SEO', 'Core Web Vitals', 'Vercel Analytics'],
   },
 ]
 
@@ -27,7 +27,7 @@ const VALUES = [
   {
     num: '01',
     title: 'Craft over speed',
-    desc: "I'd rather spend an extra day getting something right than ship something mediocre. Details matter — users notice.",
+    desc: "I'd rather spend an extra day getting something right than ship something mediocre. Details matter; users notice.",
   },
   {
     num: '02',
@@ -37,39 +37,41 @@ const VALUES = [
   {
     num: '03',
     title: 'Full ownership',
-    desc: 'I design, I build, I deploy. No passing the buck between "the designer" and "the developer" — one point of contact.',
+    desc: 'I design, I build, I deploy. No passing the buck between "the designer" and "the developer"; one point of contact, from Figma to production.',
   },
   {
     num: '04',
     title: 'Simple over clever',
-    desc: "The best code is the code you forget is there. The best design is the one users don't notice — they just use it.",
+    desc: "The best code is the code you forget is there. The best design is the one users don't notice; they just use it.",
   },
 ]
-
-import { Shield, TrendingUp, Wind, Home } from 'lucide-react'
 
 const INTERESTS = [
   {
-    icon: <Shield size={24} strokeWidth={1.5} />,
     name: 'Krav Maga',
-    desc: 'I train regularly to challenge my body and build stamina. It brings confidence and the mental edge needed to handle crisis situations with clarity.',
+    desc: 'I train regularly to build stamina and the mental edge to stay calm in a crisis.',
   },
   {
-    icon: <TrendingUp size={24} strokeWidth={1.5} />,
     name: 'Growth & Business',
-    desc: 'Business strategy, psychology, and sales. I focus on books that sharpen my social skills and provide practical ways to improve my life.',
+    desc: 'Strategy, psychology, sales. I read what is practical and applicable, not theory for its own sake.',
   },
   {
-    icon: <Wind size={24} strokeWidth={1.5} />,
     name: 'Active Life',
-    desc: 'Whether it’s windsurfing, snowboarding, or dancing bachata, I stay in motion. I believe a high-performance body leads to a high-performance mind.',
+    desc: 'Windsurfing, snowboarding, bachata. I stay in motion most weekends.',
   },
   {
-    icon: <Home size={24} strokeWidth={1.5} />,
     name: 'Real Estate',
-    desc: 'Besides design and code, I am active in the real estate market. I value tangible assets and the strategic thinking required for property investment.',
+    desc: 'Outside design and code, I invest in real estate. Tangible assets, slower thinking, longer horizons.',
   },
 ]
+
+function nextBookingQuarter(now: Date = new Date()): string {
+  const currentQ = Math.floor(now.getMonth() / 3) + 1
+  const year = now.getFullYear()
+  const nextQ = currentQ === 4 ? 1 : currentQ + 1
+  const nextYear = currentQ === 4 ? year + 1 : year
+  return `Q${nextQ} ${nextYear}`
+}
 
 export default function AboutPage() {
   return (
@@ -77,120 +79,128 @@ export default function AboutPage() {
       <Nav />
 
       {/* 01 — Hero */}
-      <section className="about-hero">
-        <div className="about-hero__body">
-          <div className="about-hero__left">
-            <p className="eyebrow">About / 01</p>
-            <h1 className="about-hero__headline">
-              Designer.<br />
-              Developer.<br />
-              Based in Warsaw.
-            </h1>
+      <section className="about-hero" aria-labelledby="about-hero-title">
+        <span className="about-hero__marker" aria-hidden="true">01 / About</span>
+        <h1 id="about-hero-title" className="about-hero__headline">
+          <span className="about-hero__line">Designer.</span>
+          <span className="about-hero__line">Developer.</span>
+          <span className="about-hero__line about-hero__line--accent">in Warsaw.</span>
+        </h1>
+        <p className="about-hero__lede">
+          Ezytra is me: one person designing and building the whole website. No team, no handoffs,
+          no markup.
+        </p>
+        <dl className="about-hero__meta">
+          <div className="about-hero__meta-row">
+            <dt>Focus</dt>
+            <dd>Marketing &amp; product sites</dd>
           </div>
-
-          <div className="about-hero__right">
-            <p className="about-hero__tagline">
-              — I care about craft, clarity, and the details that make software feel alive.
-            </p>
-            <p className="about-hero__desc">
-              I&apos;m Oskar — a one-person studio operating under the Ezytra name. I&apos;ve been
-              designing and building websites for a few years, with a focus on getting things right
-              rather than getting things done fast.
-            </p>
-            <div className="about-hero__footer">
-            </div>
+          <div className="about-hero__meta-row">
+            <dt>Studio</dt>
+            <dd>Ezytra, founded 2026</dd>
           </div>
-        </div>
+          <div className="about-hero__meta-row">
+            <dt>Status</dt>
+            <dd>Booking {nextBookingQuarter()}</dd>
+          </div>
+        </dl>
       </section>
 
       {/* 02 — Bio */}
-      <section className="about-bio">
-        <p className="eyebrow">— My Story</p>
-        <div className="about-bio__grid">
-          <div className="about-bio__image">
-            <Image
-              src="/owner.jpg"
-              alt={SITE_DATA.name}
-              width={400}
-              height={533}
-              className="about-bio__photo"
-              priority
-              style={{ 
-                width: '100%', 
-                height: 'auto', 
-                display: 'block',
-                border: '1px solid var(--border)' 
-              }}
-            />
-          </div>
-          <div className="about-bio__content">
-            <h2 className="about-bio__title">A bit about me.</h2>
-            <p className="about-bio__p">
-              I got into web design because I wanted to build things that looked great and actually
-              worked. The combination of design and code felt natural — one without the other always
-              felt incomplete.
-            </p>
-            <p className="about-bio__p">
-              Over the past few years I&apos;ve worked on martial arts centres, dance schools, and
-              community platforms. Small but real projects where I had full ownership of the result
-              — from the first Figma frame to the deployed server.
-            </p>
-            <p className="about-bio__p">
-              I work under the Ezytra studio name, but there&apos;s no team of 20 behind it.
-              It&apos;s just me — which means you always know who you&apos;re talking to, who did
-              the work, and who to call if something breaks.
-            </p>
-          </div>
+      <section className="about-bio" aria-labelledby="about-bio-title">
+        <div className="about-bio__photo-wrap">
+          <Image
+            src="/owner.jpg"
+            alt={`Portrait of ${SITE_DATA.name}, the designer and developer behind Ezytra`}
+            width={720}
+            height={960}
+            className="about-bio__photo"
+            priority
+          />
+          <span className="about-bio__caption" aria-hidden="true">
+            Oskar Straszyński &middot; Warsaw, PL
+          </span>
+        </div>
+        <div className="about-bio__content">
+          <h2 id="about-bio-title" className="about-bio__title">
+            I work alone. <em>On purpose.</em>
+          </h2>
+          <p className="about-bio__p">
+            I learned both design and code because either one alone always felt incomplete. A
+            beautiful site that breaks is a portfolio piece, not a working tool.
+          </p>
+          <p className="about-bio__p">
+            Ezytra is new, started in 2026. Before that I spent a few years building sites on the
+            side: martial-arts centres, dance schools, small community platforms. On every one I
+            owned the full result, from the first Figma frame to the deployed server.
+          </p>
+          <p className="about-bio__p">
+            I won&apos;t pretend the studio has a long history; it doesn&apos;t. What I can promise
+            is that you always know who you are talking to, who did the work, and who to call if
+            something breaks. Just me, and I prefer it that way.
+          </p>
         </div>
       </section>
 
       {/* 03 — Skills */}
-      <section className="about-skills">
-        <p className="eyebrow">— Skills &amp; Tools</p>
-        <h2 className="section-title">What I Work With</h2>
-        <div className="about-skills__grid">
+      <section className="about-skills" aria-labelledby="about-skills-title">
+        <h2 id="about-skills-title" className="about-skills__title">
+          The toolkit.
+        </h2>
+        <dl className="about-skills__table">
           {SKILLS.map((col) => (
-            <div key={col.cat} className="about-skills__col">
-              <h3 className="about-skills__cat">{col.cat}</h3>
-              <ul className="about-skills__list">
-                {col.items.map((item) => (
-                  <li key={item} className="about-skills__item">— {item}</li>
+            <div className="about-skills__row" key={col.cat}>
+              <dt className="about-skills__cat">{col.cat}</dt>
+              <dd className="about-skills__items">
+                {col.items.map((item, i) => (
+                  <span key={item} className="about-skills__item">
+                    {item}
+                    {i < col.items.length - 1 ? (
+                      <span aria-hidden="true" className="about-skills__sep">
+                        &middot;
+                      </span>
+                    ) : null}
+                  </span>
                 ))}
-              </ul>
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
       {/* 04 — Values */}
-      <section className="about-values">
-        <p className="eyebrow">— What I Stand For</p>
-        <h2 className="section-title">What I Believe In</h2>
-        <div className="about-values__grid">
+      <section className="about-values" aria-labelledby="about-values-title">
+        <h2 id="about-values-title" className="about-values__title">
+          Four things I will not compromise on.
+        </h2>
+        <ol className="about-values__list">
           {VALUES.map((v) => (
-            <div key={v.num} className="about-values__item">
-              <span className="about-values__num">{v.num}</span>
-              <div className="about-values__rule" />
-              <h3 className="about-values__title">{v.title}</h3>
-              <p className="about-values__desc">{v.desc}</p>
-            </div>
+            <li key={v.num} className="about-values__item">
+              <span className="about-values__num" aria-hidden="true">
+                {v.num}
+              </span>
+              <div className="about-values__body">
+                <h3 className="about-values__name">{v.title}</h3>
+                <p className="about-values__desc">{v.desc}</p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       {/* 05 — Interests */}
-      <section className="about-interests">
-        <p className="eyebrow">— Talking With</p>
-        <h2 className="section-title">When I&apos;m not building websites...</h2>
-        <div className="about-interests__grid">
+      <section className="about-interests" aria-labelledby="about-interests-title">
+        <h2 id="about-interests-title" className="about-interests__title">
+          When I close the laptop.
+        </h2>
+        <ul className="about-interests__list">
           {INTERESTS.map((item) => (
-            <div key={item.name} className="about-interests__item">
-              <span className="about-interests__icon">{item.icon}</span>
+            <li key={item.name} className="about-interests__item">
               <h3 className="about-interests__name">{item.name}</h3>
               <p className="about-interests__desc">{item.desc}</p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       {/* 06 — CTA / Footer */}

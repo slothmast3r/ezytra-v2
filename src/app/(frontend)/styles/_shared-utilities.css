@@ -4,20 +4,52 @@ Shared utilities
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  font-size: var(--text-micro);
+  font-weight: var(--w-regular);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
   color: var(--muted);
   margin-bottom: 1.5rem;
 }
 
 .section-title {
   font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: var(--w-semibold);
+  font-size: var(--text-h2);
   color: var(--text);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--track-heading);
   margin-bottom: 2.5rem;
+}
+
+/* Long-form prose container. Caps line length and tunes leading
+   for IBM Plex Mono, which needs more air than a humanist sans. */
+.prose {
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-body);
+  color: var(--muted);
+  max-width: var(--measure);
+}
+.prose > * + * { margin-top: 1.25rem; }
+.prose h2,
+.prose h3 {
+  color: var(--text);
+  font-weight: var(--w-semibold);
+  letter-spacing: var(--track-heading);
+  line-height: var(--lh-heading);
+  margin-top: 2.5rem;
+}
+.prose h2 { font-size: var(--text-h3); }
+.prose h3 { font-size: var(--text-h4); }
+.prose em { color: var(--text); font-style: italic; font-weight: var(--w-medium); }
+.prose strong { color: var(--text); font-weight: var(--w-semibold); }
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
 }
 
 .rule {
@@ -27,7 +59,7 @@ Shared utilities
 
 /* Offset scroll-anchored sections so the sticky nav doesn't cover the title */
 section[id] {
-  scroll-margin-top: 7rem;
+  scroll-margin-top: calc(var(--nav-height) + 1.5rem);
 }
 
 .tag {

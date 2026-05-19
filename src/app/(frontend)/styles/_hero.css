@@ -41,7 +41,7 @@
 }
 
 .hero__headline {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-weight: 700;
   font-size: 5.375rem;
   line-height: 1.083;

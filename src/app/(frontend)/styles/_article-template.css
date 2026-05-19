@@ -32,7 +32,7 @@ Article Template
 }
 
 .art-hero__headline {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 3.375rem;
   font-weight: 700;
   line-height: 1.1;
@@ -263,7 +263,7 @@ Article Template
 }
 
 .art-section__heading {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 2.25rem;
   font-weight: 700;
   line-height: 1.2;
@@ -430,7 +430,7 @@ Article Template
 }
 
 .art-next__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text);

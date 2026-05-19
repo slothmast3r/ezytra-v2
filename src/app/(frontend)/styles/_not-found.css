@@ -25,7 +25,7 @@
 }
 
 .nf__code {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-weight: 700;
   font-size: clamp(7rem, 16vw, 14rem);
   line-height: 1;
@@ -43,7 +43,7 @@
 }
 
 .nf__tagline {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-style: italic;
   font-size: 1.5rem;
   line-height: 1.4;

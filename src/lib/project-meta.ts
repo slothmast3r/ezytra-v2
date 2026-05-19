@@ -24,6 +24,7 @@ export interface ProjectMeta {
   desc: string
   tags?: string[]
   image?: string
+  video?: string
   meta?: {
     title?: string
     description?: string

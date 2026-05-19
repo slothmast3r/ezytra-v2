@@ -7,23 +7,6 @@ import WorkGrid from "./WorkGrid";
 import { WorkGridSkeleton } from "../components/Skeletons";
 import { getAllProjects } from "@/lib/projects";
 
-async function WorkHero() {
-  const projects = await getAllProjects();
-  const totalDocs = projects.length;
-
-  return (
-    <div className="wa-hero__right">
-      <p className="wa-hero__tagline">
-        — I own the work from first conversation to deployed site. No handoffs.
-      </p>
-      <p className="wa-hero__count">
-        {totalDocs} project{totalDocs !== 1 ? "s" : ""} · Design, development,
-        and everything in between.
-      </p>
-    </div>
-  );
-}
-
 async function WorkContent() {
   const projects = await getAllProjects();
   return <WorkGrid projects={projects} />;
@@ -36,38 +19,14 @@ export default function WorkPage() {
 
       {/* ── Hero ── */}
       <section className="wa-hero">
-        <div className="wa-hero__left">
-          <p className="eyebrow">— Selected Work</p>
-          <h1 className="wa-hero__heading">
-            Every project,
-            <br />
-            start to finish.
-          </h1>
-        </div>
-
-        <Suspense
-          fallback={
-            <div className="wa-hero__right">
-              <p className="wa-hero__tagline">
-                — I own the work from first conversation to deployed site. No
-                handoffs.
-              </p>
-              <p className="wa-hero__count">
-                <span
-                  className="skeleton"
-                  style={{
-                    width: "3rem",
-                    height: "1rem",
-                    display: "inline-block",
-                  }}
-                />
-                projects · Design, development, and everything in between.
-              </p>
-            </div>
-          }
-        >
-          <WorkHero />
-        </Suspense>
+        <p className="eyebrow">Selected Work</p>
+        <h1 className="wa-hero__heading">
+          <span className="wa-hero__heading-line">Every project,</span>
+          <span className="wa-hero__heading-line wa-hero__heading-line--accent">start to finish.</span>
+        </h1>
+        <p className="wa-hero__tagline">
+          I own the work from first conversation to deployed site. No handoffs.
+        </p>
       </section>
 
       {/* ── Filters + Grid ── */}

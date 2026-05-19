@@ -8,7 +8,7 @@ import { SITE_DATA } from './data'
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500', '700'],
+  weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
   variable: '--font-mono',
   display: 'swap',

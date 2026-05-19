@@ -14,183 +14,127 @@ const STATUS_LABELS: Record<string, string> = {
   archived: 'Archived',
 }
 
-function ProjectCardFeatured({ p, num }: { p: Project; num: string }) {
+function ProjectMetaBlock({ p }: { p: Project }) {
   return (
-    <div className="wa-card wa-card--featured">
-      {/* left: mockup */}
-      <div className="wa-card__mockup">
-        <div className="wa-card__chrome">
-          <div className="wa-card__dots"><span /><span /><span /></div>
-          <span className="wa-card__chrome-url">{p.url}</span>
+    <div className="wa-card__meta">
+      {p.type && (
+        <div className="wa-card__meta-item">
+          <span className="wa-card__meta-label">Type</span>
+          <span className="wa-card__meta-value">{p.type}</span>
         </div>
-        <div className="wa-card__screen">
-          {p.image ? (
-            <Image
-              src={p.image}
-              alt={p.name}
-              fill
-              sizes="(max-width: 1100px) 100vw, 40rem"
-              style={{ objectFit: 'cover' }}
-            />
-          ) : null}
+      )}
+      {p.year && (
+        <div className="wa-card__meta-item">
+          <span className="wa-card__meta-label">Year</span>
+          <span className="wa-card__meta-value">{p.year}</span>
         </div>
-      </div>
-
-      {/* right: info */}
-      <div className="wa-card__info">
-        {p.featured && <span className="wa-badge">✦ Featured</span>}
-        <span className="wa-card__num">{num}</span>
-        <h2 className="wa-card__name">{p.name}</h2>
-        <p className="wa-card__location">{p.location}</p>
-        <p className="wa-card__desc">{p.desc}</p>
-
-        <div className="wa-card__tags">
-          {(p.tags ?? []).map((t) => <span key={t} className="tag">{t}</span>)}
+      )}
+      {p.status && (
+        <div className="wa-card__meta-item">
+          <span className="wa-card__meta-label">Status</span>
+          <span className={`wa-card__meta-value wa-card__meta-value--${p.status}`}>
+            {STATUS_LABELS[p.status] || p.status}
+          </span>
         </div>
-
-        <div className="wa-card__meta">
-          {p.type && (
-            <div className="wa-card__meta-item">
-              <span className="wa-card__meta-label">Type</span>
-              <span className="wa-card__meta-value">{p.type}</span>
-            </div>
-          )}
-          {p.year && (
-            <div className="wa-card__meta-item">
-              <span className="wa-card__meta-label">Year</span>
-              <span className="wa-card__meta-value">{p.year}</span>
-            </div>
-          )}
-          {p.status && (
-            <div className="wa-card__meta-item">
-              <span className="wa-card__meta-label">Status</span>
-              <span className={`wa-card__meta-value wa-card__meta-value--${p.status}`}>
-                {STATUS_LABELS[p.status] || p.status}
-              </span>
-            </div>
-          )}
-        </div>
-
-        <div className="wa-card__actions">
-          {p.hasCaseStudy && p.slug && (
-            <Button href={`/work/${p.slug}`} variant="primary" chevron>
-              View Case Study
-            </Button>
-          )}
-          {p.url && p.href && (
-            <a href={p.href} className="wa-card__live-link" target="_blank" rel="noopener noreferrer">
-              {p.url}
-              <svg 
-                width="14" 
-                height="14" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2.5" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-                style={{ marginLeft: '4px', verticalAlign: 'text-bottom' }}
-              >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   )
 }
 
-function ProjectCardSmall({ p, num }: { p: Project; num: string }) {
+function ProjectActions({ p }: { p: Project }) {
   return (
-    <div className="wa-card wa-card--small">
-      <div className="wa-card__mockup">
-        <div className="wa-card__chrome">
-          <div className="wa-card__dots"><span /><span /><span /></div>
-          <span className="wa-card__chrome-url">{p.url}</span>
-        </div>
-        <div className="wa-card__screen">
-          {p.image ? (
-            <Image
-              src={p.image}
-              alt={p.name}
-              fill
-              sizes="(max-width: 1100px) 100vw, 25rem"
-              style={{ objectFit: 'cover' }}
-            />
-          ) : null}
-        </div>
-      </div>
-
-      <div className="wa-card__info">
-        <span className="wa-card__num">{num}</span>
-        <h2 className="wa-card__name">{p.name}</h2>
-        <p className="wa-card__location">{p.location}</p>
-        <p className="wa-card__desc">{p.desc}</p>
-
-        <div className="wa-card__tags">
-          {(p.tags ?? []).map((t) => <span key={t} className="tag">{t}</span>)}
-        </div>
-
-        <div className="wa-card__meta">
-          {p.type && (
-            <div className="wa-card__meta-item">
-              <span className="wa-card__meta-label">Type</span>
-              <span className="wa-card__meta-value">{p.type}</span>
-            </div>
-          )}
-          {p.year && (
-            <div className="wa-card__meta-item">
-              <span className="wa-card__meta-label">Year</span>
-              <span className="wa-card__meta-value">{p.year}</span>
-            </div>
-          )}
-          {p.status && (
-            <div className="wa-card__meta-item">
-              <span className="wa-card__meta-label">Status</span>
-              <span className={`wa-card__meta-value wa-card__meta-value--${p.status}`}>
-                {STATUS_LABELS[p.status] || p.status}
-              </span>
-            </div>
-          )}
-        </div>
-
-        <div className="wa-card__actions">
-          {p.hasCaseStudy && p.slug && (
-            <Button href={`/work/${p.slug}`} variant="primary" chevron>
-              View Case Study
-            </Button>
-          )}
-          {p.url && p.href && (
-            <a href={p.href} className="wa-card__live-link" target="_blank" rel="noopener noreferrer">
-              {p.url}
-              <svg 
-                width="14" 
-                height="14" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2.5" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-                style={{ marginLeft: '4px', verticalAlign: 'text-bottom' }}
-              >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          )}
-        </div>
-      </div>
+    <div className="wa-card__actions">
+      {p.hasCaseStudy && p.slug && (
+        <Button href={`/work/${p.slug}`} variant="primary" chevron>
+          View Case Study
+        </Button>
+      )}
+      {p.url && p.href && (
+        <a href={p.href} className="wa-card__live-link" target="_blank" rel="noopener noreferrer">
+          <span>{p.url}</span>
+          <span aria-hidden="true" className="wa-card__live-arrow">↗</span>
+        </a>
+      )}
     </div>
+  )
+}
+
+function ProjectInfo({ p, num }: { p: Project; num: string }) {
+  return (
+    <>
+      <span className="wa-card__num">{num}</span>
+      <h2 className="wa-card__name">{p.name}</h2>
+      <p className="wa-card__location">{p.location}</p>
+      <p className="wa-card__desc">{p.desc}</p>
+      <div className="wa-card__tags">
+        {(p.tags ?? []).map((t) => <span key={t} className="tag">{t}</span>)}
+      </div>
+      <ProjectMetaBlock p={p} />
+      <ProjectActions p={p} />
+    </>
+  )
+}
+
+function FeaturedProject({ p, num }: { p: Project; num: string }) {
+  return (
+    <article className="wa-featured">
+      <div className={`wa-featured__media${p.video ? ' wa-featured__media--with-video' : ''}`}>
+        {p.video && (
+          <video
+            className="wa-featured__video"
+            src={p.video}
+            poster={p.image}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={p.name}
+          />
+        )}
+        {p.image && (
+          <Image
+            className="wa-featured__poster"
+            src={p.image}
+            alt={p.name}
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: 'cover', objectPosition: 'center top' }}
+          />
+        )}
+      </div>
+      <div className="wa-featured__body">
+        <ProjectInfo p={p} num={num} />
+      </div>
+    </article>
+  )
+}
+
+function ArticleCard({ p, num }: { p: Project; num: string }) {
+  return (
+    <article className="wa-article">
+      <div className="wa-article__media">
+        {p.image && (
+          <Image
+            src={p.image}
+            alt={p.name}
+            fill
+            sizes="(max-width: 1100px) 100vw, 30rem"
+            style={{ objectFit: 'cover' }}
+          />
+        )}
+      </div>
+      <div className="wa-article__body">
+        <ProjectInfo p={p} num={num} />
+      </div>
+    </article>
   )
 }
 
 export default function WorkGrid({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState('All')
 
-  // Generate dynamic filters from project tags
   const dynamicFilters = useMemo(() => {
     const tags = new Set<string>()
     projects.forEach((p) => {
@@ -218,7 +162,9 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
           {dynamicFilters.map((f) => (
             <button
               key={f}
+              type="button"
               className={`wa-filter${active === f ? ' wa-filter--active' : ''}`}
+              aria-pressed={active === f}
               onClick={() => setActive(f)}
             >
               {f}
@@ -231,13 +177,13 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
       {/* Grid */}
       <div className="wa-grid">
         {featuredProject && (
-          <ProjectCardFeatured p={featuredProject} num="01" />
+          <FeaturedProject p={featuredProject} num="01" />
         )}
-        
+
         {otherProjects.length > 0 && (
           <div className="wa-grid__row">
             {otherProjects.map((p) => (
-              <ProjectCardSmall
+              <ArticleCard
                 key={p.slug}
                 p={p}
                 num={String(allProjects.indexOf(p) + 1).padStart(2, '0')}
@@ -245,10 +191,6 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
             ))}
           </div>
         )}
-
-        <div className="wa-grid__footer">
-          More projects coming soon — currently working on new case studies.
-        </div>
       </div>
     </>
   )
