@@ -48,27 +48,43 @@ export default function ProcessSection() {
       observer.observe(grid)
       return () => observer.disconnect()
     } else {
-      // Mobile: scroll-driven progress bar
+      // Mobile: scroll-driven progress bar, rAF-coalesced
+      let raf: number | null = null
+      const stepOffsets: number[] = stepRefs.current.map((s) => (s ? s.offsetTop : Infinity))
+      let allStepsActive = false
+
       const update = () => {
+        raf = null
         const rect = grid.getBoundingClientRect()
         const vh = window.innerHeight
-        // 0 when section top hits 80% of viewport, 1 when section scrolled past
+        if (rect.bottom < 0 || rect.top > vh) return
         const progress = Math.max(0, Math.min(1, (vh * 0.8 - rect.top) / rect.height))
         grid.style.setProperty('--line-progress', String(progress))
 
-        // Activate each step when the progress line reaches its dot
+        if (allStepsActive) return
         const lineH = progress * rect.height
-        stepRefs.current.forEach((step) => {
+        let activeCount = 0
+        stepRefs.current.forEach((step, i) => {
           if (!step) return
-          if (lineH >= step.offsetTop + 4) {
+          if (lineH >= stepOffsets[i] + 4) {
             step.classList.add('process__step--active')
+            activeCount++
           }
         })
+        if (activeCount === stepRefs.current.length) allStepsActive = true
       }
 
-      window.addEventListener('scroll', update, { passive: true })
+      const onScroll = () => {
+        if (raf !== null) return
+        raf = requestAnimationFrame(update)
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true })
       update()
-      return () => window.removeEventListener('scroll', update)
+      return () => {
+        window.removeEventListener('scroll', onScroll)
+        if (raf !== null) cancelAnimationFrame(raf)
+      }
     }
   }, [])
 

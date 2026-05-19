@@ -1,4 +1,4 @@
-import { IBM_Plex_Mono, IBM_Plex_Serif } from 'next/font/google'
+import { IBM_Plex_Mono } from 'next/font/google'
 import React from 'react'
 import { headers } from 'next/headers'
 import './styles.css'
@@ -14,19 +14,11 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: 'swap',
 })
 
-const ibmPlexSerif = IBM_Plex_Serif({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
-  display: 'swap',
-})
-
 export const metadata = {
   metadataBase: new URL(SITE_DATA.url),
   description:
-    'Designer & Developer based in Warsaw. I design and build websites, end to end — design, code, CMS, and deployment.',
-  title: 'Oskar Straszyński — Ezytra',
+    'Designer & Developer based in Warsaw. I design and build websites, end to end: design, code, CMS, and deployment.',
+  title: 'Oskar Straszyński, Ezytra',
 }
 
 export const viewport = {
@@ -39,7 +31,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const lang = pathname.startsWith('/pl') ? 'pl' : 'en'
 
   return (
-    <html lang={lang} className={`${ibmPlexMono.variable} ${ibmPlexSerif.variable}`}>
+    <html lang={lang} className={ibmPlexMono.variable}>
       <body>
         <main>{children}</main>
         <Analytics />

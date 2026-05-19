@@ -21,7 +21,7 @@ export default function Nav() {
         <a href="/" className="nav__brand">
           <span className="nav__name">Oskar Straszyński</span>
           <span className="nav__name--short">Oskar S.</span>
-          <span className="nav__sub">— Ezytra</span>
+          <span className="nav__sub">· Ezytra</span>
         </a>
         <ul className="nav__links">
           {NAV_LINKS.map((link) => (
@@ -45,7 +45,11 @@ export default function Nav() {
         </button>
       </nav>
 
-      <div className={`nav__drawer${open ? ' nav__drawer--open' : ''}`} aria-hidden={!open}>
+      <div
+        className={`nav__drawer${open ? ' nav__drawer--open' : ''}`}
+        aria-hidden={!open}
+        inert={!open}
+      >
         <ul className="nav__drawer-links">
           {NAV_LINKS.map((link, i) => (
             <li key={link.label} style={{ '--i': i } as React.CSSProperties}>

@@ -1,38 +1,42 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
+const INTERACTIVE_SELECTOR =
+  'a, button, [role="button"], [data-cursor="pointer"], .jou-card, .work__row, input, textarea, select, summary, label[for]'
 
 export default function CustomCursor() {
   const [pos, setPos] = useState({ x: -100, y: -100 })
   const [hovered, setHovered] = useState(false)
   const [visible, setVisible] = useState(false)
+  const rafRef = useRef<number | null>(null)
+  const nextPosRef = useRef({ x: -100, y: -100 })
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY })
-      if (!visible) setVisible(true)
+      nextPosRef.current = { x: e.clientX, y: e.clientY }
+      if (rafRef.current !== null) return
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null
+        setPos(nextPosRef.current)
+        setVisible((v) => v || true)
+      })
     }
 
     const handleOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const isInteractive = 
-        target.closest('a') || 
-        target.closest('button') || 
-        target.closest('.jou-card') ||
-        target.closest('.work__row') ||
-        window.getComputedStyle(target).cursor === 'pointer'
-      
-      setHovered(!!isInteractive)
+      const target = e.target as Element | null
+      setHovered(!!target?.closest(INTERACTIVE_SELECTOR))
     }
 
     window.addEventListener('mousemove', handleMove, { passive: true })
-    window.addEventListener('mouseover', handleOver)
+    window.addEventListener('mouseover', handleOver, { passive: true })
 
     return () => {
       window.removeEventListener('mousemove', handleMove)
       window.removeEventListener('mouseover', handleOver)
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
     }
-  }, [visible])
+  }, [])
 
   if (!visible) return null
 

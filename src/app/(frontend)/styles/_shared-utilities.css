@@ -11,11 +11,12 @@ Shared utilities
 }
 
 .section-title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 3.375rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(2rem, 4vw, 3.25rem);
   color: var(--text);
-  line-height: 1;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
   margin-bottom: 2.5rem;
 }
 
@@ -122,7 +123,7 @@ Shared utilities
   color: var(--bg);
 }
 .btn--primary:hover {
-  background: #f0e4c0;
+  background: var(--accent-hover);
 }
 
 /* secondary — outlined muted */
@@ -153,7 +154,7 @@ Shared utilities
   margin-left: 1.5rem;
 }
 .btn--ghost:hover {
-  background: #f0e4c0;
+  background: var(--accent-hover);
 }
 
 /* badge — live status pill */

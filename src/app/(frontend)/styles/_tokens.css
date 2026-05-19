@@ -5,10 +5,11 @@
   --text: #f5f5f5;
   --muted: #b4b4b8;
   --accent: #e2d1a7;
+  --accent-hover: #f0e4c0;
   --border: #2e2e32;
   --border-2: #47474d;
-  --font-mono: 'IBM Plex Mono', monospace;
-  --font-serif: 'IBM Plex Serif', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-serif: var(--font-mono);
   --px: clamp(5rem, 11.67vw, 20rem);
 }
 

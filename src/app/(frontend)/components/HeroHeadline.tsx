@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-const LINES = ['I design and', 'build websites,', 'end to end.']
+const LINES: { text: string; accent?: boolean }[] = [
+  { text: 'I design and' },
+  { text: 'build websites,', accent: true },
+  { text: 'end to end.' },
+]
 
 export default function HeroHeadline() {
   const ref = useRef<HTMLHeadingElement>(null)
@@ -29,8 +33,11 @@ export default function HeroHeadline() {
   return (
     <h1 className="hero__headline" ref={ref}>
       {LINES.map((line, li) => (
-        <span key={li} className="hero__headline-line">
-          {line.split('').map((char) => {
+        <span
+          key={li}
+          className={`hero__headline-line${line.accent ? ' hero__headline-line--accent' : ''}`}
+        >
+          {line.text.split('').map((char) => {
             const delay = globalIndex++ * 22
             return (
               <span key={delay} className="hero__headline-clip">

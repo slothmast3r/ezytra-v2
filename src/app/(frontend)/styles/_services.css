@@ -19,7 +19,7 @@
 }
 
 .service {
-  padding: 1.5rem 0 5rem;
+  padding: 1.5rem 0 2.5rem;
 }
 
 .service__num {
@@ -39,10 +39,11 @@
 }
 
 .service__title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 1.5rem;
-  line-height: 1.364;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1.375rem;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
   color: var(--text);
   margin-bottom: 1rem;
   max-width: 17.5rem;
@@ -54,17 +55,11 @@
   line-height: 1.833;
   color: var(--muted);
   max-width: 17.5rem;
-  margin-bottom: 4rem;
 }
 
-.service__link {
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  letter-spacing: 0.03em;
-  color: var(--accent);
-  transition: opacity 0.15s;
-}
-.service__link:hover {
-  opacity: 0.75;
+.services__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 3rem 0 4rem;
 }
 

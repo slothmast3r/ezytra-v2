@@ -3,7 +3,6 @@ export const revalidate = 60
 import React, { Suspense } from 'react'
 import { ProjectSkeleton, JournalSkeleton } from './components/Skeletons'
 import Nav from './components/Nav'
-import HeroStats from './components/HeroStats'
 import HeroHeadline from './components/HeroHeadline'
 import Button from './components/Button'
 import SiteFooter from './components/SiteFooter'
@@ -14,41 +13,34 @@ import config from '@payload-config'
 import { getAllProjects } from '@/lib/projects'
 import Image from 'next/image'
 
-const MARQUEE_TEXT =
-  'Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  Next.js  ·  Figma  ·  Payload CMS  ·  Sanity  ·  VPS Deploy  ·  SEO  ·  UI/UX  ·  Branding  ·  '
-
 const STACK = [
-  { icon: '✦', name: 'Figma', desc: 'UI / UX Design' },
-  { icon: '⬡', name: 'Next.js', desc: 'React Framework' },
-  { icon: '◈', name: 'Payload CMS', desc: 'Headless CMS' },
-  { icon: '◆', name: 'Sanity', desc: 'Structured Content' },
-  { icon: '▲', name: 'VPS Deploy', desc: 'Linux / Nginx' },
-  { icon: '◎', name: 'SEO', desc: 'On-page & Technical' },
+  { icon: '/icons/figma.svg', name: 'Figma' },
+  { icon: '/icons/nextjs.svg', name: 'Next.js' },
+  { icon: '/icons/payload.png', name: 'Payload CMS' },
+  { icon: '/icons/sanity.png', name: 'Sanity' },
+  { icon: '/icons/vps.png', name: 'VPS Deploy' },
+  { icon: '/icons/seo.png', name: 'SEO' },
 ]
 
 const SERVICES = [
   {
     num: '01',
     title: 'Web Design',
-    id: 'web-design',
-    desc: 'Figma-first UI/UX. Clean, fast, conversion-focused. I design for real users, not Dribbble.',
+    desc: 'Figma-first UI/UX. Clean, fast, conversion-focused. I design for the people who use the site, not for design awards.',
   },
   {
     num: '02',
     title: 'Development',
-    id: 'development',
     desc: 'Next.js sites, built by hand. No page builders, no bloated themes. Fast, accessible, scalable.',
   },
   {
     num: '03',
     title: 'CMS Integration',
-    id: 'cms-integration',
-    desc: 'Payload or Sanity — you edit your own content without ever touching code.',
+    desc: 'Payload or Sanity. You edit your own content without touching code.',
   },
   {
     num: '04',
     title: 'SEO & Deployment',
-    id: 'seo-deployment',
     desc: "On-page SEO from day one. Deployed to VPS. I handle the full stack so you don't have to.",
   },
 ]
@@ -97,15 +89,7 @@ async function ProjectsList() {
                   </AnimatedLink>
                 ) : null}
               </div>
-              <div className="mockup">
-                <div className="mockup__chrome">
-                  <div className="mockup__dots">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                  <div className="mockup__url">{p.url}</div>
-                </div>
+              <figure className="mockup">
                 <div className="mockup__screen">
                   {p.image && (
                     <Image
@@ -117,7 +101,8 @@ async function ProjectsList() {
                     />
                   )}
                 </div>
-              </div>
+                <figcaption className="mockup__caption">{p.url}</figcaption>
+              </figure>
             </div>
           </div>
         </div>
@@ -169,62 +154,35 @@ export default function HomePage() {
 
       {/* 02 — Hero */}
       <section className="hero">
-        <div className="hero__grid" aria-hidden="true">
-          {Array.from({ length: 13 }).map((_, i) => (
-            <div key={i} className="hero__grid-line" />
-          ))}
-        </div>
-
         <div className="hero__body">
-          <div className="hero__left">
-            <p className="hero__eyebrow">DESIGNER &amp; DEVELOPER — WARSAW, PL</p>
-            <div className="hero__available">
-              <span className="hero__dot" />
-              Available for projects
-            </div>
-            <HeroHeadline />
-            <p className="hero__tagline">— You work directly with me. No handoffs, no markup.</p>
+          <p className="hero__eyebrow">DESIGNER &amp; DEVELOPER · WARSAW, PL</p>
+          <div className="hero__available">
+            <span className="hero__dot" />
+            Available for projects
           </div>
-
-          <div className="hero__right">
-            <p className="hero__desc">
-              From your first conversation to a live, fast, search-optimised website — I handle
-              design, code, CMS, and deployment.
-            </p>
-
-            <div className="hero__ctas">
-              <Button variant="primary" href="/work" chevron>
-                View My Work
-              </Button>
-              <Button variant="secondary" href="/services" chevron>
-                My Services
-              </Button>
-            </div>
-
-            <HeroStats />
+          <HeroHeadline />
+          <p className="hero__tagline">You work directly with me. No handoffs, no markup.</p>
+          <div className="hero__ctas">
+            <Button variant="primary" href="/contact" chevron>
+              Contact Me
+            </Button>
+            <Button variant="secondary" href="/work" chevron>
+              View My Work
+            </Button>
           </div>
         </div>
 
-        <div className="hero__marquee">
-          <div className="hero__marquee-track">
-            <span>{MARQUEE_TEXT}</span>
-            <span>{MARQUEE_TEXT}</span>
-          </div>
-        </div>
       </section>
 
       {/* 03 — Stack */}
       <section className="stack">
         <div className="stack__grid">
-          {STACK.map((item, i) => (
+          {STACK.map((item) => (
             <div key={item.name} className="stack__item">
-              <div className="stack__top">
-                <div className="stack__dot" />
-                {i === 0 && <span className="stack__label">MY STACK</span>}
-              </div>
-              <span className="stack__icon">{item.icon}</span>
+              <span className="stack__icon">
+                <Image src={item.icon} alt="" width={32} height={32} />
+              </span>
               <p className="stack__name">{item.name}</p>
-              <p className="stack__desc">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -232,8 +190,7 @@ export default function HomePage() {
 
       {/* 04 — Work */}
       <section className="work" id="work">
-        <p className="eyebrow">— Selected Work</p>
-        <h2 className="section-title">Projects</h2>
+        <h2 className="section-title">Selected work</h2>
         <div className="rule" />
 
         <Suspense
@@ -251,7 +208,6 @@ export default function HomePage() {
 
       {/* 05 — Services */}
       <section className="services" id="services">
-        <p className="eyebrow">— What I Offer</p>
         <h2 className="section-title">Services</h2>
         <div className="services__grid">
           {SERVICES.map((s) => (
@@ -260,25 +216,25 @@ export default function HomePage() {
               <div className="service__rule" />
               <h3 className="service__title">{s.title}</h3>
               <p className="service__desc">{s.desc}</p>
-              <AnimatedLink className="service__link" href={`/services#${s.id}`}>
-                Learn more →
-              </AnimatedLink>
             </div>
           ))}
+        </div>
+        <div className="services__footer">
+          <Button variant="ghost" href="/services" chevron>
+            View all services
+          </Button>
         </div>
       </section>
 
       {/* 06 — Process */}
       <section className="process" id="process">
-        <p className="eyebrow">— How I Work</p>
-        <h2 className="section-title">My Process</h2>
+        <h2 className="section-title">Process</h2>
         <ProcessSection />
       </section>
 
       {/* 07 — Journal */}
       <section className="journal">
-        <p className="eyebrow">— Journal</p>
-        <h2 className="section-title">Thinking Out Loud</h2>
+        <h2 className="section-title">Journal</h2>
         <div className="rule" />
         <Suspense
           fallback={
