@@ -87,6 +87,16 @@ Contact page
   margin-bottom: 2rem;
 }
 
+/* Honeypot. Off-screen but not display:none, so naive bots fill it. */
+.cform__honeypot {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 /* Left — form */
 .cform__left > .eyebrow {
   margin-bottom: 3rem;

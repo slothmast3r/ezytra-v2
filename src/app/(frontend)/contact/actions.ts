@@ -11,11 +11,16 @@ export interface ContactFormPayload {
   message: string
   projectType: string
   budget: string
+  // Anti-spam fields. Humans never touch these.
+  website?: string
+  startedAt?: number
 }
 
 export type SendEmailResult =
   | { success: true }
   | { success: false; error: string }
+
+const MIN_FILL_MS = 2000
 
 const MAX_LEN = {
   name: 120,
@@ -34,6 +39,20 @@ function clean(value: unknown, max: number): string {
 }
 
 export async function sendEmail(formData: ContactFormPayload): Promise<SendEmailResult> {
+  // Honeypot: hidden field humans never fill. If it has any value, treat as spam.
+  // Silently report success so the bot has no signal to retry with a different shape.
+  const honeypot = clean(formData?.website, 200)
+  if (honeypot) {
+    return { success: true }
+  }
+
+  // Time trap: humans take more than 2 seconds to fill a contact form.
+  // A faster submission is almost certainly automated.
+  const startedAt = typeof formData?.startedAt === 'number' ? formData.startedAt : 0
+  if (startedAt && Date.now() - startedAt < MIN_FILL_MS) {
+    return { success: true }
+  }
+
   const name = clean(formData?.name, MAX_LEN.name)
   const email = clean(formData?.email, MAX_LEN.email)
   const company = clean(formData?.company, MAX_LEN.company)

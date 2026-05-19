@@ -129,11 +129,16 @@ export default function ContactForm() {
     email: `${uid}-email`,
     company: `${uid}-company`,
     message: `${uid}-message`,
+    website: `${uid}-website`,
     nameErr: `${uid}-name-err`,
     emailErr: `${uid}-email-err`,
     messageErr: `${uid}-message-err`,
     submitErr: `${uid}-submit-err`,
   }
+
+  // Captured once on mount, used as a server-side time-trap.
+  const startedAtRef = useRef<number>(Date.now())
+  const [honeypot, setHoneypot] = useState('')
 
   const [formData, setFormData] = useState<ContactFormPayload>({
     name: '',
@@ -194,7 +199,11 @@ export default function ContactForm() {
     }
 
     setIsSubmitting(true)
-    const result = await sendEmail(formData)
+    const result = await sendEmail({
+      ...formData,
+      website: honeypot,
+      startedAt: startedAtRef.current,
+    })
 
     if (result.success) {
       track('contact_form_submitted', {
@@ -334,6 +343,22 @@ export default function ContactForm() {
                   {errors.message}
                 </span>
               )}
+            </div>
+
+            {/* Honeypot. Hidden from humans, not from bots. */}
+            <div className="cform__honeypot" aria-hidden="true">
+              <label htmlFor={ids.website}>
+                Your website (leave this empty)
+              </label>
+              <input
+                id={ids.website}
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
             </div>
 
             {submitError && (
