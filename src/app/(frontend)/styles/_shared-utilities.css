@@ -25,6 +25,11 @@ Shared utilities
   background: var(--border);
 }
 
+/* Offset scroll-anchored sections so the sticky nav doesn't cover the title */
+section[id] {
+  scroll-margin-top: 7rem;
+}
+
 .tag {
   display: inline-flex;
   align-items: center;
