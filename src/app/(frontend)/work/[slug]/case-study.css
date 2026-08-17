@@ -343,17 +343,21 @@
 .cs-bar-fill.mid { background: #d4b88e; }
 .cs-bar-fill.bad { background: #d49b9b; }
 
-/* ===== Insight grid ===== */
+/* ===== Insight list — hanging-indent, no boxes (breaks card-lattice monotony) ===== */
 .cs-insight-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
 }
 .cs-insight-card {
-  background: var(--bg-2);
-  padding: 1.5rem 1.75rem;
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 2rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+  align-items: baseline;
+}
+.cs-insight-card:last-child {
+  border-bottom: 1px solid var(--border);
 }
 .cs-ic-label {
   font-family: var(--font-mono);
@@ -361,15 +365,22 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--accent);
-  margin-bottom: 0.75rem;
   font-weight: 500;
+  margin: 0;
 }
 .cs-insight-card p {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  line-height: 1.65;
+  line-height: 1.7;
   color: var(--muted);
   margin: 0;
+  max-width: 44rem;
+}
+@media (max-width: 640px) {
+  .cs-insight-card {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
 }
 
 /* ===== Issue list ===== */
@@ -570,8 +581,13 @@
   margin-bottom: 0.5rem;
   padding-left: 0.75rem;
 }
-.cs-tradeoff-card ul li::before {
-  content: '—';
+.cs-tradeoff-card.pro ul li::before {
+  content: '+';
+  position: absolute;
+  left: -0.5rem;
+}
+.cs-tradeoff-card.con ul li::before {
+  content: '\2212';
   position: absolute;
   left: -0.5rem;
 }
