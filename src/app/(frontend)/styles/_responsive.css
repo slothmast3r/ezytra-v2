@@ -21,6 +21,7 @@
   }
 
   .nav__links,
+  .nav__lang,
   .nav__cta {
     display: none;
   }

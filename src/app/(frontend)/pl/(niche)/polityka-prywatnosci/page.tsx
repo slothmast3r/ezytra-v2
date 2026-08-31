@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { SITE_DATA } from '../../data'
+import { SITE_DATA } from '../../../data'
 
 export const metadata: Metadata = {
   title: 'Polityka prywatności — Ezytra',

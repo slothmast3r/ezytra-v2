@@ -5,6 +5,7 @@ import './styles.css'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SITE_DATA } from './data'
+import LangSync from './components/LangSync'
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin', 'latin-ext'],
@@ -33,6 +34,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang={lang} className={ibmPlexMono.variable}>
       <body>
+        <LangSync />
         <main>{children}</main>
         <Analytics />
         <SpeedInsights />

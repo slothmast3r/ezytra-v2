@@ -23,8 +23,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1 : 0.8,
   }))
 
-  // 2b. Polish niche landings
+  // 2b. Polish mirror + niche landings
   const plRoutes = [
+    { path: '/pl', priority: 0.9 },
+    { path: '/pl/realizacje', priority: 0.8 },
+    { path: '/pl/uslugi', priority: 0.8 },
+    { path: '/pl/o-mnie', priority: 0.7 },
+    { path: '/pl/kontakt', priority: 0.7 },
     { path: '/pl/strony-dla-szkol-tanca', priority: 0.9 },
     { path: '/pl/strony-dla-szkol-walki', priority: 0.9 },
     { path: '/pl/polityka-prywatnosci', priority: 0.2 },

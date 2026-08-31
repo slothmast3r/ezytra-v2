@@ -2,41 +2,75 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import Button from './Button'
 import NavLink from './NavLink'
+import { altLocaleHref, type Locale } from '../i18n'
 
-const NAV_LINKS = [
-  { label: 'Work', href: '/work' },
-  { label: 'Services', href: '/services' },
-  { label: 'Process', href: '/#process' },
-  { label: 'About', href: '/about' },
-  { label: 'Journal', href: '/journal' },
-]
+const NAV_COPY = {
+  en: {
+    home: '/',
+    links: [
+      { label: 'Work', href: '/work' },
+      { label: 'Services', href: '/services' },
+      { label: 'Process', href: '/#process' },
+      { label: 'About', href: '/about' },
+      { label: 'Journal', href: '/journal' },
+    ],
+    cta: "Let's Talk",
+    ctaHref: '/contact',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
+    langLabel: 'PL',
+    langAria: 'Wersja polska',
+  },
+  pl: {
+    home: '/pl',
+    links: [
+      { label: 'Realizacje', href: '/pl/realizacje' },
+      { label: 'Usługi', href: '/pl/uslugi' },
+      { label: 'Proces', href: '/pl#process' },
+      { label: 'O mnie', href: '/pl/o-mnie' },
+    ],
+    cta: 'Porozmawiajmy',
+    ctaHref: '/pl/kontakt',
+    openMenu: 'Otwórz menu',
+    closeMenu: 'Zamknij menu',
+    langLabel: 'EN',
+    langAria: 'English version',
+  },
+} as const
 
-export default function Nav() {
+export default function Nav({ locale = 'en' }: { locale?: Locale }) {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+  const copy = NAV_COPY[locale]
+  const langHref = altLocaleHref(pathname ?? copy.home, locale)
 
   return (
     <>
       <nav className="nav">
-        <Link href="/" className="nav__brand">
+        <Link href={copy.home} className="nav__brand">
           <span className="nav__name">Oskar Straszyński</span>
           <span className="nav__name--short">Oskar S.</span>
           <span className="nav__sub">· Ezytra</span>
         </Link>
         <ul className="nav__links">
-          {NAV_LINKS.map((link) => (
+          {copy.links.map((link) => (
             <li key={link.label}>
               <NavLink href={link.href}>{link.label}</NavLink>
             </li>
           ))}
         </ul>
-        <Button variant="ghost" href="/contact" className="nav__cta" chevron>
-          Let&apos;s Talk
+        <Link href={langHref} className="nav__lang" aria-label={copy.langAria}>
+          {copy.langLabel}
+        </Link>
+        <Button variant="ghost" href={copy.ctaHref} className="nav__cta" chevron>
+          {copy.cta}
         </Button>
         <button
           className={`nav__hamburger ${open ? 'nav__hamburger--open' : ''}`}
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-label={open ? copy.closeMenu : copy.openMenu}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
@@ -52,21 +86,24 @@ export default function Nav() {
         inert={!open}
       >
         <ul className="nav__drawer-links">
-          {NAV_LINKS.map((link, i) => (
+          {copy.links.map((link, i) => (
             <li key={link.label} style={{ '--i': i } as React.CSSProperties}>
               <NavLink href={link.href} onClick={() => setOpen(false)}>{link.label}</NavLink>
             </li>
           ))}
+          <li style={{ '--i': copy.links.length } as React.CSSProperties}>
+            <NavLink href={langHref} onClick={() => setOpen(false)}>{copy.langLabel}</NavLink>
+          </li>
         </ul>
         <Button
           variant="ghost"
-          href="/contact"
+          href={copy.ctaHref}
           className="nav__drawer-cta"
-          style={{ '--i': NAV_LINKS.length } as React.CSSProperties}
+          style={{ '--i': copy.links.length + 1 } as React.CSSProperties}
           onClick={() => setOpen(false)}
           chevron
         >
-          Let&apos;s Talk
+          {copy.cta}
         </Button>
       </div>
     </>

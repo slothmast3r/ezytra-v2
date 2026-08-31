@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 
-const PROCESS = [
+const DEFAULT_STEPS = [
   {
     num: '01',
     title: 'Discovery',
@@ -25,7 +25,13 @@ const PROCESS = [
   },
 ]
 
-export default function ProcessSection() {
+interface ProcessStep {
+  num: string
+  title: string
+  desc: string
+}
+
+export default function ProcessSection({ steps = DEFAULT_STEPS }: { steps?: ProcessStep[] }) {
   const gridRef = useRef<HTMLDivElement>(null)
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -90,7 +96,7 @@ export default function ProcessSection() {
 
   return (
     <div ref={gridRef} className="process__grid">
-      {PROCESS.map((s, i) => (
+      {steps.map((s, i) => (
         <div
           key={s.num}
           ref={(el) => { stepRefs.current[i] = el }}

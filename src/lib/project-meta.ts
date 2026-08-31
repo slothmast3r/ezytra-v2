@@ -22,6 +22,10 @@ export interface ProjectMeta {
   url?: string
   href?: string
   desc: string
+  // Polish overrides for the /pl mirror; English values are the fallback.
+  descPl?: string
+  locationPl?: string
+  typePl?: string
   tags?: string[]
   image?: string
   video?: string
@@ -30,4 +34,15 @@ export interface ProjectMeta {
     description?: string
   }
   toc?: TocChapter[]
+}
+
+/** Returns a copy with Polish frontmatter overrides applied (falls back to English). */
+export function localizeProject(p: ProjectMeta, locale: 'en' | 'pl'): ProjectMeta {
+  if (locale !== 'pl') return p
+  return {
+    ...p,
+    desc: p.descPl ?? p.desc,
+    location: p.locationPl ?? p.location,
+    type: p.typePl ?? p.type,
+  }
 }

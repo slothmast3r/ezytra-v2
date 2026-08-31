@@ -2,13 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-const LINES: { text: string; accent?: boolean }[] = [
+const DEFAULT_LINES: { text: string; accent?: boolean }[] = [
   { text: 'I design and' },
   { text: 'build websites,', accent: true },
   { text: 'end to end.' },
 ]
 
-export default function HeroHeadline() {
+export default function HeroHeadline({
+  lines = DEFAULT_LINES,
+}: {
+  lines?: { text: string; accent?: boolean }[]
+}) {
   const ref = useRef<HTMLHeadingElement>(null)
   const [active, setActive] = useState(false)
 
@@ -33,8 +37,8 @@ export default function HeroHeadline() {
   return (
     <h1 className="hero__headline" ref={ref}>
       {/* Screen readers get the sentence once; the animated letters are hidden from them. */}
-      <span className="sr-only">{LINES.map((l) => l.text).join(' ')}</span>
-      {LINES.map((line, li) => (
+      <span className="sr-only">{lines.map((l) => l.text).join(' ')}</span>
+      {lines.map((line, li) => (
         <span
           key={li}
           aria-hidden="true"

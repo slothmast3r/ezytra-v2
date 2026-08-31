@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import { NicheLanding } from '../_components/NicheLanding'
-import { szkolyTanca } from '../_content/szkoly-tanca'
-import { SITE_DATA } from '../../data'
+import { NicheLanding } from '../../_components/NicheLanding'
+import { szkolyTanca } from '../../_content/szkoly-tanca'
+import { SITE_DATA } from '../../../data'
 
 export const metadata: Metadata = {
   title: szkolyTanca.meta.title,
