@@ -1,15 +1,18 @@
 import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import Image from 'next/image'
-import React, { Suspense } from 'react'
+import React from 'react'
 import Nav from '../../components/Nav'
 import FooterBar from '../../components/FooterBar'
 import ArticleTOC from './ArticleTOC'
 import ShareButton from './ShareButton'
 import { SITE_DATA } from '../../data'
-import { ArticleSkeleton } from '../../components/Skeletons'
 import { Metadata } from 'next'
+import { getNextPost, getPostBySlug, getPublishedPosts, getReadTime } from '@/content/posts'
+import { authors } from '@/content/authors'
+
+export function generateStaticParams() {
+  return getPublishedPosts().map((post) => ({ slug: post.slug }))
+}
 
 export async function generateMetadata({
   params,
@@ -17,15 +20,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'posts',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  })
-
-  const post = docs[0] as any
+  const post = getPostBySlug(slug)
   if (!post) return {}
 
   const title = post.meta?.title || post.headline
@@ -100,74 +95,23 @@ function renderInline(text: string) {
   )
 }
 
-function calculateReadTime(sections: any[]): string {
-  let totalWords = 0
-  const WPM = 200
+/* ─── Content Component ─────────────────────────────────────────────────── */
 
-  sections.forEach((s) => {
-    if (s.body) {
-      const cleanText = s.body.replace(/```[\s\S]*?```/g, '')
-      totalWords += cleanText.split(/\s+/).filter(Boolean).length
-      const codeBlocks = s.body.match(/```[\s\S]*?```/g)
-      if (codeBlocks) {
-        totalWords += codeBlocks.length * 50
-      }
-    }
-    if (s.heading) totalWords += s.heading.split(/\s+/).length
-  })
-
-  const minutes = Math.max(1, Math.ceil(totalWords / WPM))
-  return `${minutes} min read`
-}
-
-/* ─── Async Content Component ─────────────────────────────────────────────── */
-
-async function ArticleContent({ slug }: { slug: string }) {
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'posts',
-    where: { slug: { equals: slug } },
-    limit: 1,
-    populate: { authors: { name: true, role: true, bio: true } },
-  })
-
-  const post = docs[0] as any
+function ArticleContent({ slug }: { slug: string }) {
+  const post = getPostBySlug(slug)
   if (!post || post.status !== 'published') notFound()
 
-  const { docs: nextArticles } = await payload.find({
-    collection: 'posts',
-    where: {
-      and: [
-        { status: { equals: 'published' } },
-        { createdAt: { less_than: post.createdAt } },
-      ],
-    },
-    sort: '-createdAt',
-    limit: 1,
-  })
-  const nextPost = nextArticles[0]
-
-  const author = post.author && typeof post.author === 'object' ? post.author : null
-
-  const sections = (post.sections ?? []) as Array<{
-    anchor: string
-    label?: string | null
-    heading?: string | null
-    body?: string | null
-  }>
+  const nextPost = getNextPost(slug)
+  const author = authors[0]
+  const sections = post.sections
 
   const tocItems = sections.map((s, i) => ({
     num: String(i + 1).padStart(2, '0'),
     anchor: s.anchor,
-    title: s.heading ?? s.label ?? s.anchor,
+    title: s.heading || s.label || s.anchor,
   }))
 
-  const readTime = calculateReadTime(sections)
-  
-  const d = new Date(post.createdAt)
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const fallbackDate = `${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`
+  const readTime = getReadTime(post)
 
   return (
     <>
@@ -175,9 +119,7 @@ async function ArticleContent({ slug }: { slug: string }) {
       <section className="art-hero">
         <div className="art-hero__meta">
           {post.tag && <span className="tag">{post.tag}</span>}
-          <span className="art-hero__date">
-            {post.date || fallbackDate}
-          </span>
+          {post.date && <span className="art-hero__date">{post.date}</span>}
           <span className="art-hero__read">{readTime}</span>
         </div>
 
@@ -188,7 +130,7 @@ async function ArticleContent({ slug }: { slug: string }) {
         {author && (
           <div className="art-hero__author">
             <Image
-              src={author.photo && typeof author.photo === 'object' && 'url' in author.photo && author.photo.url ? author.photo.url : '/owner.jpg'}
+              src="/owner.jpg"
               alt={author.name}
               width={40}
               height={40}
@@ -216,7 +158,7 @@ async function ArticleContent({ slug }: { slug: string }) {
           <div className="art-cover__screen" />
         </div>
         <p className="art-cover__caption">
-          The finished site — designed in Figma, built in Next.js, managed with Payload CMS.
+          The finished site — designed in Figma, built by hand, managed without touching code.
         </p>
       </section>
 
@@ -269,7 +211,7 @@ async function ArticleContent({ slug }: { slug: string }) {
         {author && (
           <div className="art-author">
             <Image
-              src={author.photo && typeof author.photo === 'object' && 'url' in author.photo && author.photo.url ? author.photo.url : '/owner.jpg'}
+              src="/owner.jpg"
               alt={author.name}
               width={64}
               height={64}
@@ -304,9 +246,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <Nav />
-      <Suspense fallback={<ArticleSkeleton />}>
-        <ArticleContent slug={slug} />
-      </Suspense>
+      <ArticleContent slug={slug} />
       <FooterBar />
     </>
   )

@@ -128,7 +128,7 @@ export default function PrivacyPolicyPage() {
         <ul>
           <li>dostępu do swoich danych i otrzymania ich kopii,</li>
           <li>sprostowania (poprawienia) danych,</li>
-          <li>usunięcia danych („prawo do bycia zapomnianym"),</li>
+          <li>usunięcia danych („prawo do bycia zapomnianym&quot;),</li>
           <li>ograniczenia przetwarzania,</li>
           <li>przeniesienia danych do innego administratora,</li>
           <li>wniesienia sprzeciwu wobec przetwarzania,</li>
@@ -174,7 +174,7 @@ export default function PrivacyPolicyPage() {
         <p>
           Politykę mogę aktualizować — w szczególności, gdy zmienią się przepisy, narzędzia, z
           których korzystam, lub zakres usług. Każda istotna zmiana będzie odzwierciedlona w dacie
-          „Aktualizacja" na górze strony.
+          „Aktualizacja&quot; na górze strony.
         </p>
       </section>
 

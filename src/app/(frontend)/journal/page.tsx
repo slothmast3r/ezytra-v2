@@ -1,20 +1,11 @@
-export const revalidate = 60;
-
-import React, { Suspense } from "react";
-import { getPayload } from "payload";
-import config from "@payload-config";
+import React from "react";
 import Nav from "../components/Nav";
 import FooterBar from "../components/FooterBar";
 import AnimatedLink from "../components/AnimatedLink";
-import { JournalGridSkeleton } from "../components/Skeletons";
+import { getPublishedPosts, getReadTime, getVisiblePosts } from "@/content/posts";
 
-async function JournalHero() {
-  const payload = await getPayload({ config });
-  const { totalDocs } = await payload.find({
-    collection: "posts",
-    where: { status: { equals: "published" } },
-    limit: 0,
-  });
+function JournalHero() {
+  const totalDocs = getPublishedPosts().length;
 
   return (
     <div className="wa-hero__right">
@@ -29,55 +20,31 @@ async function JournalHero() {
   );
 }
 
-async function JournalGrid() {
-  const payload = await getPayload({ config });
-
-  const { docs: posts } = await payload.find({
-    collection: "posts",
-    sort: "-createdAt",
-    limit: 100,
-    where: { status: { not_equals: "draft" } },
-  });
+function JournalGrid() {
+  const posts = getVisiblePosts();
 
   return (
     <div className="jou-grid__container">
-      {(posts as any[]).map((post) => {
+      {posts.map((post) => {
         const isPublished = post.status === "published";
-        const d = new Date(post.createdAt);
-        const months = [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ];
-        const fallbackDate = `${months[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+        const readTime = getReadTime(post);
 
         return (
           <div
-            key={post.id}
+            key={post.slug}
             className={`jou-card${isPublished ? "" : " jou-card--coming-soon"}`}
           >
             <div className="jou-card__meta">
               {post.tag && <span className="tag">{post.tag}</span>}
               <div className="jou-card__stats">
-                {isPublished && (
-                  <span className="jou-card__date">
-                    {post.date || fallbackDate}
-                  </span>
+                {isPublished && post.date && (
+                  <span className="jou-card__date">{post.date}</span>
                 )}
-                {isPublished && post.readTime && (
+                {isPublished && (
                   <span className="jou-card__dot" aria-hidden="true" />
                 )}
-                {isPublished && post.readTime && (
-                  <span className="jou-card__read">{post.readTime}</span>
+                {isPublished && (
+                  <span className="jou-card__read">{readTime}</span>
                 )}
                 {!isPublished && (
                   <span className="jou-card__status">Coming soon</span>
@@ -122,8 +89,8 @@ async function JournalGrid() {
           More articles currently in the works...
         </h2>
         <p className="jou-card__excerpt">
-          I&apos;m writing about Payload CMS, Next.js performance, and why I
-          still love plain CSS.
+          I&apos;m writing about custom WordPress themes, WooCommerce, and why
+          I still love plain CSS.
         </p>
       </div>
     </div>
@@ -141,36 +108,13 @@ export default function JournalPage() {
           <p className="eyebrow">— Journal</p>
           <h1 className="wa-hero__heading">Thinking Out Loud.</h1>
         </div>
-        <Suspense
-          fallback={
-            <div className="wa-hero__right">
-              <p className="wa-hero__tagline">
-                — Practical insights, process deep-dives, and occasional rants.
-              </p>
-              <p className="wa-hero__count">
-                <span
-                  className="skeleton"
-                  style={{
-                    width: "4rem",
-                    display: "inline-block",
-                    height: "1rem",
-                  }}
-                />{" "}
-                articles · Sharing what I learn while building for the web.
-              </p>
-            </div>
-          }
-        >
-          <JournalHero />
-        </Suspense>
+        <JournalHero />
       </section>
 
       {/* ── Grid ── */}
       <section className="jou-grid">
         <div className="rule" />
-        <Suspense fallback={<JournalGridSkeleton />}>
-          <JournalGrid />
-        </Suspense>
+        <JournalGrid />
       </section>
 
       <FooterBar />

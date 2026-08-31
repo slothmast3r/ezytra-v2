@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
-import { getPayload } from 'payload'
-import config from '@payload-config'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 type LeadPayload = {
   name?: string
@@ -32,22 +33,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Wymagana jest zgoda na kontakt' }, { status: 400 })
   }
 
+  // Subject is built from user input; strip CR/LF defensively to prevent header injection.
+  const safeSubjectName = name.replace(/[\r\n]/g, ' ').slice(0, 120)
+
+  const text = [
+    'Nowe zapytanie z landingu PL',
+    '',
+    `Imię:      ${name.slice(0, 120)}`,
+    `Szkoła:    ${school.slice(0, 160)}`,
+    `Kontakt:   ${contact.slice(0, 200)}`,
+    `Nisza:     ${niche}`,
+    `Źródło:    ${request.headers.get('referer') ?? '—'}`,
+    '',
+    'Wiadomość:',
+    message.slice(0, 5000) || '—',
+  ].join('\n')
+
   try {
-    const payload = await getPayload({ config })
-    await payload.create({
-      collection: 'leads',
-      data: {
-        name,
-        school,
-        contact,
-        message,
-        niche,
-        source: request.headers.get('referer') ?? '',
-      },
+    await resend.emails.send({
+      from: 'Portfolio Contact <onboarding@resend.dev>',
+      to: ['oskar.straszynski@gmail.com'],
+      subject: `Nowe zapytanie (${niche}): ${safeSubjectName}`,
+      text,
     })
     return NextResponse.json({ ok: true })
   } catch (err) {
-    console.error('Lead create failed:', err)
+    console.error('Lead email failed:', err)
     return NextResponse.json({ error: 'Nie udało się zapisać zapytania' }, { status: 500 })
   }
 }

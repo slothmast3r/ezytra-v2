@@ -1,4 +1,3 @@
-import { withPayload } from '@payloadcms/next/withPayload'
 import createMDX from '@next/mdx'
 import type { NextConfig } from 'next'
 import path from 'path'
@@ -12,9 +11,6 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [70, 75],
     localPatterns: [
-      {
-        pathname: '/api/media/file/**',
-      },
       {
         pathname: '/**',
       },
@@ -64,4 +60,4 @@ const withMDX = createMDX({
   },
 })
 
-export default withPayload(withMDX(nextConfig), { devBundleServerPackages: false })
+export default withMDX(nextConfig)

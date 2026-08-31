@@ -1,13 +1,26 @@
-export const posts: Array<{
+export interface PostSection {
+  anchor: string
+  label: string
+  heading: string
+  body: string
+}
+
+export interface Post {
   slug: string
   status: 'published' | 'coming-soon' | 'draft'
   tag: string
   headline: string
   excerpt: string
+  /** Display date shown on cards and article heroes, e.g. "Aug 2026". */
+  date?: string
   nextTitle: string
   nextHref: string
-  sections: { anchor: string; label: string; heading: string; body: string }[]
-}> = [
+  sections: PostSection[]
+  meta?: { title?: string; description?: string }
+}
+
+// Ordered oldest-first; helpers below return newest-first.
+export const posts: Post[] = [
   {
     slug: 'deploying-ezytra-on-vercel-what-actually-worked',
     status: 'coming-soon',
@@ -165,3 +178,46 @@ export const posts: Array<{
     ],
   },
 ]
+
+/** All posts that appear on the site (published + coming soon), newest first. */
+export function getVisiblePosts(): Post[] {
+  return [...posts].reverse().filter((p) => p.status !== 'draft')
+}
+
+/** Fully published posts only, newest first. */
+export function getPublishedPosts(): Post[] {
+  return [...posts].reverse().filter((p) => p.status === 'published')
+}
+
+export function getPostBySlug(slug: string): Post | undefined {
+  return posts.find((p) => p.slug === slug)
+}
+
+/** The next-oldest published post after the given one, for the "next article" footer. */
+export function getNextPost(slug: string): Post | undefined {
+  const ordered = getPublishedPosts()
+  const idx = ordered.findIndex((p) => p.slug === slug)
+  if (idx === -1) return undefined
+  return ordered[idx + 1]
+}
+
+/** Estimated reading time, e.g. "4 min read". Code blocks count a flat 50 words each. */
+export function getReadTime(post: Post): string {
+  let totalWords = 0
+  const WPM = 200
+
+  post.sections.forEach((s) => {
+    if (s.body) {
+      const cleanText = s.body.replace(/```[\s\S]*?```/g, '')
+      totalWords += cleanText.split(/\s+/).filter(Boolean).length
+      const codeBlocks = s.body.match(/```[\s\S]*?```/g)
+      if (codeBlocks) {
+        totalWords += codeBlocks.length * 50
+      }
+    }
+    if (s.heading) totalWords += s.heading.split(/\s+/).length
+  })
+
+  const minutes = Math.max(1, Math.ceil(totalWords / WPM))
+  return `${minutes} min read`
+}

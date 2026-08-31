@@ -1,24 +1,22 @@
 export const revalidate = 60
 
 import React, { Suspense } from 'react'
-import { ProjectSkeleton, JournalSkeleton } from './components/Skeletons'
+import { ProjectSkeleton } from './components/Skeletons'
 import Nav from './components/Nav'
 import HeroHeadline from './components/HeroHeadline'
 import Button from './components/Button'
 import SiteFooter from './components/SiteFooter'
 import AnimatedLink from './components/AnimatedLink'
 import ProcessSection from './components/ProcessSection'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import { getAllProjects } from '@/lib/projects'
+import { getVisiblePosts } from '@/content/posts'
 import Image from 'next/image'
 
 const STACK = [
   { icon: '/icons/figma.svg', name: 'Figma' },
-  { icon: '/icons/nextjs.svg', name: 'Next.js' },
-  { icon: '/icons/payload.png', name: 'Payload CMS' },
-  { icon: '/icons/sanity.png', name: 'Sanity' },
-  { icon: '/icons/vps.png', name: 'VPS Deploy' },
+  { icon: '/icons/wordpress.svg', name: 'WordPress' },
+  { icon: '/icons/woocommerce.svg', name: 'WooCommerce' },
+  { icon: '/icons/vps.png', name: 'Hosting' },
   { icon: '/icons/seo.png', name: 'SEO' },
 ]
 
@@ -31,17 +29,17 @@ const SERVICES = [
   {
     num: '02',
     title: 'Development',
-    desc: 'Next.js sites, built by hand. No page builders, no bloated themes. Fast, accessible, scalable.',
+    desc: 'Custom WordPress themes, built by hand. No page builders, no bloated off-the-shelf themes. Fast, accessible, easy to maintain.',
   },
   {
     num: '03',
     title: 'CMS Integration',
-    desc: 'Payload or Sanity. You edit your own content without touching code.',
+    desc: 'WordPress, set up around your content. You edit pages, posts, and images yourself — without touching code.',
   },
   {
     num: '04',
-    title: 'SEO & Deployment',
-    desc: "On-page SEO from day one. Deployed to VPS. I handle the full stack so you don't have to.",
+    title: 'SEO & Hosting',
+    desc: "On-page SEO from day one. Hosting, domain, and launch handled end to end. I run the technical side so you don't have to.",
   },
 ]
 
@@ -111,15 +109,8 @@ async function ProjectsList() {
   })
 }
 
-async function JournalList() {
-  const payload = await getPayload({ config })
-  const { docs: posts } = await payload.find({
-    collection: 'posts',
-    sort: '-createdAt',
-    limit: 4,
-    where: { status: { not_equals: 'draft' } },
-    select: { slug: true, tag: true, headline: true, status: true },
-  })
+function JournalList() {
+  const posts = getVisiblePosts().slice(0, 4)
 
   return (
     <>
@@ -236,18 +227,7 @@ export default function HomePage() {
       <section className="journal">
         <h2 className="section-title">Journal</h2>
         <div className="rule" />
-        <Suspense
-          fallback={
-            <>
-              <JournalSkeleton />
-              <JournalSkeleton />
-              <JournalSkeleton />
-              <JournalSkeleton />
-            </>
-          }
-        >
-          <JournalList />
-        </Suspense>
+        <JournalList />
         <div className="journal__footer">
           <Button variant="ghost" href="/journal" chevron>
             View All Articles

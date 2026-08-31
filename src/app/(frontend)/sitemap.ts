@@ -1,22 +1,12 @@
 import { MetadataRoute } from 'next'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import { SITE_DATA } from './data'
 import { getAllProjects } from '@/lib/projects'
+import { getPublishedPosts } from '@/content/posts'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const payload = await getPayload({ config })
-
   // 1. Fetch Dynamic Slugs
-  const [projects, posts] = await Promise.all([
-    getAllProjects(),
-    payload.find({
-      collection: 'posts',
-      limit: 100,
-      where: { status: { equals: 'published' } },
-      select: { slug: true, updatedAt: true },
-    }),
-  ])
+  const projects = await getAllProjects()
+  const posts = getPublishedPosts()
 
   // 2. Define Static Routes
   const staticRoutes = [
@@ -54,9 +44,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // 4. Map Dynamic Post Routes
-  const postRoutes = posts.docs.map((post: any) => ({
+  const postRoutes = posts.map((post) => ({
     url: `${SITE_DATA.url}/journal/${post.slug}`,
-    lastModified: post.updatedAt || new Date().toISOString(),
+    lastModified: new Date().toISOString(),
     changeFrequency: 'weekly' as const,
     priority: 0.6,
   }))

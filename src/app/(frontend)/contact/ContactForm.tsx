@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useId, useRef, useState } from 'react'
+import React, { useEffect, useId, useRef, useState } from 'react'
 import Button from '../components/Button'
 import { SITE_DATA } from '../data'
 import { track } from '@vercel/analytics'
@@ -137,7 +137,10 @@ export default function ContactForm() {
   }
 
   // Captured once on mount, used as a server-side time-trap.
-  const startedAtRef = useRef<number>(Date.now())
+  const startedAtRef = useRef<number>(0)
+  useEffect(() => {
+    startedAtRef.current = Date.now()
+  }, [])
   const [honeypot, setHoneypot] = useState('')
 
   const [formData, setFormData] = useState<ContactFormPayload>({
