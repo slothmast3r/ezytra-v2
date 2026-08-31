@@ -32,9 +32,12 @@ export default function HeroHeadline() {
 
   return (
     <h1 className="hero__headline" ref={ref}>
+      {/* Screen readers get the sentence once; the animated letters are hidden from them. */}
+      <span className="sr-only">{LINES.map((l) => l.text).join(' ')}</span>
       {LINES.map((line, li) => (
         <span
           key={li}
+          aria-hidden="true"
           className={`hero__headline-line${line.accent ? ' hero__headline-line--accent' : ''}`}
         >
           {line.text.split('').map((char) => {

@@ -77,6 +77,14 @@
   transform: translateY(0);
 }
 
+/* Reduced motion: headline letters render in place, no slide-up */
+@media (prefers-reduced-motion: reduce) {
+  .hero__headline-char {
+    transform: none;
+    transition: none;
+  }
+}
+
 .hero__tagline {
   font-family: var(--font-mono);
   font-size: 1.125rem;

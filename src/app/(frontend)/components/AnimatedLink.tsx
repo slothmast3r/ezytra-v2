@@ -32,8 +32,11 @@ export function SplitText({
 }: SplitTextProps) {
   const text = extractText(children)
 
+  // Screen readers get the plain text once; the per-letter animation spans are
+  // hidden from them so links don't announce as "w, o, r, k".
   return (
     <>
+      <span className="sr-only">{text}</span>
       {text.split('').map((char, i) => {
         const display = char === ' ' ? '\u00a0' : char
 
@@ -61,11 +64,11 @@ export function SplitText({
         ].filter(Boolean).join(' ')
 
         return (
-          <span key={i} className="btn__char-clip">
+          <span key={i} className="btn__char-clip" aria-hidden="true">
             <span className={bottomCls} style={{ transitionDelay: bottomDelay }}>
               {display}
             </span>
-            <span className={topCls} style={{ transitionDelay: topDelay }} aria-hidden="true">
+            <span className={topCls} style={{ transitionDelay: topDelay }}>
               {display}
             </span>
           </span>
