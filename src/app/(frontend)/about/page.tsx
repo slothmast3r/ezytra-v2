@@ -11,15 +11,15 @@ const SKILLS = [
   },
   {
     cat: 'Development',
-    items: ['Next.js / React', 'TypeScript', 'REST APIs'],
+    items: ['WordPress', 'Custom Themes', 'HTML / CSS / JS'],
   },
   {
-    cat: 'CMS & Data',
-    items: ['Payload CMS', 'Sanity', 'PostgreSQL'],
+    cat: 'CMS & Commerce',
+    items: ['WordPress Admin', 'WooCommerce', 'Content Modelling'],
   },
   {
     cat: 'Infra & SEO',
-    items: ['VPS / Linux', 'Nginx', 'On-page SEO', 'Core Web Vitals', 'Vercel Analytics'],
+    items: ['Hosting & Domains', 'On-page SEO', 'Core Web Vitals', 'Analytics'],
   },
 ]
 

@@ -16,7 +16,7 @@ const PROCESS = [
   {
     num: '03',
     title: 'Build',
-    desc: 'I code what I designed. Next.js, your CMS of choice, deployed to your server or mine.',
+    desc: 'I code what I designed. A custom WordPress theme, deployed to your hosting or mine.',
   },
   {
     num: '04',
