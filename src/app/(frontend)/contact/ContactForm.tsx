@@ -3,7 +3,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react'
 import Button from '../components/Button'
 import { SITE_DATA } from '../data'
-import { track } from '@vercel/analytics'
+import { trackEvent } from '@/lib/analytics'
 import { sendEmail, type ContactFormPayload } from './actions'
 import type { Locale } from '../i18n'
 
@@ -302,12 +302,14 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
     })
 
     if (result.success) {
-      track('contact_form_submitted', {
+      trackEvent('contact_form_submitted', {
         projectType: formData.projectType,
         budget: formData.budget,
+        locale,
       })
       setSent(true)
     } else {
+      trackEvent('contact_form_error', { error: result.error, locale })
       setSubmitError(result.error)
     }
 
@@ -503,7 +505,13 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
           </div>
           <div className="cform__card-footer">
             <span className="cform__card-footer-text">{copy.preferEmail}</span>
-            <a href={`mailto:${SITE_DATA.email}`} className="cform__card-email">{SITE_DATA.email}</a>
+            <a
+              href={`mailto:${SITE_DATA.email}`}
+              className="cform__card-email"
+              onClick={() => trackEvent('email_link_click', { location: 'contact_form_card', locale })}
+            >
+              {SITE_DATA.email}
+            </a>
           </div>
         </div>
       </div>

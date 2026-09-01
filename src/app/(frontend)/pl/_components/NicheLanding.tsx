@@ -3,6 +3,7 @@ import type { NicheContent } from '../_content/types'
 import { ContactForm } from './ContactForm'
 import { JsonLd } from './JsonLd'
 import { SITE_DATA } from '../../data'
+import TrackedLink from '../../components/TrackedLink'
 
 type Props = { content: NicheContent }
 
@@ -31,9 +32,14 @@ function Hero({ content }: Props) {
         <h1 className="pl-hero__h1">{content.hero.h1}</h1>
         <p className="pl-hero__sub">{content.hero.subheadline}</p>
         <div className="pl-hero__ctas">
-          <a href="#kontakt" className="pl-btn pl-btn--primary">
+          <TrackedLink
+            href="#kontakt"
+            className="pl-btn pl-btn--primary"
+            event="cta_click"
+            eventParams={{ location: 'hero', niche: content.niche }}
+          >
             {content.hero.ctaPrimary}
-          </a>
+          </TrackedLink>
           <a href="#co-dostajesz" className="pl-btn pl-btn--ghost">
             {content.hero.ctaSecondary}
           </a>
@@ -144,9 +150,14 @@ function Pricing({ content }: Props) {
                 <li key={j}>{f}</li>
               ))}
             </ul>
-            <a href="#kontakt" className="pl-btn pl-btn--primary pl-pricing__cta">
+            <TrackedLink
+              href="#kontakt"
+              className="pl-btn pl-btn--primary pl-pricing__cta"
+              event="cta_click"
+              eventParams={{ location: 'pricing', niche: content.niche, package: pkg.name }}
+            >
               {pkg.cta}
-            </a>
+            </TrackedLink>
           </div>
         ))}
       </div>
@@ -186,12 +197,22 @@ function Contact({ content }: Props) {
         <aside className="pl-contact__direct">
           <p className="pl-contact__direct-label">Albo skontaktuj się bezpośrednio</p>
           <p className="pl-contact__direct-name">{SITE_DATA.name}</p>
-          <a className="pl-contact__direct-link" href={`tel:${SITE_DATA.phoneTel}`}>
+          <TrackedLink
+            className="pl-contact__direct-link"
+            href={`tel:${SITE_DATA.phoneTel}`}
+            event="phone_link_click"
+            eventParams={{ location: 'niche_contact', niche: content.niche }}
+          >
             {SITE_DATA.phone}
-          </a>
-          <a className="pl-contact__direct-link" href={`mailto:${SITE_DATA.email}`}>
+          </TrackedLink>
+          <TrackedLink
+            className="pl-contact__direct-link"
+            href={`mailto:${SITE_DATA.email}`}
+            event="email_link_click"
+            eventParams={{ location: 'niche_contact', niche: content.niche }}
+          >
             {SITE_DATA.email}
-          </a>
+          </TrackedLink>
           <p className="pl-contact__direct-hours">Pon.–pt., 9:00–18:00</p>
         </aside>
       </div>

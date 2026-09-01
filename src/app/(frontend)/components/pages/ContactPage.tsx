@@ -1,6 +1,7 @@
 import React from 'react'
 import Nav from '../Nav'
 import ContactForm from '../../contact/ContactForm'
+import TrackedLink from '../TrackedLink'
 import FooterBar from '../FooterBar'
 import type { Locale } from '../../i18n'
 
@@ -116,9 +117,14 @@ export default function ContactPage({ locale = 'en' }: { locale?: Locale }) {
             <div key={item.label} className="cinfo__item">
               <span className="cinfo__label">{item.label}</span>
               {item.href ? (
-                <a href={item.href} className="cinfo__value">
+                <TrackedLink
+                  href={item.href}
+                  className="cinfo__value"
+                  event="contact_method_click"
+                  eventParams={{ method: item.label, locale }}
+                >
                   {item.value}
-                </a>
+                </TrackedLink>
               ) : (
                 <span className="cinfo__value">{item.value}</span>
               )}

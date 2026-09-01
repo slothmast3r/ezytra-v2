@@ -4,6 +4,7 @@ import Nav from '../../components/Nav'
 import Button from '../../components/Button'
 import FooterBar from '../../components/FooterBar'
 import CaseStudyTOC from './CaseStudyTOC'
+import TrackedLink from '../../components/TrackedLink'
 import { SITE_DATA } from '../../data'
 import { getAllProjects, getProjectBySlug, getProjectSlugs } from '@/lib/projects'
 import './case-study.css'
@@ -53,9 +54,16 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           <p className="cs-hero__subtitle">{meta.location}</p>
           <p className="cs-hero__desc">{meta.desc}</p>
           {meta.href && (
-            <a href={meta.href} className="cs-hero__link" target="_blank" rel="noopener noreferrer">
+            <TrackedLink
+              href={meta.href}
+              className="cs-hero__link"
+              target="_blank"
+              rel="noopener noreferrer"
+              event="project_live_link_click"
+              eventParams={{ project: slug }}
+            >
               {meta.url || 'Visit Site'} ↗
-            </a>
+            </TrackedLink>
           )}
         </div>
 

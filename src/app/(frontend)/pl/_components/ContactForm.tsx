@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { trackEvent } from '@/lib/analytics'
 
 type Props = {
   niche: 'taniec' | 'walki'
@@ -45,8 +46,10 @@ export function ContactForm({
         const data = await res.json().catch(() => ({}))
         throw new Error(data?.error || 'Coś poszło nie tak')
       }
+      trackEvent('lead_form_submitted', { niche })
       setStatus('sent')
     } catch (err) {
+      trackEvent('lead_form_error', { niche })
       setStatus('error')
       setErrorMsg(err instanceof Error ? err.message : 'Coś poszło nie tak')
     }
