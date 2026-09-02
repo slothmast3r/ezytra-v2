@@ -1,201 +1,235 @@
-'use client'
+"use client";
 
-import React, { useEffect, useId, useRef, useState } from 'react'
-import Button from '../components/Button'
-import { SITE_DATA } from '../data'
-import { trackEvent } from '@/lib/analytics'
-import { sendEmail, type ContactFormPayload } from './actions'
-import type { Locale } from '../i18n'
+import React, { useEffect, useId, useRef, useState } from "react";
+import Button from "../components/Button";
+import { SITE_DATA } from "../data";
+import { trackEvent } from "@/lib/analytics";
+import { sendEmail, type ContactFormPayload } from "./actions";
+import type { Locale } from "../i18n";
 
 const FORM_COPY = {
   en: {
-    projectTypes: ['Web Design', 'Development', 'Brand Identity', 'CMS Setup', 'Full Project', 'Other'],
-    budgets: ['< €1k', '€1k–3k', '€3k–8k', '€6k+', "Let's talk"],
-    defaultProjectType: 'Full Project',
-    defaultBudget: '€3k–8k',
-    available: 'Available for new projects',
-    eyebrow: '— Send a Message',
-    successTitle: 'Message sent.',
+    projectTypes: [
+      "Web Design",
+      "Development",
+      "Brand Identity",
+      "CMS Setup",
+      "Full Project",
+      "Other",
+    ],
+    budgets: ["< €1k", "€1k–3k", "€3k–8k", "€6k+", "Let's talk"],
+    defaultProjectType: "Full Project",
+    defaultBudget: "€3k–8k",
+    available: "Available for new projects",
+    eyebrow: "— Send a Message",
+    successTitle: "Message sent.",
     successDesc: "I'll get back to you within 24 hours.",
-    nameLabel: 'Name',
-    namePlaceholder: 'John Kowalski',
-    emailLabel: 'Email',
-    emailPlaceholder: 'hello@example.com',
-    companyLabel: 'Company',
-    companyOptional: '(optional)',
-    companyPlaceholder: 'Your company or project name',
-    projectTypeLabel: 'Project type',
-    budgetLabel: 'Budget range',
+    nameLabel: "Name",
+    namePlaceholder: "John Kowalski",
+    emailLabel: "Email",
+    emailPlaceholder: "hello@example.com",
+    companyLabel: "Company",
+    companyOptional: "(optional)",
+    companyPlaceholder: "Your company or project name",
+    projectTypeLabel: "Project type",
+    budgetLabel: "Budget range",
     budgetNote:
-      'Heads up: projects under €1k rarely fit the way I work. Send the brief anyway. If I can point you somewhere better, I will.',
-    messageLabel: 'Your message',
-    messagePlaceholder: 'A few sentences about what you have in mind…',
-    honeypotLabel: 'Your website (leave this empty)',
-    submitErrorTitle: 'Couldn’t send your message.',
-    submitErrorRetry: 'Try again, or email me directly at',
-    sending: 'Sending…',
-    send: 'Send Message',
-    errName: 'What should I call you?',
-    errEmailMissing: 'Add your email so I can write back',
-    errEmailInvalid: 'That doesn’t look like an email. Try name@example.com',
-    errMessageMissing: 'A sentence or two about your project is enough to start',
-    errMessageShort: 'A little more detail would help me reply usefully',
-    cardEyebrow: 'What to expect',
+      "Heads up: projects under €1k rarely fit the way I work. Send the brief anyway. If I can point you somewhere better, I will.",
+    messageLabel: "Your message",
+    messagePlaceholder: "A few sentences about what you have in mind…",
+    honeypotLabel: "Your website (leave this empty)",
+    submitErrorTitle: "Couldn’t send your message.",
+    submitErrorRetry: "Try again, or email me directly at",
+    sending: "Sending…",
+    send: "Send Message",
+    errName: "What should I call you?",
+    errEmailMissing: "Add your email so I can write back",
+    errEmailInvalid: "That doesn’t look like an email. Try name@example.com",
+    errMessageMissing:
+      "A sentence or two about your project is enough to start",
+    errMessageShort: "A little more detail would help me reply usefully",
+    cardEyebrow: "What to expect",
     expect: [
       {
-        num: '01',
-        title: 'I read every message',
-        desc: 'No auto-replies. I read your message personally and respond with something useful, not a template.',
+        num: "01",
+        title: "I read every message",
+        desc: "No auto-replies. I read your message personally and respond with something useful, not a template.",
       },
       {
-        num: '02',
-        title: 'Response within 24h',
+        num: "02",
+        title: "Response within 24h",
         desc: "I'll reply within one working day. Usually faster. If I'm travelling I'll let you know.",
       },
       {
-        num: '03',
-        title: 'Honest answer',
+        num: "03",
+        title: "Honest answer",
         desc: "If your budget or brief doesn't fit what I do, I'll tell you, and point you somewhere better if I can.",
       },
       {
-        num: '04',
-        title: 'A quick call if it fits',
+        num: "04",
+        title: "A quick call if it fits",
         desc: "If things look good on paper, I'll suggest a 20-minute call to make sure we're right for each other.",
       },
     ],
-    preferEmail: 'Prefer email?',
+    preferEmail: "Prefer email?",
   },
   pl: {
-    projectTypes: ['Projekt strony', 'Wdrożenie', 'Identyfikacja wizualna', 'Konfiguracja CMS', 'Cały projekt', 'Inne'],
-    budgets: ['< €1k', '€1k–3k', '€3k–8k', '€6k+', 'Porozmawiajmy'],
-    defaultProjectType: 'Cały projekt',
-    defaultBudget: '€3k–8k',
-    available: 'Otwarty na nowe projekty',
-    eyebrow: '— Wyślij wiadomość',
-    successTitle: 'Wiadomość wysłana.',
-    successDesc: 'Odezwę się w ciągu 24 godzin.',
-    nameLabel: 'Imię i nazwisko',
-    namePlaceholder: 'Jan Kowalski',
-    emailLabel: 'Email',
-    emailPlaceholder: 'czesc@przyklad.pl',
-    companyLabel: 'Firma',
-    companyOptional: '(opcjonalnie)',
-    companyPlaceholder: 'Nazwa firmy lub projektu',
-    projectTypeLabel: 'Rodzaj projektu',
-    budgetLabel: 'Budżet',
+    projectTypes: [
+      "Projekt strony",
+      "Wdrożenie",
+      "Identyfikacja wizualna",
+      "Konfiguracja CMS",
+      "Cały projekt",
+      "Inne",
+    ],
+    budgets: ["< 4kzł", "4kzł–12kzł", "12kzł–20kzł", "20kzł+", "Porozmawiajmy"],
+    defaultProjectType: "Cały projekt",
+    defaultBudget: "4kzł–12kzł",
+    available: "Otwarty na nowe projekty",
+    eyebrow: "— Wyślij wiadomość",
+    successTitle: "Wiadomość wysłana.",
+    successDesc: "Odezwę się w ciągu 24 godzin.",
+    nameLabel: "Imię i nazwisko",
+    namePlaceholder: "Jan Kowalski",
+    emailLabel: "Email",
+    emailPlaceholder: "czesc@przyklad.pl",
+    companyLabel: "Firma",
+    companyOptional: "(opcjonalnie)",
+    companyPlaceholder: "Nazwa firmy lub projektu",
+    projectTypeLabel: "Rodzaj projektu",
+    budgetLabel: "Budżet",
     budgetNote:
-      'Uwaga: projekty poniżej €1k rzadko pasują do tego, jak pracuję. Mimo to wyślij brief — jeśli będę mógł wskazać Ci lepsze miejsce, zrobię to.',
-    messageLabel: 'Twoja wiadomość',
-    messagePlaceholder: 'Kilka zdań o tym, co masz w głowie…',
-    honeypotLabel: 'Twoja strona (zostaw to pole puste)',
-    submitErrorTitle: 'Nie udało się wysłać wiadomości.',
-    submitErrorRetry: 'Spróbuj ponownie albo napisz do mnie bezpośrednio na',
-    sending: 'Wysyłam…',
-    send: 'Wyślij wiadomość',
-    errName: 'Jak mam się do Ciebie zwracać?',
-    errEmailMissing: 'Podaj email, żebym mógł odpisać',
-    errEmailInvalid: 'To nie wygląda jak email. Spróbuj imie@przyklad.pl',
-    errMessageMissing: 'Zdanie lub dwa o projekcie w zupełności wystarczą na start',
-    errMessageShort: 'Odrobina więcej szczegółów pomoże mi sensownie odpowiedzieć',
-    cardEyebrow: 'Czego się spodziewać',
+      "Uwaga: projekty poniżej €1k rzadko pasują do tego, jak pracuję. Mimo to wyślij brief — jeśli będę mógł wskazać Ci lepsze miejsce, zrobię to.",
+    messageLabel: "Twoja wiadomość",
+    messagePlaceholder: "Kilka zdań o tym, co masz w głowie…",
+    honeypotLabel: "Twoja strona (zostaw to pole puste)",
+    submitErrorTitle: "Nie udało się wysłać wiadomości.",
+    submitErrorRetry: "Spróbuj ponownie albo napisz do mnie bezpośrednio na",
+    sending: "Wysyłam…",
+    send: "Wyślij wiadomość",
+    errName: "Jak mam się do Ciebie zwracać?",
+    errEmailMissing: "Podaj email, żebym mógł odpisać",
+    errEmailInvalid: "To nie wygląda jak email. Spróbuj imie@przyklad.pl",
+    errMessageMissing:
+      "Zdanie lub dwa o projekcie w zupełności wystarczą na start",
+    errMessageShort:
+      "Odrobina więcej szczegółów pomoże mi sensownie odpowiedzieć",
+    cardEyebrow: "Czego się spodziewać",
     expect: [
       {
-        num: '01',
-        title: 'Czytam każdą wiadomość',
-        desc: 'Żadnych automatycznych odpowiedzi. Czytam Twoją wiadomość osobiście i odpowiadam konkretnie, nie szablonem.',
+        num: "01",
+        title: "Czytam każdą wiadomość",
+        desc: "Żadnych automatycznych odpowiedzi. Czytam Twoją wiadomość osobiście i odpowiadam konkretnie, nie szablonem.",
       },
       {
-        num: '02',
-        title: 'Odpowiedź w 24h',
-        desc: 'Odpisuję w ciągu jednego dnia roboczego. Zwykle szybciej. Jeśli jestem w podróży, dam znać.',
+        num: "02",
+        title: "Odpowiedź w 24h",
+        desc: "Odpisuję w ciągu jednego dnia roboczego. Zwykle szybciej. Jeśli jestem w podróży, dam znać.",
       },
       {
-        num: '03',
-        title: 'Szczera odpowiedź',
-        desc: 'Jeśli Twój budżet albo brief nie pasują do tego, co robię, powiem to wprost — i jeśli mogę, wskażę lepsze miejsce.',
+        num: "03",
+        title: "Szczera odpowiedź",
+        desc: "Jeśli Twój budżet albo brief nie pasują do tego, co robię, powiem to wprost — i jeśli mogę, wskażę lepsze miejsce.",
       },
       {
-        num: '04',
-        title: 'Krótka rozmowa, jeśli pasujemy',
-        desc: 'Jeśli na papierze wygląda to dobrze, zaproponuję 20-minutową rozmowę, żeby upewnić się, że to dobre dopasowanie.',
+        num: "04",
+        title: "Krótka rozmowa, jeśli pasujemy",
+        desc: "Jeśli na papierze wygląda to dobrze, zaproponuję 20-minutową rozmowę, żeby upewnić się, że to dobre dopasowanie.",
       },
     ],
-    preferEmail: 'Wolisz email?',
+    preferEmail: "Wolisz email?",
   },
-} as const
+} as const;
 
 interface FormErrors {
-  name?: string
-  email?: string
-  message?: string
+  name?: string;
+  email?: string;
+  message?: string;
 }
 
 interface RadioPillsProps {
-  name: string
-  label: string
-  options: readonly string[]
-  value: string
-  onChange: (value: string) => void
+  name: string;
+  label: string;
+  options: readonly string[];
+  value: string;
+  onChange: (value: string) => void;
 }
 
-function RadioPills({ name, label, options, value, onChange }: RadioPillsProps) {
-  const groupId = `${name}-label`
-  const refs = useRef<(HTMLButtonElement | null)[]>([])
+function RadioPills({
+  name,
+  label,
+  options,
+  value,
+  onChange,
+}: RadioPillsProps) {
+  const groupId = `${name}-label`;
+  const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const focusAt = (idx: number) => {
-    const target = (idx + options.length) % options.length
-    onChange(options[target])
-    refs.current[target]?.focus()
-  }
+    const target = (idx + options.length) % options.length;
+    onChange(options[target]);
+    refs.current[target]?.focus();
+  };
 
-  const handleKey = (e: React.KeyboardEvent<HTMLButtonElement>, idx: number) => {
+  const handleKey = (
+    e: React.KeyboardEvent<HTMLButtonElement>,
+    idx: number,
+  ) => {
     switch (e.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-        e.preventDefault()
-        focusAt(idx + 1)
-        break
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        e.preventDefault()
-        focusAt(idx - 1)
-        break
-      case 'Home':
-        e.preventDefault()
-        focusAt(0)
-        break
-      case 'End':
-        e.preventDefault()
-        focusAt(options.length - 1)
-        break
-      case ' ':
-      case 'Enter':
-        e.preventDefault()
-        onChange(options[idx])
-        break
+      case "ArrowRight":
+      case "ArrowDown":
+        e.preventDefault();
+        focusAt(idx + 1);
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        e.preventDefault();
+        focusAt(idx - 1);
+        break;
+      case "Home":
+        e.preventDefault();
+        focusAt(0);
+        break;
+      case "End":
+        e.preventDefault();
+        focusAt(options.length - 1);
+        break;
+      case " ":
+      case "Enter":
+        e.preventDefault();
+        onChange(options[idx]);
+        break;
     }
-  }
+  };
 
   return (
     <div className="cform__field">
-      <span className="cform__label" id={groupId}>{label}</span>
-      <div className="cform__toggles" role="radiogroup" aria-labelledby={groupId}>
+      <span className="cform__label" id={groupId}>
+        {label}
+      </span>
+      <div
+        className="cform__toggles"
+        role="radiogroup"
+        aria-labelledby={groupId}
+      >
         {options.map((opt, idx) => {
-          const checked = value === opt
+          const checked = value === opt;
           return (
             <button
               key={opt}
-              ref={(el) => { refs.current[idx] = el }}
+              ref={(el) => {
+                refs.current[idx] = el;
+              }}
               type="button"
               role="radio"
               aria-checked={checked}
               tabIndex={checked ? 0 : -1}
               onKeyDown={(e) => handleKey(e, idx)}
               onClick={() => onChange(opt)}
-              className={`cform__toggle${checked ? ' cform__toggle--active' : ''}`}
+              className={`cform__toggle${checked ? " cform__toggle--active" : ""}`}
             >
               <svg
-                className={`cform__check ${checked ? 'cform__check--active' : ''}`}
+                className={`cform__check ${checked ? "cform__check--active" : ""}`}
                 width="10"
                 height="8"
                 viewBox="0 0 10 8"
@@ -203,20 +237,26 @@ function RadioPills({ name, label, options, value, onChange }: RadioPillsProps) 
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
               >
-                <path d="M1 4.5L3.5 7L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M1 4.5L3.5 7L9 1"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
               {opt}
             </button>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }
 
-export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
-  const copy = FORM_COPY[locale]
-  const uid = useId()
+export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
+  const copy = FORM_COPY[locale];
+  const uid = useId();
   const ids = {
     name: `${uid}-name`,
     email: `${uid}-email`,
@@ -227,93 +267,95 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
     emailErr: `${uid}-email-err`,
     messageErr: `${uid}-message-err`,
     submitErr: `${uid}-submit-err`,
-  }
+  };
 
   // Captured once on mount, used as a server-side time-trap.
-  const startedAtRef = useRef<number>(0)
+  const startedAtRef = useRef<number>(0);
   useEffect(() => {
-    startedAtRef.current = Date.now()
-  }, [])
-  const [honeypot, setHoneypot] = useState('')
+    startedAtRef.current = Date.now();
+  }, []);
+  const [honeypot, setHoneypot] = useState("");
 
   const [formData, setFormData] = useState<ContactFormPayload>({
-    name: '',
-    email: '',
-    company: '',
-    message: '',
+    name: "",
+    email: "",
+    company: "",
+    message: "",
     projectType: copy.defaultProjectType,
     budget: copy.defaultBudget,
-  })
+  });
 
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [sent, setSent] = useState(false)
-  const [isShaking, setIsShaking] = useState(false)
-  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const validate = (): boolean => {
-    const newErrors: FormErrors = {}
+    const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = copy.errName
+      newErrors.name = copy.errName;
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = copy.errEmailMissing
+      newErrors.email = copy.errEmailMissing;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = copy.errEmailInvalid
+      newErrors.email = copy.errEmailInvalid;
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = copy.errMessageMissing
+      newErrors.message = copy.errMessageMissing;
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = copy.errMessageShort
+      newErrors.message = copy.errMessageShort;
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }))
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
-    if (submitError) setSubmitError(null)
-  }
+    if (submitError) setSubmitError(null);
+  };
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (isSubmitting) return
-    setSubmitError(null)
+    e.preventDefault();
+    if (isSubmitting) return;
+    setSubmitError(null);
 
     if (!validate()) {
-      setIsShaking(true)
-      setTimeout(() => setIsShaking(false), 500)
-      return
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 500);
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     const result = await sendEmail({
       ...formData,
       website: honeypot,
       startedAt: startedAtRef.current,
-    })
+    });
 
     if (result.success) {
-      trackEvent('contact_form_submitted', {
+      trackEvent("contact_form_submitted", {
         projectType: formData.projectType,
         budget: formData.budget,
         locale,
-      })
-      setSent(true)
+      });
+      setSent(true);
     } else {
-      trackEvent('contact_form_error', { error: result.error, locale })
-      setSubmitError(result.error)
+      trackEvent("contact_form_error", { error: result.error, locale });
+      setSubmitError(result.error);
     }
 
-    setIsSubmitting(false)
+    setIsSubmitting(false);
   }
 
   return (
@@ -335,11 +377,13 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
           <form className="cform" onSubmit={handleSubmit} noValidate>
             <div className="cform__row">
               <div className="cform__field">
-                <label htmlFor={ids.name} className="cform__label">{copy.nameLabel}</label>
+                <label htmlFor={ids.name} className="cform__label">
+                  {copy.nameLabel}
+                </label>
                 <input
                   id={ids.name}
                   name="name"
-                  className={`cform__input ${errors.name ? 'cform__input--error' : ''} ${isShaking && errors.name ? 'cform__input--shake' : ''}`}
+                  className={`cform__input ${errors.name ? "cform__input--error" : ""} ${isShaking && errors.name ? "cform__input--shake" : ""}`}
                   type="text"
                   autoComplete="name"
                   required
@@ -357,11 +401,13 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
                 )}
               </div>
               <div className="cform__field">
-                <label htmlFor={ids.email} className="cform__label">{copy.emailLabel}</label>
+                <label htmlFor={ids.email} className="cform__label">
+                  {copy.emailLabel}
+                </label>
                 <input
                   id={ids.email}
                   name="email"
-                  className={`cform__input ${errors.email ? 'cform__input--error' : ''} ${isShaking && errors.email ? 'cform__input--shake' : ''}`}
+                  className={`cform__input ${errors.email ? "cform__input--error" : ""} ${isShaking && errors.email ? "cform__input--shake" : ""}`}
                   type="email"
                   autoComplete="email"
                   inputMode="email"
@@ -383,7 +429,8 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
 
             <div className="cform__field">
               <label htmlFor={ids.company} className="cform__label">
-                {copy.companyLabel} <span className="cform__optional">{copy.companyOptional}</span>
+                {copy.companyLabel}{" "}
+                <span className="cform__optional">{copy.companyOptional}</span>
               </label>
               <input
                 id={ids.company}
@@ -403,7 +450,9 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
               label={copy.projectTypeLabel}
               options={copy.projectTypes}
               value={formData.projectType}
-              onChange={(v) => setFormData((prev) => ({ ...prev, projectType: v }))}
+              onChange={(v) =>
+                setFormData((prev) => ({ ...prev, projectType: v }))
+              }
             />
 
             <RadioPills
@@ -414,18 +463,20 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
               onChange={(v) => setFormData((prev) => ({ ...prev, budget: v }))}
             />
 
-            {formData.budget === '< €1k' && (
+            {formData.budget === "< €1k" && (
               <p className="cform__budget-note" role="note">
                 {copy.budgetNote}
               </p>
             )}
 
             <div className="cform__field">
-              <label htmlFor={ids.message} className="cform__label">{copy.messageLabel}</label>
+              <label htmlFor={ids.message} className="cform__label">
+                {copy.messageLabel}
+              </label>
               <textarea
                 id={ids.message}
                 name="message"
-                className={`cform__textarea ${errors.message ? 'cform__input--error' : ''} ${isShaking && errors.message ? 'cform__input--shake' : ''}`}
+                className={`cform__textarea ${errors.message ? "cform__input--error" : ""} ${isShaking && errors.message ? "cform__input--shake" : ""}`}
                 rows={5}
                 required
                 maxLength={5000}
@@ -444,9 +495,7 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
 
             {/* Honeypot. Hidden from humans, not from bots. */}
             <div className="cform__honeypot" aria-hidden="true">
-              <label htmlFor={ids.website}>
-                {copy.honeypotLabel}
-              </label>
+              <label htmlFor={ids.website}>{copy.honeypotLabel}</label>
               <input
                 id={ids.website}
                 type="text"
@@ -465,10 +514,15 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
                 role="alert"
                 aria-live="assertive"
               >
-                <p className="cform__submit-error-title">{copy.submitErrorTitle}</p>
+                <p className="cform__submit-error-title">
+                  {copy.submitErrorTitle}
+                </p>
                 <p className="cform__submit-error-desc">
-                  {submitError} {copy.submitErrorRetry}{' '}
-                  <a href={`mailto:${SITE_DATA.email}`} className="cform__submit-error-link">
+                  {submitError} {copy.submitErrorRetry}{" "}
+                  <a
+                    href={`mailto:${SITE_DATA.email}`}
+                    className="cform__submit-error-link"
+                  >
                     {SITE_DATA.email}
                   </a>
                   .
@@ -508,7 +562,12 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
             <a
               href={`mailto:${SITE_DATA.email}`}
               className="cform__card-email"
-              onClick={() => trackEvent('email_link_click', { location: 'contact_form_card', locale })}
+              onClick={() =>
+                trackEvent("email_link_click", {
+                  location: "contact_form_card",
+                  locale,
+                })
+              }
             >
               {SITE_DATA.email}
             </a>
@@ -516,5 +575,5 @@ export default function ContactForm({ locale = 'en' }: { locale?: Locale }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
