@@ -180,4 +180,10 @@
   color: var(--accent);
   margin-right: 0.25rem;
 }
+.mockup__caption a {
+  transition: color 0.15s;
+}
+.mockup__caption a:hover {
+  color: var(--text);
+}
 

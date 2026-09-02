@@ -62,12 +62,12 @@ export default function Nav({ locale = 'en' }: { locale?: Locale }) {
             </li>
           ))}
         </ul>
-        <Link href={langHref} className="nav__lang" aria-label={copy.langAria}>
-          {copy.langLabel}
-        </Link>
         <Button variant="ghost" href={copy.ctaHref} className="nav__cta" chevron>
           {copy.cta}
         </Button>
+        <Link href={langHref} className="nav__lang" aria-label={copy.langAria}>
+          {copy.langLabel}
+        </Link>
         <button
           className={`nav__hamburger ${open ? 'nav__hamburger--open' : ''}`}
           aria-label={open ? copy.closeMenu : copy.openMenu}

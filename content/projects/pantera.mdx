@@ -10,15 +10,15 @@ featured: true
 hasCaseStudy: true
 url: pantera.waw.pl
 href: https://pantera.waw.pl
-desc: Full redesign and infrastructure migration for a Warsaw martial arts and family sport club. From a generic WordPress theme on shared hosting to a custom Next.js + Payload CMS stack on a dedicated VPS.
-descPl: Pełny redesign i migracja infrastruktury dla warszawskiego klubu sztuk walki i sportu rodzinnego. Z generycznego motywu WordPress na hostingu współdzielonym do autorskiego stacku Next.js + Payload CMS na dedykowanym VPS.
+desc: Full redesign for a Warsaw martial arts and family sport club. A generic WordPress template replaced with a custom hand-coded theme — no page builder — running on ordinary hosting.
+descPl: Pełny redesign dla warszawskiego klubu sztuk walki i sportu rodzinnego. Generyczny szablon WordPress zastąpiony autorskim motywem pisanym od zera — bez buildera — na zwykłym hostingu.
 locationPl: Mokotów, Warszawa
 typePl: Strona marketingowa + CMS
 image: /images/pantera/hero.webp
 video: /videos/pantera-hero.mp4
 tags:
-  - Next.js
-  - Payload CMS
+  - WordPress
+  - Polish
 toc:
   - id: overview
     title: Overview
@@ -52,7 +52,7 @@ toc:
     title: Stack
     children:
       - id: stack-migration
-        title: Stack migration
+        title: Theme rebuild
       - id: architecture
         title: How it fits together
       - id: why-this-stack
@@ -69,8 +69,8 @@ import {
 
 <Overview
   id="overview"
-  brief="Pantera is a martial arts and family sport club in Warsaw's Mokotów district, offering Krav Maga, karate, power training, and Tai Chi across age groups. The club needed a website that could serve three very different audiences — parents enrolling children, adults seeking self-defense training, and seniors drawn to Tai Chi — while projecting the authority and warmth of a trusted local club."
-  role="End-to-end: sitemap, wireframes, custom design system, and a production build on a modern headless stack. Self-managed VPS replacing shared hosting."
+  brief="Pantera is a martial arts and family sport club in Warsaw's Mokotów district, offering Krav Maga, karate, and power training across age groups. The club needed a website that could serve three very different audiences — parents enrolling children, adults seeking self-defense training, and companies booking group training — while projecting the authority and warmth of a trusted local club."
+  role="End-to-end: sitemap, wireframes, custom design system, and a production build as a hand-coded WordPress theme — no page builder — on ordinary hosting."
 />
 
 <BeforeAfterReveal
@@ -88,12 +88,12 @@ import {
   items={[
     { title: 'Video hero over photography', description: 'Hand-edited 10-second loop of real training — kids first, then Krav Maga, then Tai Chi. Authentic proof of the training environment, not a stock substitute.' },
     { title: 'Diagonal headline arrangement', description: 'The three fragments of the headline are indented progressively — each line shifted further right than the one above it. The text itself forms a diagonal that reads as motion and guides the eye toward the CTA. No graphic overlay needed.' },
-    { title: 'Audience segmentation below the fold', description: 'Three cards route parents, adults, and Tai Chi seekers immediately. The page asks one question and routes — it does not try to be one thing.' },
+    { title: 'Audience segmentation below the fold', description: 'Three cards route parents, adults, and companies immediately. The page asks one question and routes — it does not try to be one thing.' },
     { title: 'Varied section rhythm', description: 'Marquee reviews, 50/50 USP, 3-col instructors. Rhythm variation signals hierarchy; uniform grids signal "nothing matters most".' },
     { title: 'No "most popular" pricing badge', description: 'Standard SaaS pattern, wrong tool here. Pantera has no online checkout — every CTA leads to a human conversation.' },
     { title: 'Instructor section kept', description: 'In martial arts, students choose the instructor before the club. Real names and faces close the trial booking; this also feeds Google E-E-A-T.' },
     { title: 'Torn-paper divider rejected', description: 'Organic shapes conflict with the sharp, geometric brand. Background-color shift between sections does the separation job without competing for attention.' },
-    { title: 'Headless stack migration', description: 'Next.js + Payload + Postgres + Coolify on a Hetzner VPS replaces WordPress on shared hosting. Performance is the visible win; control is the structural one.' },
+    { title: 'Custom theme, no builder', description: 'A WordPress theme written from scratch — hand-coded templates, no page builder, no plugin bloat — on ordinary hosting. Performance is the visible win; control over every line of markup is the structural one.' },
   ]}
 />
 
@@ -103,15 +103,15 @@ import {
   constraints={[
     'Three audiences in one homepage',
     'Free-trial conversion path, no checkout',
-    'WordPress baseline: Lighthouse 83, CLS 0.235',
+    'Old-theme baseline: Lighthouse 83, CLS 0.235',
   ]}
 >
-The primary design challenge was audience breadth. A single hero had to speak to a parent looking for safe children's classes, a 30-year-old wanting real self-defense, and someone older interested in low-impact movement. A secondary challenge was conversion logic: Pantera's sales process runs through a free trial class, not online purchase — every CTA had to funnel toward contact, not checkout.
+The primary design challenge was audience breadth. A single hero had to speak to a parent looking for safe children's classes, a 30-year-old wanting real self-defense, and a company scoping group training for its team. A secondary challenge was conversion logic: Pantera's sales process runs through a free trial class, not online purchase — every CTA had to funnel toward contact, not checkout.
 </Challenge>
 
 <Chapter id="design" title="Design">
 
-The hardest part of Pantera was not the layout — it was deciding who the homepage was for. Three audiences (parents, adults, seniors) share almost nothing in common: different fears, different vocabulary, different reasons for showing up. A single hero either picks one and ignores the rest, or addresses all three and reads as generic.
+The hardest part of Pantera was not the layout — it was deciding who the homepage was for. Three audiences (parents, adults, companies) share almost nothing in common: different fears, different vocabulary, different reasons for showing up. A single hero either picks one and ignores the rest, or addresses all three and reads as generic.
 
 The page stops pretending it can be one thing. It asks one question — *which class are you here for?* — and routes. Everything below assumes that choice has been made.
 
@@ -146,7 +146,7 @@ The diagonal in the hero is not a graphic overlay — it is the headline itself.
   heading="Audience segmentation"
   intro="Immediately below the fold, three cards split the offer by audience group. This is the site's most critical UX decision: instead of making every visitor read through everything, the page asks one question and routes them to their own path."
   cards={[
-    { label: 'Problem', title: 'Three audiences, one homepage', body: "Parents, adult learners, and Tai Chi students have different fears, motivations, and vocabulary. A single narrative can't address all three without feeling vague." },
+    { label: 'Problem', title: 'Three audiences, one homepage', body: "Parents, adult learners, and companies have different fears, motivations, and vocabulary. A single narrative can't address all three without feeling vague." },
     { label: 'Decision', title: 'Segment first, sell second', body: 'Three visually distinct cards with real training photos route each visitor immediately. Copy is audience-specific from this point forward.' },
     { label: 'Effect', title: 'Reduced cognitive load', body: "Visitors don't have to figure out if Pantera is for them — they see themselves in the card and continue. Bounce probability drops at this section." },
   ]}
@@ -154,8 +154,8 @@ The diagonal in the hero is not a graphic overlay — it is the headline itself.
 
 <Figure
   src="/images/pantera/audience-cards.png"
-  alt="Three audience cards: Dla Dzieci, Dla Dorosłych, Tai Chi"
-  caption="Three audience cards — children, adults, seniors."
+  alt="Three audience cards: Dla Dzieci, Dla Dorosłych, Dla Firm"
+  caption="Three audience cards — children, adults, companies."
   priority
 />
 
@@ -224,7 +224,7 @@ In martial arts schools, students choose their instructor before they choose the
 
 Lighthouse 95 / 92 / 100 / 100, up from 83 / 86 / 73 / 85. The headline number is useful; the meaningful one is Cumulative Layout Shift — 0.235 to 0.015. CLS is the only Core Web Vital users actually feel: the button that moves under your finger as you tap it, the image that shoves the headline down half a second after it appears.
 
-The fixes were unglamorous — explicit image dimensions, preloaded fonts, the WordPress theme CSS gone. Not optimizations in the clever sense; the absence of choices the old theme was making by accident.
+The fixes were unglamorous — explicit image dimensions, preloaded fonts, the generic theme's CSS gone. Not optimizations in the clever sense; the absence of choices the old theme was making by accident.
 
 </Chapter>
 
@@ -255,7 +255,7 @@ The fixes were unglamorous — explicit image dimensions, preloaded fonts, the W
     { label: 'CLS 0.235 → 0.015', body: 'The headline win. Layout shift was caused by images without explicit dimensions and late-loading fonts on the old site. Fixed by setting width/height attributes on every image and using font-display: swap with proper preload.' },
     { label: 'Best Practices 73 → 100', body: 'Old site had mixed content warnings, insecure third-party scripts, and deprecated APIs from old plugins. Perfect 100 reflects clean dependency management and proper HTTPS across all assets.' },
     { label: 'SEO 85 → 100', body: 'Correct heading hierarchy, meta descriptions, alt attributes, and structured data — all absent or broken on the old site. The new site ships with proper schema.org markup for LocalBusiness and SportsActivityLocation.' },
-    { label: 'Performance 83 → 95', body: 'Static generation eliminates per-request PHP execution. The redesign also serves a video hero — load times remain comfortably within Google\'s "good" thresholds despite the heavier above-the-fold asset.' },
+    { label: 'Performance 83 → 95', body: 'A hand-coded theme ships only the CSS and JS the design actually uses — no builder runtime, no unused framework styles. The redesign also serves a video hero — load times remain comfortably within Google\'s "good" thresholds despite the heavier above-the-fold asset.' },
   ]}
 />
 
@@ -275,29 +275,29 @@ The fixes were unglamorous — explicit image dimensions, preloaded fonts, the W
 
 <Chapter id="stack" title="Stack">
 
-Replacing WordPress was not about performance — it was about control. Performance is the visible win; the structural one is that nothing about the CMS or the server requires logging into somebody else's dashboard to do the job.
+The rebuild stays on WordPress — the problem was never the CMS, it was the theme. The old site ran a generic template that made a hundred small decisions by default: markup bloat, unused CSS, layout shift. The new site is a theme written from scratch — no page builder, hand-written templates, only the styles and scripts the design actually needs.
 
-Payload over Sanity (per-seat pricing turns hostile as the team grows), Strapi (mid-v5 migration churn), Contentful (priced for a different size of company). Coolify on a €5 Hetzner VPS over Vercel: the same push-to-deploy ergonomics on a flat-rate machine, without the bandwidth cliff a video-heavy site eventually walks off.
+Staying on ordinary hosting was just as deliberate. A lean theme doesn't need dedicated infrastructure to be fast, the client keeps the admin panel they already know, and any WordPress developer can maintain the site later. No new dashboards, no vendor lock-in, no SaaS fees.
 
 </Chapter>
 
 <StackCompare
   id="stack-migration"
-  heading="Stack migration"
-  intro="The Pantera project is being rebuilt from a shared-hosting WordPress install to a modern headless stack — Next.js as the frontend framework, Payload CMS as the content layer, PostgreSQL as the database, and a Hetzner VPS replacing shared hosting. This is not just a redesign: it's a full infrastructure replacement."
-  oldHeader="Old stack"
-  newHeader="New stack"
+  heading="Theme rebuild"
+  intro="The Pantera rebuild replaced a generic WordPress template with a custom theme written from scratch — same CMS, same class of hosting, completely different implementation. This is not a platform migration: it's proof of how far WordPress goes without a builder."
+  oldHeader="Old site"
+  newHeader="New site"
   oldItems={[
-    { name: 'WordPress (theme-based)', desc: 'Generic theme, no design system, content and presentation tightly coupled' },
-    { name: 'Shared hosting', desc: 'No control over PHP version, server config, or caching strategy' },
-    { name: 'MySQL (managed by host)', desc: 'No direct access, no migrations, no version control on schema' },
+    { name: 'Generic WordPress theme', desc: 'Off-the-shelf template — stock layouts, no design system, content and presentation coupled to the theme’s assumptions' },
+    { name: 'Template bloat', desc: 'CSS and JS shipped for features the site never used — the source of the 0.235 layout shift' },
     { name: 'Plugin-dependent', desc: 'SEO, forms, caching, security — all via third-party plugins of varying quality' },
+    { name: 'Unoptimized assets', desc: 'Images without dimensions, late-loading fonts, mixed-content warnings' },
   ]}
   newItems={[
-    { name: 'Next.js 14 (App Router)', desc: 'React server components, static generation for public pages, API routes for forms' },
-    { name: 'Payload CMS 3.x', desc: 'Headless CMS with typed collections, admin panel for client, no plugin dependency' },
-    { name: 'PostgreSQL on Hetzner VPS', desc: 'Full control, schema migrations via Payload, no shared-resource bottlenecks' },
-    { name: 'Hetzner VPS (CX22) + Coolify', desc: 'Dedicated compute managed via Coolify — automatic deploys from git, built-in reverse proxy and SSL, full server access' },
+    { name: 'WordPress + custom theme', desc: 'A theme hand-coded for this design only — no page builder, no template constraints' },
+    { name: 'Hand-written templates', desc: 'Only the markup, CSS and JS the design needs — nothing shipped by default' },
+    { name: 'Lean plugin set', desc: 'Core functionality lives in the theme; plugins reserved for what genuinely needs them' },
+    { name: 'Ordinary hosting', desc: 'The same class of hosting as before — a lean theme is fast without dedicated infrastructure' },
   ]}
 />
 
@@ -308,51 +308,45 @@ Payload over Sanity (per-seat pricing turns hostile as the team grows), Strapi (
     {
       label: 'Content layer',
       nodes: [
-        { text: 'Payload CMS admin', accent: true, connector: 'arrow' },
-        { text: 'PostgreSQL', connector: 'arrow' },
-        { text: 'Payload REST / GraphQL API', connector: 'none' },
+        { text: 'WordPress admin', accent: true, connector: 'arrow' },
+        { text: 'MySQL', connector: 'arrow' },
+        { text: 'Theme template functions', connector: 'none' },
       ],
     },
     {
       label: 'Frontend layer',
       nodes: [
-        { text: 'Next.js App Router', accent: true, connector: 'arrow' },
-        { text: 'Static pages (ISR)', connector: 'plus' },
-        { text: 'API routes (forms)', connector: 'none' },
+        { text: 'Custom theme templates', accent: true, connector: 'plus' },
+        { text: 'Hand-written CSS', connector: 'plus' },
+        { text: 'Vanilla JS', connector: 'none' },
       ],
     },
     {
       label: 'Hosting layer',
       nodes: [
-        { text: 'Hetzner VPS', connector: 'arrow' },
-        { text: 'Coolify', accent: true, connector: 'arrow' },
-        { text: 'Reverse proxy + SSL', connector: 'none' },
+        { text: 'Ordinary hosting', connector: 'arrow' },
+        { text: 'PHP + MySQL', accent: true, connector: 'arrow' },
+        { text: 'SSL', connector: 'none' },
       ],
     },
   ]}
-/>
-
-<Figure
-  src="/images/pantera/payload-admin.png"
-  alt="Payload CMS admin panel for Pantera — collections grouped into Ustawienia, Strony, Treści, Wygląd, Komponenty"
-  caption="Payload admin — collections grouped by purpose, all field labels in Polish for the client."
 />
 
 <DecisionGrid
   id="why-this-stack"
   heading="Why this stack"
   cards={[
-    { label: 'Next.js over WordPress', title: 'Performance by default', body: 'Static generation means public pages are pre-rendered HTML — no PHP execution on request, no database query on page load. The Lighthouse gap between old and new site is partly structural, not just optimization.' },
-    { label: 'Payload over ACF', title: 'Type-safe content schema', body: 'Payload collections are defined in TypeScript — instructors, classes, schedules have validated schemas. No more broken content from accidentally deleted required fields. Clean admin panel, not a duct-taped WordPress backend.' },
-    { label: 'Payload over Sanity', title: 'No seat-based pricing', body: 'Sanity charges per editor seat at scale. Payload is self-hosted and open source — the client owns their CMS with no recurring SaaS cost. For a single-location sports club, this is the right trade-off.' },
-    { label: 'VPS over shared hosting', title: 'Full infrastructure control', body: "Shared hosting can't run Node.js processes or PostgreSQL. The VPS enables the entire stack, plus Coolify handles deploys, reverse proxy, and SSL out of the box — none of which were possible on the old host." },
-    { label: 'PostgreSQL over MySQL', title: "Payload's native target", body: 'Payload 3.x uses Drizzle ORM with PostgreSQL as the primary target. Running the recommended combination avoids adapter quirks and gives access to full SQL capabilities — useful for future booking or reporting features.' },
-    { label: 'Scalability', title: 'Reusable agency template', body: 'The Next.js + Payload + Postgres + Hetzner stack is now a repeatable base for future sport and martial arts school clients. WordPress was client-specific; this stack is productizable.' },
+    { label: 'WordPress over headless', title: 'The client already knows it', body: 'Content editing stays in the WordPress dashboard the club has used for years — no new admin to learn, no onboarding cost, no dependency on a developer for a schedule change or a price update.' },
+    { label: 'Custom theme over builder', title: 'Performance by design', body: 'Page builders ship CSS and JS for every feature they support, whether the site uses it or not. A hand-coded theme ships only what the design needs. The Lighthouse gap between old and new site is partly structural, not just optimization.' },
+    { label: 'No builder', title: "Editors can't break layout", body: 'With a builder, every content edit is also a layout edit — one misplaced drag reflows the page. In a custom theme, layout is locked in code; the client edits content, and only content.' },
+    { label: 'Ordinary hosting', title: 'Right-sized infrastructure', body: 'A lean theme is fast on the hosting class the club already pays for. No VPS to maintain, no server updates to babysit — the fixed costs stay where a single-location sports club needs them.' },
+    { label: 'Maintainability', title: 'Any WordPress developer can take over', body: 'The stack is deliberately boring: PHP templates, MySQL, standard WordPress conventions. If the collaboration ends tomorrow, any WordPress developer can pick the site up without archaeology.' },
+    { label: 'Scalability', title: 'Reusable base for sport clubs', body: 'The custom-theme approach — hand-coded templates over a stock WordPress install — is now a repeatable base for future sport and martial arts school clients.' },
   ]}
 />
 
 <Quote>
-Payload's admin UI is significantly cleaner than WordPress for non-technical users — no plugin menu, no theme customizer, no 15-year-old UX debt. The client sees only the collections they need, with field labels in Polish.
+A custom theme changes nothing about how the client works — content is still edited in the WordPress dashboard they already know. What changes is what they can't do: there is no builder to accidentally break the layout with. Editing is content-only, by design.
 </Quote>
 
 <Tradeoffs
@@ -362,20 +356,19 @@ Payload's admin UI is significantly cleaner than WordPress for non-technical use
   prosLabel="Gains"
   consLabel="Costs"
   pros={[
-    'Full control over server, caching, SSL',
-    'Type-safe content with no plugin dependencies',
-    'Performance ceiling much higher than WordPress shared',
-    'No recurring CMS licensing cost',
-    'Reusable stack for future clients',
+    'Only the CSS and JS the design needs — no builder runtime',
+    'Client keeps the familiar WordPress admin',
+    'Layout locked in code — content edits can\'t break it',
+    'Fast on ordinary, inexpensive hosting',
+    'Any WordPress developer can maintain it later',
     'SEO 85 → 100, Best Practices 73 → 100',
   ]}
   cons={[
-    'Higher initial build time vs WordPress theme',
-    'VPS requires manual server maintenance',
-    'No plugin ecosystem — custom code for edge cases',
-    'Client onboarding to Payload takes more time than WP',
-    'Manual updates for Next.js / Payload security patches',
+    'Higher initial build time than an off-the-shelf theme',
+    'Layout changes require a developer — no builder by design',
+    'WordPress core and plugin updates still need attention',
+    'Custom code means custom responsibility for edge cases',
   ]}
 />
 
-<Pills items={['Next.js 14', 'Payload CMS 3.x', 'PostgreSQL', 'Drizzle ORM', 'TypeScript', 'Tailwind CSS', 'Hetzner VPS', 'Coolify']} />
+<Pills items={['WordPress', 'Custom theme', 'No page builder', 'PHP', 'MySQL', 'Vanilla CSS & JS', 'Ordinary hosting']} />

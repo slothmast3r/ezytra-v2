@@ -1,175 +1,184 @@
-import React, { Suspense } from 'react'
-import Image from 'next/image'
-import { ProjectSkeleton } from '../Skeletons'
-import Nav from '../Nav'
-import HeroHeadline from '../HeroHeadline'
-import Button from '../Button'
-import SiteFooter from '../SiteFooter'
-import AnimatedLink from '../AnimatedLink'
-import ProcessSection from '../ProcessSection'
-import { getAllProjects } from '@/lib/projects'
-import { localizeProject } from '@/lib/project-meta'
-import { getVisiblePosts } from '@/content/posts'
-import type { Locale } from '../../i18n'
+import React, { Suspense } from "react";
+import Image from "next/image";
+import { ProjectSkeleton } from "../Skeletons";
+import Nav from "../Nav";
+import HeroHeadline from "../HeroHeadline";
+import Button from "../Button";
+import SiteFooter from "../SiteFooter";
+import AnimatedLink from "../AnimatedLink";
+import ProcessSection from "../ProcessSection";
+import { getAllProjects } from "@/lib/projects";
+import { localizeProject } from "@/lib/project-meta";
+import { getVisiblePosts } from "@/content/posts";
+import type { Locale } from "../../i18n";
 
 const STACK = [
-  { icon: '/icons/figma.svg', name: 'Figma' },
-  { icon: '/icons/wordpress.svg', name: 'WordPress' },
-  { icon: '/icons/woocommerce.svg', name: 'WooCommerce' },
-  { icon: '/icons/vps.png', name: 'Hosting' },
-  { icon: '/icons/seo.png', name: 'SEO' },
-]
+  { icon: "/icons/figma.svg", name: "Figma" },
+  { icon: "/icons/wordpress.svg", name: "WordPress" },
+  { icon: "/icons/woocommerce.svg", name: "WooCommerce" },
+  { icon: "/icons/vps.png", name: "Hosting" },
+  { icon: "/icons/seo.png", name: "SEO" },
+];
 
 const HOME_COPY = {
   en: {
-    eyebrow: 'DESIGNER & DEVELOPER · WARSAW, PL',
-    available: 'Available for projects',
+    eyebrow: "DESIGNER & DEVELOPER · WARSAW, PL",
+    available: "Available for projects",
     headline: [
-      { text: 'I design and' },
-      { text: 'build websites,', accent: true },
-      { text: 'end to end.' },
+      { text: "I design and" },
+      { text: "build websites,", accent: true },
+      { text: "end to end." },
     ],
-    tagline: 'You work directly with me. No handoffs, no markup.',
-    ctaContact: 'Contact Me',
-    ctaContactHref: '/contact',
-    ctaWork: 'View My Work',
-    ctaWorkHref: '/work',
-    workTitle: 'Selected work',
-    liveBadge: 'Live',
-    caseStudyLink: 'Case Study →',
-    viewLink: 'View →',
-    servicesTitle: 'Services',
+    tagline: "You work directly with me. No handoffs, no markup.",
+    ctaContact: "Contact Me",
+    ctaContactHref: "/contact",
+    ctaWork: "View My Work",
+    ctaWorkHref: "/work",
+    workTitle: "Selected work",
+    liveBadge: "Live",
+    caseStudyLink: "Case Study →",
+    viewLink: "View →",
+    servicesTitle: "Services",
     services: [
       {
-        num: '01',
-        title: 'Web Design',
-        desc: 'Figma-first UI/UX. Clean, fast, conversion-focused. I design for the people who use the site, not for design awards.',
+        num: "01",
+        title: "Web Design",
+        desc: "Figma-first UI/UX. Clean, fast, conversion-focused. I design for the people who use the site, not for design awards.",
       },
       {
-        num: '02',
-        title: 'Development',
-        desc: 'Custom WordPress themes, built by hand. No page builders, no bloated off-the-shelf themes. Fast, accessible, easy to maintain.',
+        num: "02",
+        title: "Development",
+        desc: "Custom WordPress themes, built by hand. No page builders, no bloated off-the-shelf themes. Fast, accessible, easy to maintain.",
       },
       {
-        num: '03',
-        title: 'CMS Integration',
-        desc: 'WordPress, set up around your content. You edit pages, posts, and images yourself — without touching code.',
+        num: "03",
+        title: "CMS Integration",
+        desc: "WordPress, set up around your content. You edit pages, posts, and images yourself — without touching code.",
       },
       {
-        num: '04',
-        title: 'SEO & Hosting',
+        num: "04",
+        title: "SEO & Hosting",
         desc: "On-page SEO from day one. Hosting, domain, and launch handled end to end. I run the technical side so you don't have to.",
       },
     ],
-    servicesCta: 'View all services',
-    servicesCtaHref: '/services',
-    processTitle: 'Process',
+    servicesCta: "View all services",
+    servicesCtaHref: "/services",
+    processTitle: "Process",
     process: [
       {
-        num: '01',
-        title: 'Discovery',
-        desc: 'We talk about your goals, audience, and what success looks like. No briefs, just a real conversation.',
+        num: "01",
+        title: "Discovery",
+        desc: "We talk about your goals, audience, and what success looks like. No briefs, just a real conversation.",
       },
       {
-        num: '02',
-        title: 'Design',
-        desc: 'I start in Figma — wireframes first, then high-fidelity. You review and give feedback at every stage.',
+        num: "02",
+        title: "Design",
+        desc: "I start in Figma — wireframes first, then high-fidelity. You review and give feedback at every stage.",
       },
       {
-        num: '03',
-        title: 'Build',
-        desc: 'I code what I designed. A custom WordPress theme, deployed to your hosting or mine.',
+        num: "03",
+        title: "Build",
+        desc: "I code what I designed. A custom WordPress theme, deployed to your hosting or mine.",
       },
       {
-        num: '04',
-        title: 'Launch',
-        desc: 'Full QA, SEO audit, performance check. I stay on hand after go-live.',
+        num: "04",
+        title: "Launch",
+        desc: "Full QA, SEO audit, performance check. I stay on hand after go-live.",
       },
     ],
     footer: undefined,
   },
   pl: {
-    eyebrow: 'PROJEKTANT & DEVELOPER · WARSZAWA',
-    available: 'Otwarty na nowe projekty',
+    eyebrow: "PROJEKTANT & DEVELOPER · WARSZAWA",
+    available: "Otwarty na nowe projekty",
     headline: [
-      { text: 'Projektuję i' },
-      { text: 'buduję strony,', accent: true },
-      { text: 'od A do Z.' },
+      { text: "Projektuję i" },
+      { text: "buduję strony,", accent: true },
+      { text: "od A do Z." },
     ],
-    tagline: 'Pracujesz bezpośrednio ze mną. Bez pośredników, bez marży agencji.',
-    ctaContact: 'Napisz do mnie',
-    ctaContactHref: '/pl/kontakt',
-    ctaWork: 'Zobacz realizacje',
-    ctaWorkHref: '/pl/realizacje',
-    workTitle: 'Wybrane realizacje',
-    liveBadge: 'Online',
-    caseStudyLink: 'Case study →',
-    viewLink: 'Zobacz →',
-    servicesTitle: 'Usługi',
+    tagline:
+      "Pracujesz bezpośrednio ze mną. Bez pośredników, bez marży agencji.",
+    ctaContact: "Napisz do mnie",
+    ctaContactHref: "/pl/kontakt",
+    ctaWork: "Realizacje",
+    ctaWorkHref: "/pl/realizacje",
+    workTitle: "Wybrane realizacje",
+    liveBadge: "Online",
+    caseStudyLink: "Case study →",
+    viewLink: "Zobacz →",
+    servicesTitle: "Usługi",
     services: [
       {
-        num: '01',
-        title: 'Projektowanie stron',
-        desc: 'UI/UX projektowany w Figmie. Czysto, szybko, pod konwersję. Projektuję dla ludzi, którzy korzystają ze strony — nie dla nagród.',
+        num: "01",
+        title: "Projektowanie stron",
+        desc: "UI/UX projektowany w Figmie. Czysto, szybko, pod konwersję. Projektuję dla ludzi, którzy korzystają ze strony — nie dla nagród.",
       },
       {
-        num: '02',
-        title: 'Wdrożenie',
-        desc: 'Autorskie motywy WordPress, pisane ręcznie. Bez page builderów i ociężałych gotowych motywów. Szybko, dostępnie, łatwo w utrzymaniu.',
+        num: "02",
+        title: "Wdrożenie",
+        desc: "Autorskie motywy WordPress, pisane ręcznie. Bez page builderów i ociężałych gotowych motywów. Szybko, dostępnie, łatwe w utrzymaniu.",
       },
       {
-        num: '03',
-        title: 'Integracja CMS',
-        desc: 'WordPress ustawiony pod Twoje treści. Sam edytujesz strony, wpisy i zdjęcia — bez dotykania kodu.',
+        num: "03",
+        title: "Integracja CMS",
+        desc: "WordPress dostosowany pod Twoje treści. Sam edytujesz strony, wpisy i zdjęcia — bez dotykania kodu.",
       },
       {
-        num: '04',
-        title: 'SEO i hosting',
-        desc: 'SEO on-page od pierwszego dnia. Hosting, domena i start strony od A do Z. Techniczną stroną zajmuję się ja, nie Ty.',
+        num: "04",
+        title: "SEO i hosting",
+        desc: "SEO on-page od pierwszego dnia. Hosting, domena i start strony od A do Z. Techniczną stroną zajmuję się ja, nie Ty.",
       },
     ],
-    servicesCta: 'Wszystkie usługi',
-    servicesCtaHref: '/pl/uslugi',
-    processTitle: 'Proces',
+    servicesCta: "Wszystkie usługi",
+    servicesCtaHref: "/pl/uslugi",
+    processTitle: "Proces",
     process: [
       {
-        num: '01',
-        title: 'Rozmowa',
-        desc: 'Rozmawiamy o celach, odbiorcach i tym, co ma się udać. Bez briefów — po prostu konkretna rozmowa.',
+        num: "01",
+        title: "Rozmowa",
+        desc: "Rozmawiamy o celach, odbiorcach i tym, co ma się udać. Bez briefów — po prostu konkretna rozmowa.",
       },
       {
-        num: '02',
-        title: 'Projekt',
-        desc: 'Zaczynam w Figmie — najpierw makiety, potem projekt w pełnej jakości. Na każdym etapie masz wgląd i dajesz feedback.',
+        num: "02",
+        title: "Projekt",
+        desc: "Zaczynam w Figmie — najpierw makiety, potem projekt w pełnej jakości. Na każdym etapie masz wgląd i dajesz feedback.",
       },
       {
-        num: '03',
-        title: 'Budowa',
-        desc: 'Koduję to, co zaprojektowałem. Autorski motyw WordPress, wdrożony na Twój hosting albo mój.',
+        num: "03",
+        title: "Budowa",
+        desc: "Koduję to, co zaprojektowałem. Autorski motyw WordPress, wdrożony na Twój hosting albo mój.",
       },
       {
-        num: '04',
-        title: 'Start',
-        desc: 'Pełne QA, audyt SEO, testy wydajności. Po starcie zostaję pod ręką.',
+        num: "04",
+        title: "Start",
+        desc: "Pełne QA, audyt SEO, testy wydajności. Po starcie zostaję pod ręką.",
       },
     ],
     footer: {
-      title: 'Masz projekt w głowie?',
-      desc: 'Mam teraz wolne terminy. Zobaczmy, czy to dobre dopasowanie.',
-      buttonText: 'Napisz wiadomość',
-      buttonHref: '/pl/kontakt',
+      title: "Siedzi ci projekt w głowie?",
+      desc: "Umówmy się na krótką rozmowę. Sprawdźmy, czy będziemy dobrze dopasowani.",
+      buttonText: "Napisz wiadomość",
+      buttonHref: "/pl/kontakt",
     },
   },
-} as const
+} as const;
 
-type HomeCopy = (typeof HOME_COPY)[Locale]
+type HomeCopy = (typeof HOME_COPY)[Locale];
 
-async function ProjectsList({ locale, copy }: { locale: Locale; copy: HomeCopy }) {
-  const projects = (await getAllProjects()).map((p) => localizeProject(p, locale))
+async function ProjectsList({
+  locale,
+  copy,
+}: {
+  locale: Locale;
+  copy: HomeCopy;
+}) {
+  const projects = (await getAllProjects()).map((p) =>
+    localizeProject(p, locale),
+  );
 
   return projects.map((p, i) => {
-    const num = String(i + 1).padStart(2, '0')
-    const tags = p.tags ?? []
+    const num = String(i + 1).padStart(2, "0");
+    const tags = p.tags ?? [];
     return (
       <div key={p.slug} className="work__row">
         <div className="work__col-left">
@@ -197,9 +206,14 @@ async function ProjectsList({ locale, copy }: { locale: Locale; copy: HomeCopy }
           <div className="work__right-inner">
             <div className="work__right-content">
               <div className="work__meta">
-                {p.status === 'live' && <Button variant="badge">{copy.liveBadge}</Button>}
+                {p.status === "live" && (
+                  <Button variant="badge">{copy.liveBadge}</Button>
+                )}
                 {p.hasCaseStudy && p.slug ? (
-                  <AnimatedLink className="btn btn--link" href={`/work/${p.slug}`}>
+                  <AnimatedLink
+                    className="btn btn--link"
+                    href={`/work/${p.slug}`}
+                  >
                     {copy.caseStudyLink}
                   </AnimatedLink>
                 ) : p.href ? (
@@ -216,27 +230,35 @@ async function ProjectsList({ locale, copy }: { locale: Locale; copy: HomeCopy }
                       alt={p.name}
                       fill
                       sizes="(max-width: 1100px) 100vw, 40rem"
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: "cover" }}
                     />
                   )}
                 </div>
-                <figcaption className="mockup__caption">{p.url}</figcaption>
+                <figcaption className="mockup__caption">
+                  {p.href ? (
+                    <a href={p.href} target="_blank" rel="noopener noreferrer">
+                      {p.url}
+                    </a>
+                  ) : (
+                    p.url
+                  )}
+                </figcaption>
               </figure>
             </div>
           </div>
         </div>
       </div>
-    )
-  })
+    );
+  });
 }
 
 function JournalList() {
-  const posts = getVisiblePosts().slice(0, 4)
+  const posts = getVisiblePosts().slice(0, 4);
 
   return (
     <>
       {posts.map((post) =>
-        post.status === 'coming-soon' ? (
+        post.status === "coming-soon" ? (
           <div key={post.slug} className="journal__row journal__row--muted">
             <span className="tag">{post.tag}</span>
             <p className="journal__title">{post.headline}</p>
@@ -255,11 +277,11 @@ function JournalList() {
         ),
       )}
     </>
-  )
+  );
 }
 
-export default function HomePage({ locale = 'en' }: { locale?: Locale }) {
-  const copy = HOME_COPY[locale]
+export default function HomePage({ locale = "en" }: { locale?: Locale }) {
+  const copy = HOME_COPY[locale];
 
   return (
     <>
@@ -285,7 +307,6 @@ export default function HomePage({ locale = 'en' }: { locale?: Locale }) {
             </Button>
           </div>
         </div>
-
       </section>
 
       {/* 03 — Stack */}
@@ -347,7 +368,7 @@ export default function HomePage({ locale = 'en' }: { locale?: Locale }) {
       </section>
 
       {/* 07 — Journal (English content only, so the Polish mirror skips it) */}
-      {locale === 'en' && (
+      {locale === "en" && (
         <section className="journal">
           <h2 className="section-title">Journal</h2>
           <div className="rule" />
@@ -363,5 +384,5 @@ export default function HomePage({ locale = 'en' }: { locale?: Locale }) {
       {/* 08 — Contact */}
       <SiteFooter {...(copy.footer ?? {})} />
     </>
-  )
+  );
 }
