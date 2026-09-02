@@ -8,6 +8,7 @@ import SiteFooter from "../SiteFooter";
 import AnimatedLink from "../AnimatedLink";
 import ProcessSection from "../ProcessSection";
 import { getAllProjects } from "@/lib/projects";
+import { withVerifiedStatus } from "@/lib/site-status";
 import { localizeProject } from "@/lib/project-meta";
 import { getVisiblePosts } from "@/content/posts";
 import type { Locale } from "../../i18n";
@@ -172,7 +173,7 @@ async function ProjectsList({
   locale: Locale;
   copy: HomeCopy;
 }) {
-  const projects = (await getAllProjects()).map((p) =>
+  const projects = (await withVerifiedStatus(await getAllProjects())).map((p) =>
     localizeProject(p, locale),
   );
 

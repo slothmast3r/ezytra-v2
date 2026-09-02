@@ -16,7 +16,9 @@ export interface ProjectMeta {
   type?: string
   year?: string
   order: number
-  status?: 'live' | 'dev' | 'completed' | 'archived'
+  // 'offline' is never set in frontmatter — it's derived at render time when a
+  // 'live' project's site stops responding (see lib/site-status.ts).
+  status?: 'live' | 'offline' | 'dev' | 'completed' | 'archived'
   featured?: boolean
   hasCaseStudy: boolean
   url?: string

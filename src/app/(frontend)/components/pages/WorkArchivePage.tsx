@@ -4,6 +4,7 @@ import SiteFooter from '../SiteFooter'
 import WorkGrid from '../../work/WorkGrid'
 import { WorkGridSkeleton } from '../Skeletons'
 import { getAllProjects } from '@/lib/projects'
+import { withVerifiedStatus } from '@/lib/site-status'
 import { localizeProject } from '@/lib/project-meta'
 import type { Locale } from '../../i18n'
 
@@ -33,7 +34,9 @@ const WORK_COPY = {
 } as const
 
 async function WorkContent({ locale }: { locale: Locale }) {
-  const projects = (await getAllProjects()).map((p) => localizeProject(p, locale))
+  const projects = (await withVerifiedStatus(await getAllProjects())).map((p) =>
+    localizeProject(p, locale),
+  )
   return <WorkGrid projects={projects} locale={locale} />
 }
 

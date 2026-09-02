@@ -262,6 +262,10 @@ Work Archive (editorial spread)
   color: var(--ok, #6fcf6f);
 }
 
+.wa-card__meta-value--offline {
+  color: var(--danger, #cf6f6f);
+}
+
 .wa-card__actions {
   display: flex;
   align-items: center;

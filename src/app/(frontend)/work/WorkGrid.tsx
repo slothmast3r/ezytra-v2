@@ -12,6 +12,7 @@ const GRID_COPY = {
   en: {
     statusLabels: {
       live: 'Live',
+      offline: 'Offline',
       dev: 'In Development',
       completed: 'Completed',
       archived: 'Archived',
@@ -26,6 +27,7 @@ const GRID_COPY = {
   pl: {
     statusLabels: {
       live: 'Online',
+      offline: 'Offline',
       dev: 'W budowie',
       completed: 'Zakończony',
       archived: 'Archiwum',
