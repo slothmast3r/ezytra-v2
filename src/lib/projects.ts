@@ -17,10 +17,23 @@ const readFrontmatter = cache(async (slug: string): Promise<ProjectMeta | null> 
   }
 })
 
+// `<slug>.mdx` is the project's (short) case study page; an optional
+// `<slug>.full.mdx` holds the long-form version served at /work/<slug>/full.
+const isFullFile = (f: string) => f.endsWith('.full.mdx')
+
 export const getProjectSlugs = cache(async (): Promise<string[]> => {
   try {
     const files = await fs.readdir(CONTENT_DIR)
-    return files.filter((f) => f.endsWith('.mdx')).map((f) => f.replace(/\.mdx$/, ''))
+    return files.filter((f) => f.endsWith('.mdx') && !isFullFile(f)).map((f) => f.replace(/\.mdx$/, ''))
+  } catch {
+    return []
+  }
+})
+
+export const getFullCaseStudySlugs = cache(async (): Promise<string[]> => {
+  try {
+    const files = await fs.readdir(CONTENT_DIR)
+    return files.filter(isFullFile).map((f) => f.replace(/\.full\.mdx$/, ''))
   } catch {
     return []
   }
@@ -47,5 +60,17 @@ export const getProjectBySlug = cache(async (slug: string): Promise<LoadedProjec
     return { meta, Content: mod.default }
   } catch {
     return { meta, Content: () => null }
+  }
+})
+
+export const getProjectFull = cache(async (slug: string): Promise<LoadedProject | null> => {
+  const filePath = path.join(CONTENT_DIR, `${slug}.full.mdx`)
+  try {
+    const raw = await fs.readFile(filePath, 'utf8')
+    const { data } = matter(raw)
+    const mod = await import(`@/../content/projects/${slug}.full.mdx`)
+    return { meta: { ...(data as ProjectMeta), slug }, Content: mod.default }
+  } catch {
+    return null
   }
 })

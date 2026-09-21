@@ -5,7 +5,7 @@ export function Chapter({
 }: {
   id?: string
   title: string
-  children: React.ReactNode
+  children?: React.ReactNode
 }) {
   return (
     <section id={id} className="cs-chapter">

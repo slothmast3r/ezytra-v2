@@ -1,11 +1,12 @@
 import { MetadataRoute } from 'next'
 import { SITE_DATA } from './data'
-import { getAllProjects } from '@/lib/projects'
+import { getAllProjects, getFullCaseStudySlugs } from '@/lib/projects'
 import { getPublishedPosts } from '@/content/posts'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 1. Fetch Dynamic Slugs
   const projects = await getAllProjects()
+  const fullSlugs = await getFullCaseStudySlugs()
   const posts = getPublishedPosts()
 
   // 2. Define Static Routes
@@ -48,6 +49,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
+  // 3b. Long-form case studies (/work/<slug>/full)
+  const fullCaseStudyRoutes = fullSlugs.map((slug) => ({
+    url: `${SITE_DATA.url}/work/${slug}/full`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }))
+
   // 4. Map Dynamic Post Routes
   const postRoutes = posts.map((post) => ({
     url: `${SITE_DATA.url}/journal/${post.slug}`,
@@ -56,5 +65,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticRoutes, ...plRoutes, ...projectRoutes, ...postRoutes]
+  return [...staticRoutes, ...plRoutes, ...projectRoutes, ...fullCaseStudyRoutes, ...postRoutes]
 }
