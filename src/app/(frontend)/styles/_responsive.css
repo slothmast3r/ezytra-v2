@@ -4,7 +4,7 @@
 
 @media (max-width: 1100px) {
   :root {
-    --px: 1rem;
+    --px: 1.5rem;
     --nav-height: 4rem;
   }
 
@@ -213,10 +213,6 @@
     gap: 3rem;
   }
 
-  .wa-featured__media {
-    aspect-ratio: 16 / 10;
-  }
-
   .wa-featured__body {
     padding: 2rem var(--px) 0;
   }
@@ -234,14 +230,13 @@
 
   /* Homepage Hero */
   .hero__body {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    justify-content: center;
     padding: 3rem var(--px);
-    min-height: unset;
+    min-height: calc(100svh - var(--nav-height));
   }
 
   .hero__headline {
-    font-size: clamp(2.5rem, 10vw, 4rem);
+    font-size: clamp(1.875rem, 9vw, 4rem);
     line-height: 1.1;
     letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
@@ -250,7 +245,7 @@
 
   .hero__tagline {
     font-size: 1rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 0;
   }
 
   .hero__desc {
@@ -265,8 +260,10 @@
 
   .hero__ctas {
     flex-direction: column;
+    align-self: stretch;
     gap: 0.75rem;
-    margin-bottom: 3rem;
+    margin-top: 3.5rem;
+    margin-bottom: 0;
   }
 
   .hero__ctas .btn {

@@ -122,7 +122,8 @@ Work Archive (editorial spread)
 .wa-featured__media {
   position: relative;
   width: 100%;
-  aspect-ratio: 21 / 9;
+  /* Matches the hero video's native frame (1280x594) so object-fit: cover never crops it */
+  aspect-ratio: 1280 / 594;
   background: var(--bg-2);
   overflow: hidden;
 }
