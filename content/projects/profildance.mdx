@@ -7,11 +7,11 @@ year: "2026"
 order: 2
 status: live
 featured: false
-hasCaseStudy: false
+hasCaseStudy: true
 url: profildance.com
 href: https://profildance.com/
-desc: Full visual identity and website for a Warsaw dance school. Logo, type, colour — then Next.js build with Payload CMS.
-descPl: Pełna identyfikacja wizualna i strona internetowa dla warszawskiej szkoły tańca. Logo, typografia, kolor — a potem wdrożenie w Next.js z Payload CMS.
+desc: Visual identity and website for a Warsaw dance school. Type, colour, layout — then Next.js build with Payload CMS. A year on, non-branded Google traffic — impressions up 72%, clicks up 34%, visible queries up 78%.
+descPl: Identyfikacja wizualna i strona internetowa dla warszawskiej szkoły tańca. Typografia, kolor, layout — a potem wdrożenie w Next.js z Payload CMS. Rok później ruch niebrandowy z Google — wyświetlenia +72%, kliknięcia +34%, liczba widocznych fraz +78%.
 locationPl: Szkoła tańca · Warszawa
 typePl: Branding + strona
 image: /images/profildance/homepage-thumb.png
@@ -20,4 +20,63 @@ tags:
   - Web Design
   - Next.js
   - Polish
+toc:
+  - id: overview
+    title: Overview
+  - id: results
+    title: Results
+  - id: queries
+    title: Queries that moved
+  - id: structure
+    title: Why it moved
+  - id: stack
+    title: Stack
 ---
+
+import {
+  Overview, Chapter, HeroAnatomy, InsightGrid, DecisionGrid, Pills
+} from '@/app/(frontend)/components/case-study'
+
+<Overview
+  id="overview"
+  brief="ProfilDance is a dance school in Warsaw — classes from baby dance through kids' acrobatics to modern jazz and adult acro. The project started as a redesign and a new website; this case study is about what happened in Google a year later. Every number below excludes branded queries — it's growth from people who don't yet know the school's name."
+  role="Visual identity around the school's existing logo — type, colour, layout — then the website: a Next.js build with Payload CMS, with the offer split into a dedicated page per class."
+/>
+
+<InsightGrid
+  id="results"
+  heading="Results — year over year"
+  intro="Google Search Console, last 28 days vs the same period a year earlier. Branded queries filtered out — searches for the school's name don't count here."
+  cards={[
+    { label: 'Impressions +72%', body: 'The site simply shows up for far more searches than it used to — average position climbed from 19.3 to 14.6.' },
+    { label: 'Clicks +34%', body: 'A third more clicks from people who weren’t searching for the school by name. On mobile — where parents actually search — clicks grew 45%.' },
+    { label: 'Visible queries +78%', body: 'The site appears for nearly twice as many distinct queries, including a wave of entirely new ones — "baby dance", "acro dance warszawa", "profesjonalni tancerze warszawa".' },
+    { label: 'TOP 10 queries +63%', body: 'First-page queries up 63%, top-three queries up 47%. Of the queries present in both periods, nearly two in three improved their position — the trend, not a lucky outlier.' },
+  ]}
+/>
+
+<DecisionGrid
+  id="queries"
+  heading="Queries that moved"
+  intro="Three examples of what the year-over-year shift looks like on real searches."
+  cards={[
+    { label: '37.4 → 12.8', title: 'akrobatyka dla dorosłych warszawa', body: 'From page four to page two — nine times the impressions and five times the clicks. The strongest single move in the dataset.' },
+    { label: '32.3 → 8.2', title: 'modern jazz warszawa', body: 'From invisible to first page. A year ago this query brought zero clicks; now the dedicated modern jazz page collects them.' },
+    { label: '1.2 → 1.7 · 55% CTR', title: 'akrogim', body: 'A niche discipline the school effectively owns in search — more than half of everyone who sees the result clicks it, and clicks nearly tripled year over year.' },
+  ]}
+/>
+
+<HeroAnatomy
+  id="structure"
+  heading="Why it moved"
+  intro="No link building, no content farm — the growth tracks the structure of the site itself."
+  items={[
+    { title: 'One page per class', description: 'Instead of a single offer page, every discipline got its own URL — its own title, copy, and schedule. Google can rank "modern jazz warszawa" on a page that is actually about modern jazz.' },
+    { title: 'New pages, new traffic', description: 'Pages that didn’t exist in search a year ago now carry weight — /oferta/akrogim converts at a 13.3% CTR, /oferta/modern-jazz pulls in a steady stream of impressions on its own.' },
+    { title: 'Desktop catching up', description: 'Average desktop position improved from 34.0 to 21.8 — twelve positions. Mobile was always the stronger side; now both curves point the same way.' },
+  ]}
+/>
+
+<Chapter id="stack" title="Stack" />
+
+<Pills items={['Next.js', 'Payload CMS', 'Custom type & colour system', 'Google Search Console']} />
