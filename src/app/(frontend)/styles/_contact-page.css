@@ -10,7 +10,7 @@ Contact page
 
 .contact-hero__body {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 36rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
   gap: 0 clamp(2rem, 4vw, 4rem);
   padding: clamp(3.5rem, 6vw, 5.5rem) var(--px);
   min-height: 28rem;
@@ -25,12 +25,17 @@ Contact page
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  /* The headline is sized against this column (cqi), not the viewport,
+     so its longest line always fits on one row. */
+  container-type: inline-size;
 }
 
 .contact-hero__headline {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: clamp(2.75rem, 6.2vw, 5.375rem);
+  /* IBM Plex Mono advances 0.6em per glyph; with -0.03em tracking that is
+     ~0.57em, so a line of N chars needs N × 0.585em (small safety margin). */
+  font-size: clamp(2.125rem, calc(100cqi / (var(--headline-chars, 16) * 0.585)), 5.375rem);
   line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--text);
@@ -192,6 +197,28 @@ Contact page
   padding-top: 1rem;
   margin-top: -0.75rem;
   max-width: 56ch;
+}
+
+/* Quiet pointer from the budget pills to the price list */
+.cform__hint {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  margin: -1rem 0 0;
+}
+
+.cform__hint-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 0.2s ease;
+}
+
+.cform__hint-link:hover,
+.cform__hint-link:focus-visible {
+  color: var(--accent);
 }
 
 @media (prefers-reduced-motion: no-preference) {

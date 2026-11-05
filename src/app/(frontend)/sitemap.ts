@@ -9,31 +9,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const fullSlugs = await getFullCaseStudySlugs()
   const posts = getPublishedPosts()
 
-  // 2. Define Static Routes
+  // 2. English mirror under /en
   const staticRoutes = [
-    '',
-    '/about',
-    '/contact',
-    '/services',
-    '/work',
-    '/journal',
+    '/en',
+    '/en/about',
+    '/en/contact',
+    '/en/services',
+    '/en/work',
+    '/en/journal',
   ].map((route) => ({
     url: `${SITE_DATA.url}${route}`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1 : 0.8,
+    priority: route === '/en' ? 0.8 : 0.6,
   }))
 
-  // 2b. Polish mirror + niche landings
+  // 2b. Polish site at the root + niche landings
   const plRoutes = [
-    { path: '/pl', priority: 0.9 },
-    { path: '/pl/realizacje', priority: 0.8 },
-    { path: '/pl/uslugi', priority: 0.8 },
-    { path: '/pl/o-mnie', priority: 0.7 },
-    { path: '/pl/kontakt', priority: 0.7 },
-    { path: '/pl/strony-dla-szkol-tanca', priority: 0.9 },
-    { path: '/pl/strony-dla-szkol-walki', priority: 0.9 },
-    { path: '/pl/polityka-prywatnosci', priority: 0.2 },
+    { path: '', priority: 1 },
+    { path: '/realizacje', priority: 0.8 },
+    { path: '/cennik', priority: 0.8 },
+    { path: '/o-mnie', priority: 0.7 },
+    { path: '/kontakt', priority: 0.7 },
+    { path: '/strony-dla-szkol-tanca', priority: 0.9 },
+    { path: '/strony-dla-szkol-walki', priority: 0.9 },
+    { path: '/polityka-prywatnosci', priority: 0.2 },
   ].map(({ path, priority }) => ({
     url: `${SITE_DATA.url}${path}`,
     lastModified: new Date().toISOString(),
@@ -43,15 +43,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 3. Map Dynamic Project Routes
   const projectRoutes = projects.map((project) => ({
-    url: `${SITE_DATA.url}/work/${project.slug}`,
+    url: `${SITE_DATA.url}/en/work/${project.slug}`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }))
 
-  // 3b. Long-form case studies (/work/<slug>/full)
+  // 3b. Long-form case studies (/en/work/<slug>/full)
   const fullCaseStudyRoutes = fullSlugs.map((slug) => ({
-    url: `${SITE_DATA.url}/work/${slug}/full`,
+    url: `${SITE_DATA.url}/en/work/${slug}/full`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'weekly' as const,
     priority: 0.6,
@@ -59,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 4. Map Dynamic Post Routes
   const postRoutes = posts.map((post) => ({
-    url: `${SITE_DATA.url}/journal/${post.slug}`,
+    url: `${SITE_DATA.url}/en/journal/${post.slug}`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'weekly' as const,
     priority: 0.6,

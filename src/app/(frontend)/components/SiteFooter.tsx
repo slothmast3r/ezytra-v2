@@ -13,7 +13,7 @@ export default function SiteFooter({
   title = 'Have a project in mind?',
   desc = "I'm currently available. Let's see if we're a good fit.",
   buttonText = 'Send Me a Message',
-  buttonHref = '/contact',
+  buttonHref = '/en/contact',
 }: SiteFooterProps) {
   return (
     <footer className="contact" id="contact">

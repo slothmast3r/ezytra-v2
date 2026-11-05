@@ -11,6 +11,7 @@ import { getAllProjects } from "@/lib/projects";
 import { withVerifiedStatus } from "@/lib/site-status";
 import { localizeProject } from "@/lib/project-meta";
 import { getVisiblePosts } from "@/content/posts";
+import { PRICING_COPY } from "./pricingContent";
 import type { Locale } from "../../i18n";
 
 const STACK = [
@@ -32,9 +33,9 @@ const HOME_COPY = {
     ],
     tagline: "You work directly with me. No handoffs, no markup.",
     ctaContact: "Contact Me",
-    ctaContactHref: "/contact",
+    ctaContactHref: "/en/contact",
     ctaWork: "View My Work",
-    ctaWorkHref: "/work",
+    ctaWorkHref: "/en/work",
     workTitle: "Selected work",
     liveBadge: "Live",
     caseStudyLink: "Case Study →",
@@ -63,7 +64,7 @@ const HOME_COPY = {
       },
     ],
     servicesCta: "View all services",
-    servicesCtaHref: "/services",
+    servicesCtaHref: "/en/services",
     processTitle: "Process",
     process: [
       {
@@ -100,9 +101,9 @@ const HOME_COPY = {
     tagline:
       "Pracujesz bezpośrednio ze mną. Bez pośredników, bez marży agencji.",
     ctaContact: "Napisz do mnie",
-    ctaContactHref: "/pl/kontakt",
+    ctaContactHref: "/kontakt",
     ctaWork: "Realizacje",
-    ctaWorkHref: "/pl/realizacje",
+    ctaWorkHref: "/realizacje",
     workTitle: "Wybrane realizacje",
     liveBadge: "Online",
     caseStudyLink: "Case study →",
@@ -131,7 +132,11 @@ const HOME_COPY = {
       },
     ],
     servicesCta: "Wszystkie usługi",
-    servicesCtaHref: "/pl/uslugi",
+    servicesCtaHref: "/cennik",
+    // Packages teaser replaces the services grid on the Polish home page.
+    packagesTitle: "Pakiety",
+    packageDetails: "Szczegóły pakietu",
+    packagesCtaHref: "/cennik",
     processTitle: "Proces",
     process: [
       {
@@ -159,7 +164,7 @@ const HOME_COPY = {
       title: "Siedzi ci projekt w głowie?",
       desc: "Umówmy się na krótką rozmowę. Sprawdźmy, czy będziemy dobrze dopasowani.",
       buttonText: "Napisz wiadomość",
-      buttonHref: "/pl/kontakt",
+      buttonHref: "/kontakt",
     },
   },
 } as const;
@@ -180,13 +185,32 @@ async function ProjectsList({
   return projects.map((p, i) => {
     const num = String(i + 1).padStart(2, "0");
     const tags = p.tags ?? [];
+    // Title goes where the row's primary action goes: the case study when
+    // there is one, otherwise the live site (same target as the caption).
+    const caseStudyHref = p.hasCaseStudy && p.slug ? `/en/work/${p.slug}` : null;
+    const titleHref = caseStudyHref ?? p.href ?? null;
+    const titleExternal = !caseStudyHref && Boolean(p.href);
     return (
       <div key={p.slug} className="work__row">
         <div className="work__col-left">
           <div className="work__header">
             <span className="work__num">{num}</span>
             <div className="work__header-info">
-              <h3 className="work__name">{p.name}</h3>
+              <h3 className="work__name">
+                {titleHref ? (
+                  <a
+                    href={titleHref}
+                    className="work__name-link"
+                    {...(titleExternal
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {p.name}
+                  </a>
+                ) : (
+                  p.name
+                )}
+              </h3>
               <p className="work__location">{p.location}</p>
               <div className="work__tags">
                 {tags.map((tag) => (
@@ -213,7 +237,7 @@ async function ProjectsList({
                 {p.hasCaseStudy && p.slug ? (
                   <AnimatedLink
                     className="btn btn--link"
-                    href={`/work/${p.slug}`}
+                    href={`/en/work/${p.slug}`}
                   >
                     {copy.caseStudyLink}
                   </AnimatedLink>
@@ -268,7 +292,7 @@ function JournalList() {
         ) : (
           <a
             key={post.slug}
-            href={`/journal/${post.slug}`}
+            href={`/en/journal/${post.slug}`}
             className="journal__row journal__row--link"
           >
             <span className="tag">{post.tag}</span>
@@ -278,6 +302,59 @@ function JournalList() {
         ),
       )}
     </>
+  );
+}
+
+// One monoline icon per guarantee, in the order of PRICING_COPY.guarantees:
+// deposit refund, deadline discount, bug warranty, PageSpeed score.
+const ICON_PROPS = {
+  width: 24,
+  height: 24,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.5,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+};
+
+const GUARANTEE_ICONS = [
+  // Refund: banknote
+  <svg key="refund" {...ICON_PROPS}>
+    <rect x="2.5" y="6" width="19" height="12" rx="2" />
+    <circle cx="12" cy="12" r="2.5" />
+    <path d="M6 12h.01M18 12h.01" />
+  </svg>,
+  // Deadline: clock
+  <svg key="deadline" {...ICON_PROPS}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 2" />
+  </svg>,
+  // Bug warranty: shield with check
+  <svg key="warranty" {...ICON_PROPS}>
+    <path d="M12 3l8 3v6c0 4.6-3.4 8.2-8 9-4.6-.8-8-4.4-8-9V6l8-3z" />
+    <path d="M9 12l2 2 4-4" />
+  </svg>,
+  // PageSpeed: lightning bolt
+  <svg key="speed" {...ICON_PROPS}>
+    <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" />
+  </svg>,
+];
+
+function StackStrip() {
+  return (
+    <section className="stack">
+      <div className="stack__grid">
+        {STACK.map((item) => (
+          <div key={item.name} className="stack__item">
+            <span className="stack__icon">
+              <Image src={item.icon} alt="" width={32} height={32} />
+            </span>
+            <p className="stack__name">{item.name}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -310,19 +387,24 @@ export default function HomePage({ locale = "en" }: { locale?: Locale }) {
         </div>
       </section>
 
-      {/* 03 — Stack */}
-      <section className="stack">
-        <div className="stack__grid">
-          {STACK.map((item) => (
-            <div key={item.name} className="stack__item">
-              <span className="stack__icon">
-                <Image src={item.icon} alt="" width={32} height={32} />
-              </span>
-              <p className="stack__name">{item.name}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* 03 — Guarantees (PL) / Stack (EN) */}
+      {locale === "pl" ? (
+        <section className="assure" aria-label="Gwarancje">
+          <div className="assure__grid">
+            {PRICING_COPY.guarantees.map((g, i) => (
+              <div key={g.title} className="assure__item">
+                <span className="assure__icon" aria-hidden="true">
+                  {GUARANTEE_ICONS[i]}
+                </span>
+                <h3 className="assure__name">{g.title}</h3>
+                <p className="assure__desc">{g.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <StackStrip />
+      )}
 
       {/* 04 — Work */}
       <section className="work" id="work">
@@ -342,25 +424,82 @@ export default function HomePage({ locale = "en" }: { locale?: Locale }) {
         </Suspense>
       </section>
 
-      {/* 05 — Services */}
-      <section className="services" id="services">
-        <h2 className="section-title">{copy.servicesTitle}</h2>
-        <div className="services__grid">
-          {copy.services.map((s) => (
-            <div key={s.num} className="service">
-              <span className="service__num">{s.num}</span>
-              <div className="service__rule" />
-              <h3 className="service__title">{s.title}</h3>
-              <p className="service__desc">{s.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="services__footer">
-          <Button variant="ghost" href={copy.servicesCtaHref} chevron>
-            {copy.servicesCta}
-          </Button>
-        </div>
-      </section>
+      {/* 04b — Stack (PL: tools sit under the work, guarantees took their place under the hero) */}
+      {locale === "pl" && <StackStrip />}
+
+      {/* 05 — Packages (PL) / Services (EN) */}
+      {locale === "pl" ? (
+        <section className="packs" id="pakiety">
+          <h2 className="section-title">{HOME_COPY.pl.packagesTitle}</h2>
+          <div className="pr-packages__grid">
+            {PRICING_COPY.packages.map((pkg, i) => {
+              const wide = i === PRICING_COPY.packages.length - 1;
+              const cls = [
+                "pr-card",
+                pkg.featured ? "pr-card--featured" : "",
+                wide ? "pr-card--wide" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+              return (
+                <article key={pkg.id} className={cls}>
+                  <header className="pr-card__head">
+                    <div className="pr-card__name-row">
+                      <h3 className="pr-card__name">{pkg.name}</h3>
+                      {pkg.badge && (
+                        <span className="pr-card__badge">{pkg.badge}</span>
+                      )}
+                    </div>
+                    <p className="pr-card__price">{pkg.price}</p>
+                    <p className="pr-card__for">{pkg.forWhom}</p>
+                  </header>
+                  <div className="pr-card__body">
+                    {pkg.summary ? (
+                      <ul className="pr-card__list">
+                        {pkg.summary.map((item) => (
+                          <li key={item} className="pr-card__item">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="pr-card__desc">{pkg.desc}</p>
+                    )}
+                    <Button
+                      variant={pkg.featured ? "primary" : "secondary"}
+                      href={`${HOME_COPY.pl.packagesCtaHref}#${pkg.id}`}
+                      className="pr-card__cta"
+                      chevron
+                    >
+                      {HOME_COPY.pl.packageDetails}
+                    </Button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+          <p className="pr-packages__note">{PRICING_COPY.pricingNote}</p>
+        </section>
+      ) : (
+        <section className="services" id="services">
+          <h2 className="section-title">{copy.servicesTitle}</h2>
+          <div className="services__grid">
+            {copy.services.map((s) => (
+              <div key={s.num} className="service">
+                <span className="service__num">{s.num}</span>
+                <div className="service__rule" />
+                <h3 className="service__title">{s.title}</h3>
+                <p className="service__desc">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="services__footer">
+            <Button variant="ghost" href={copy.servicesCtaHref} chevron>
+              {copy.servicesCta}
+            </Button>
+          </div>
+        </section>
+      )}
 
       {/* 06 — Process */}
       <section className="process" id="process">
@@ -375,7 +514,7 @@ export default function HomePage({ locale = "en" }: { locale?: Locale }) {
           <div className="rule" />
           <JournalList />
           <div className="journal__footer">
-            <Button variant="ghost" href="/journal" chevron>
+            <Button variant="ghost" href="/en/journal" chevron>
               View All Articles
             </Button>
           </div>

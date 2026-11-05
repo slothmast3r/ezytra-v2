@@ -7,6 +7,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { SITE_DATA } from './data'
 import LangSync from './components/LangSync'
+import { isEnglishPath } from './i18n'
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin', 'latin-ext'],
@@ -32,7 +33,7 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
   const pathname = (await headers()).get('x-pathname') ?? ''
-  const lang = pathname.startsWith('/pl') ? 'pl' : 'en'
+  const lang = isEnglishPath(pathname) ? 'en' : 'pl'
 
   return (
     <html lang={lang} className={ibmPlexMono.variable}>

@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from '../Nav'
-import ContactForm from '../../contact/ContactForm'
+import ContactForm from '../contact/ContactForm'
 import TrackedLink from '../TrackedLink'
 import FooterBar from '../FooterBar'
 import type { Locale } from '../../i18n'
@@ -41,9 +41,9 @@ const CONTACT_COPY = {
   },
   pl: {
     eyebrow: '— Kontakt',
-    headlineLines: ['Zbudujmy', 'coś dobrego.'],
+    headlineLines: ['Zbudujmy razem', 'coś świetnego.'],
     tagline: 'Opowiedz mi o swoim projekcie. Odpisuję w ciągu jednego dnia roboczego.',
-    desc: 'Wybieram projekty, które biorę. Nie dla zasady — po prostu wolę zrobić jeden projekt dobrze niż trzy na pół gwizdka. Jeśli do siebie pasujemy, szybko to poczujesz.',
+    desc: 'Wybieram projekty, które biorę. Nie dla zasady — po prostu wolę zrobić jeden projekt dobrze niż trzy na pół gwizdka. Jeśli do siebie pasujemy, szybko to poczujesz. Zakresy, terminy i ceny wyjściowe znajdziesz w cenniku — jeśli żaden pakiet nie pasuje, opisz swoją sytuację, a przygotuję indywidualną wycenę.',
     otherWays: '— Inne sposoby kontaktu',
     info: [
       {
@@ -76,6 +76,8 @@ const CONTACT_COPY = {
 
 export default function ContactPage({ locale = 'en' }: { locale?: Locale }) {
   const copy = CONTACT_COPY[locale]
+  // Longest headline line, in characters; the CSS sizes the type so it fits the column.
+  const headlineChars = Math.max(...copy.headlineLines.map((line) => line.length))
 
   return (
     <>
@@ -86,7 +88,10 @@ export default function ContactPage({ locale = 'en' }: { locale?: Locale }) {
         <div className="contact-hero__body">
           <div className="contact-hero__left">
             <p className="eyebrow">{copy.eyebrow}</p>
-            <h1 className="contact-hero__headline">
+            <h1
+              className="contact-hero__headline"
+              style={{ '--headline-chars': headlineChars } as React.CSSProperties}
+            >
               {copy.headlineLines[0]}
               <br />
               {copy.headlineLines[1]}
