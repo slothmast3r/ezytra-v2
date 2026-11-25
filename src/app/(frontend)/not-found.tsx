@@ -24,7 +24,7 @@ export default function NotFound() {
             </p>
             <div className="nf__actions">
               <Button href="/" variant="primary">Back to Home</Button>
-              <Button href="/en/journal" variant="secondary">Read the Journal</Button>
+              <Button href="/journal" variant="secondary">Read the Journal</Button>
             </div>
           </div>
         </div>

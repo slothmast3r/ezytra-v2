@@ -156,7 +156,7 @@ export default function RootNotFound() {
               </p>
               <div className="nf__actions">
                 <Link href="/" className="nf__btn nf__btn--primary">Back to Home</Link>
-                <Link href="/en/journal" className="nf__btn nf__btn--secondary">Read the Journal</Link>
+                <Link href="/journal" className="nf__btn nf__btn--secondary">Read the Journal</Link>
               </div>
             </div>
           </div>

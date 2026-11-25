@@ -51,7 +51,7 @@ const SERVICES_COPY = {
       title: 'Ready to build something real?',
       desc: "Let's talk about your project and see if we're a good fit.",
       buttonText: 'Get in Touch',
-      buttonHref: '/en/contact',
+      buttonHref: '/contact',
     },
   },
   pl: {
@@ -101,7 +101,7 @@ const SERVICES_COPY = {
       title: 'Gotowy zbudować coś konkretnego?',
       desc: 'Opowiedz mi o swoim projekcie — zobaczymy, czy to dobre dopasowanie.',
       buttonText: 'Napisz do mnie',
-      buttonHref: '/kontakt',
+      buttonHref: '/pl/kontakt',
     },
   },
 } as const

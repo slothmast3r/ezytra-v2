@@ -101,7 +101,7 @@ const FORM_COPY = {
     projectTypeLabel: "Pakiet",
     budgetLabel: "Budżet",
     budgetHint: "Widełki odpowiadają pakietom z cennika",
-    budgetHintHref: "/cennik",
+    budgetHintHref: "/pl/cennik",
     budgetNote:
       "Uwaga: pakiety zaczynają się od 4 000 zł, więc poniżej tej kwoty rzadko mogę pomóc. Mimo to napisz — jeśli będę mógł wskazać Ci lepsze miejsce, zrobię to.",
     messageLabel: "Twoja wiadomość",
@@ -151,7 +151,7 @@ interface FormErrors {
   message?: string;
 }
 
-// `/kontakt?pakiet=<id>` (from the price-list CTAs) preselects the matching
+// `/pl/kontakt?pakiet=<id>` (from the price-list CTAs) preselects the matching
 // package pill and the budget band that package starts in. Polish labels only;
 // the effect checks the labels exist in the current locale before applying.
 const PACKAGE_PRESETS: Record<string, { projectType: string; budget: string }> = {

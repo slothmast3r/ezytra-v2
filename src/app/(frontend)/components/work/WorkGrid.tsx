@@ -80,7 +80,7 @@ function ProjectActions({ p, copy }: { p: Project; copy: GridCopy }) {
   return (
     <div className="wa-card__actions">
       {p.hasCaseStudy && p.slug && (
-        <Button href={`/en/work/${p.slug}`} variant="primary" chevron>
+        <Button href={`/work/${p.slug}`} variant="primary" chevron>
           {copy.viewCaseStudy}
         </Button>
       )}
@@ -96,7 +96,7 @@ function ProjectActions({ p, copy }: { p: Project; copy: GridCopy }) {
 
 function ProjectInfo({ p, num, copy }: { p: Project; num: string; copy: GridCopy }) {
   // Title goes where the card's primary action goes: case study first, live site otherwise.
-  const caseStudyHref = p.hasCaseStudy && p.slug ? `/en/work/${p.slug}` : null
+  const caseStudyHref = p.hasCaseStudy && p.slug ? `/work/${p.slug}` : null
   const titleHref = caseStudyHref ?? p.href ?? null
   const titleExternal = !caseStudyHref && Boolean(p.href)
   return (

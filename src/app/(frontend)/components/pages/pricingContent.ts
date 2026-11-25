@@ -285,6 +285,6 @@ export const PRICING_COPY: PricingCopy = {
     title: 'Nie wiesz, który pakiet wybrać?',
     desc: 'Opisz mi swoją sytuację — podpowiem, co ma sens, albo przygotuję indywidualną wycenę.',
     buttonText: 'Napisz do mnie',
-    buttonHref: '/kontakt',
+    buttonHref: '/pl/kontakt',
   },
 }
