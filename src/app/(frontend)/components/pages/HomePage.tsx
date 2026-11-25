@@ -33,9 +33,9 @@ const HOME_COPY = {
     ],
     tagline: "You work directly with me. No handoffs, no markup.",
     ctaContact: "Contact Me",
-    ctaContactHref: "/contact",
+    ctaContactHref: "/en/contact",
     ctaWork: "View My Work",
-    ctaWorkHref: "/work",
+    ctaWorkHref: "/en/work",
     workTitle: "Selected work",
     liveBadge: "Live",
     caseStudyLink: "Case Study →",
@@ -64,7 +64,7 @@ const HOME_COPY = {
       },
     ],
     servicesCta: "View all services",
-    servicesCtaHref: "/services",
+    servicesCtaHref: "/en/services",
     processTitle: "Process",
     process: [
       {
@@ -101,9 +101,9 @@ const HOME_COPY = {
     tagline:
       "Pracujesz bezpośrednio ze mną. Bez pośredników, bez marży agencji.",
     ctaContact: "Napisz do mnie",
-    ctaContactHref: "/pl/kontakt",
+    ctaContactHref: "/kontakt",
     ctaWork: "Realizacje",
-    ctaWorkHref: "/pl/realizacje",
+    ctaWorkHref: "/realizacje",
     workTitle: "Wybrane realizacje",
     liveBadge: "Online",
     caseStudyLink: "Case study →",
@@ -132,11 +132,11 @@ const HOME_COPY = {
       },
     ],
     servicesCta: "Wszystkie usługi",
-    servicesCtaHref: "/pl/cennik",
+    servicesCtaHref: "/cennik",
     // Packages teaser replaces the services grid on the Polish home page.
     packagesTitle: "Pakiety",
     packageDetails: "Szczegóły pakietu",
-    packagesCtaHref: "/pl/cennik",
+    packagesCtaHref: "/cennik",
     processTitle: "Proces",
     process: [
       {
@@ -164,7 +164,7 @@ const HOME_COPY = {
       title: "Siedzi ci projekt w głowie?",
       desc: "Umówmy się na krótką rozmowę. Sprawdźmy, czy będziemy dobrze dopasowani.",
       buttonText: "Napisz wiadomość",
-      buttonHref: "/pl/kontakt",
+      buttonHref: "/kontakt",
     },
   },
 } as const;
@@ -187,7 +187,7 @@ async function ProjectsList({
     const tags = p.tags ?? [];
     // Title goes where the row's primary action goes: the case study when
     // there is one, otherwise the live site (same target as the caption).
-    const caseStudyHref = p.hasCaseStudy && p.slug ? `/work/${p.slug}` : null;
+    const caseStudyHref = p.hasCaseStudy && p.slug ? `/en/work/${p.slug}` : null;
     const titleHref = caseStudyHref ?? p.href ?? null;
     const titleExternal = !caseStudyHref && Boolean(p.href);
     return (
@@ -237,7 +237,7 @@ async function ProjectsList({
                 {p.hasCaseStudy && p.slug ? (
                   <AnimatedLink
                     className="btn btn--link"
-                    href={`/work/${p.slug}`}
+                    href={`/en/work/${p.slug}`}
                   >
                     {copy.caseStudyLink}
                   </AnimatedLink>
@@ -292,7 +292,7 @@ function JournalList() {
         ) : (
           <a
             key={post.slug}
-            href={`/journal/${post.slug}`}
+            href={`/en/journal/${post.slug}`}
             className="journal__row journal__row--link"
           >
             <span className="tag">{post.tag}</span>
@@ -514,7 +514,7 @@ export default function HomePage({ locale = "en" }: { locale?: Locale }) {
           <div className="rule" />
           <JournalList />
           <div className="journal__footer">
-            <Button variant="ghost" href="/journal" chevron>
+            <Button variant="ghost" href="/en/journal" chevron>
               View All Articles
             </Button>
           </div>

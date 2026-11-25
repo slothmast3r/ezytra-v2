@@ -30,25 +30,23 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // English lives at the root, Polish under /pl. Between 2026-11-06 and
-      // 2026-11-25 it was the other way round (Polish at the root, English
-      // under /en); these send those short-lived URLs back.
-      { source: '/en', destination: '/', permanent: true },
-      { source: '/en/:path*', destination: '/:path*', permanent: true },
-      { source: '/cennik', destination: '/pl/cennik', permanent: true },
-      { source: '/realizacje', destination: '/pl/realizacje', permanent: true },
-      { source: '/o-mnie', destination: '/pl/o-mnie', permanent: true },
-      { source: '/kontakt', destination: '/pl/kontakt', permanent: true },
-      { source: '/strony-dla-szkol-tanca', destination: '/pl/strony-dla-szkol-tanca', permanent: true },
-      { source: '/strony-dla-szkol-walki', destination: '/pl/strony-dla-szkol-walki', permanent: true },
-      { source: '/polityka-prywatnosci', destination: '/pl/polityka-prywatnosci', permanent: true },
-      // The Polish services page was folded into the price list.
-      { source: '/pl/uslugi', destination: '/pl/cennik', permanent: true },
-      { source: '/uslugi', destination: '/pl/cennik', permanent: true },
+      // Polish moved from /pl/* to the root (2026-11); services folded into the price list.
+      { source: '/pl', destination: '/', permanent: true },
+      { source: '/pl/uslugi', destination: '/cennik', permanent: true },
+      { source: '/uslugi', destination: '/cennik', permanent: true },
+      { source: '/pl/:path*', destination: '/:path*', permanent: true },
+      // English moved from the root to /en/* (2026-11).
+      { source: '/about', destination: '/en/about', permanent: true },
+      { source: '/services', destination: '/en/services', permanent: true },
+      { source: '/contact', destination: '/en/contact', permanent: true },
+      { source: '/work', destination: '/en/work', permanent: true },
+      { source: '/work/:path*', destination: '/en/work/:path*', permanent: true },
+      { source: '/journal', destination: '/en/journal', permanent: true },
+      { source: '/journal/:path*', destination: '/en/journal/:path*', permanent: true },
       // Legacy aliases.
-      { source: '/about-us', destination: '/about', permanent: true },
-      { source: '/featured', destination: '/work', permanent: true },
-      { source: '/privacy-policy', destination: '/pl/polityka-prywatnosci', permanent: false },
+      { source: '/about-us', destination: '/en/about', permanent: true },
+      { source: '/featured', destination: '/en/work', permanent: true },
+      { source: '/privacy-policy', destination: '/polityka-prywatnosci', permanent: false },
     ]
   },
 }

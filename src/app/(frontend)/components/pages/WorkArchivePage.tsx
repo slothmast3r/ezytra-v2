@@ -17,7 +17,7 @@ const WORK_COPY = {
       title: 'Want to be the next case study?',
       desc: "I'm available for new projects. Let's talk.",
       buttonText: 'Start a Project',
-      buttonHref: '/contact',
+      buttonHref: '/en/contact',
     },
   },
   pl: {
@@ -28,7 +28,7 @@ const WORK_COPY = {
       title: 'Chcesz być kolejnym case study?',
       desc: 'Mam wolne terminy na nowe projekty. Porozmawiajmy.',
       buttonText: 'Zacznij projekt',
-      buttonHref: '/pl/kontakt',
+      buttonHref: '/kontakt',
     },
   },
 } as const

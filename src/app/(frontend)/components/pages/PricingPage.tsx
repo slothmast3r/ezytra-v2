@@ -71,7 +71,7 @@ export default function PricingPage() {
 
                   <Button
                     variant={pkg.featured ? 'primary' : 'secondary'}
-                    href={`/pl/kontakt?pakiet=${pkg.id}`}
+                    href={`/kontakt?pakiet=${pkg.id}`}
                     className="pr-card__cta"
                     chevron
                   >

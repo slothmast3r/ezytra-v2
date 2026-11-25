@@ -29,7 +29,7 @@ export const posts: Post[] = [
     excerpt:
       "Moving from a self-managed VPS to Vercel for the Ezytra site. What broke, what surprised me, and whether I'd do it again.",
     nextTitle: 'Payload CMS After Six Months — Honest Review',
-    nextHref: '/journal/payload-cms-after-six-months',
+    nextHref: '/en/journal/payload-cms-after-six-months',
     sections: [
       {
         anchor: 'why',
@@ -71,7 +71,7 @@ export const posts: Post[] = [
     excerpt:
       "I switched from Sanity to Payload for client projects. Here's what I actually think after using it in production.",
     nextTitle: 'My Figma Workflow for Client Projects',
-    nextHref: '/journal/figma-workflow-for-client-projects',
+    nextHref: '/en/journal/figma-workflow-for-client-projects',
     sections: [
       {
         anchor: 'why-switched',
@@ -107,7 +107,7 @@ export const posts: Post[] = [
     excerpt:
       'How I go from a blank Figma file to a approved design in two weeks — without endless revision rounds.',
     nextTitle: "Building with AI: What Changed, What Didn't",
-    nextHref: '/journal/building-with-ai-what-changed',
+    nextHref: '/en/journal/building-with-ai-what-changed',
     sections: [
       {
         anchor: 'structure',
@@ -143,7 +143,7 @@ export const posts: Post[] = [
     excerpt:
       'A year of using AI tools in real client work. The honest version — what it actually changed, where it still falls short, and why I still fix most of it myself.',
     nextTitle: 'Deploying Ezytra on Vercel — What Actually Worked',
-    nextHref: '/journal/deploying-ezytra-on-vercel-what-actually-worked',
+    nextHref: '/en/journal/deploying-ezytra-on-vercel-what-actually-worked',
     sections: [
       {
         anchor: 'what-changed',
