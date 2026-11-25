@@ -6,7 +6,7 @@ export const szkolyTanca: NicheContent = {
   meta: {
     title: "Strony internetowe dla szkół tańca w Warszawie — Ezytra",
     description:
-      "Projektujemy i programujemy strony dla szkół tańca: zapisy online, grafik zajęć, galerie pokazów, SEO lokalne. Studio z Warszawy, transparentne pakiety.",
+      "Projektuję i koduję strony dla szkół tańca: zapisy online, grafik zajęć, galerie pokazów, SEO lokalne. Jedna osoba z Warszawy, transparentne pakiety.",
     ogTitle: "Strony dla szkół tańca — Ezytra",
   },
   hero: {
@@ -47,12 +47,12 @@ export const szkolyTanca: NicheContent = {
       {
         problem: "Kursanci piszą na Instagramie zamiast się zapisać",
         solution:
-          "Dodajemy zapisy online wprost ze strony — z wyborem stylu, poziomu i terminu. Mniej DM-ów, więcej opłaconych miejsc.",
+          "Dodaję zapisy online wprost ze strony — z wyborem stylu, poziomu i terminu. Mniej DM-ów, więcej opłaconych miejsc.",
       },
       {
         problem: "Grafik zajęć w PDF-ie, którego nikt nie czyta",
         solution:
-          "Robimy interaktywny grafik z filtrami po stylu i sali. Aktualizujesz go sam w panelu, bez dzwonienia do programisty.",
+          "Robię interaktywny grafik z filtrami po stylu i sali. Aktualizujesz go sam w panelu, bez dzwonienia do programisty.",
       },
       {
         problem: "Google nie pokazuje Twojej szkoły obok konkurencji",
@@ -62,7 +62,7 @@ export const szkolyTanca: NicheContent = {
     ],
   },
   features: {
-    heading: "Co dostajesz w pakiecie",
+    heading: "Co może mieć Twoja strona",
     items: [
       {
         title: "Zapisy online",
@@ -90,26 +90,41 @@ export const szkolyTanca: NicheContent = {
       },
     ],
   },
-  caseStudy: {
-    heading: "Co się zmienia",
+  proof: {
+    eyebrow: "Realizacja z tej branży",
+    heading: "ProfilDance, Warszawa",
+    intro:
+      "Szkoła tańca: od baby dance przez akrobatykę dla dzieci po modern jazz i akro dla dorosłych. Najpierw identyfikacja wizualna wokół istniejącego logo, potem strona z osobną podstroną dla każdych zajęć. Rok po starcie policzyłem, co zmieniło się w Google — bez zapytań z nazwą szkoły, czyli tylko ludzie, którzy jeszcze jej nie znali.",
     before: {
-      label: "Strona z 2015 (typowa)",
+      label: "Było",
       bullets: [
-        'PDF z grafikiem na podstronie „Zajęcia"',
-        "Telefon i e-mail jako jedyna forma kontaktu",
-        "Brak galerii albo iframe z YouTube",
-        "Wolne ładowanie na telefonie",
+        "Jedna podstrona „oferta” dla wszystkich zajęć",
+        "„modern jazz warszawa” na 32. pozycji — poza zasięgiem",
+        "Średnia pozycja w Google: 19,3",
+        "Zero widoczności na nowe frazy: baby dance, acro dance",
       ],
     },
     after: {
-      label: "Strona od Ezytry",
+      label: "Jest",
       bullets: [
-        "Interaktywny grafik z filtrami i zapisem jednym kliknięciem",
-        "Formularz zapisów — lead od razu w skrzynce",
-        "Galeria pokazów ładująca się płynnie",
-        "Pełna ocena Lighthouse 90+ na mobile",
+        "Każde zajęcia mają własną podstronę z opisem i grafikiem",
+        "„modern jazz warszawa” na 8. pozycji — pierwsza strona wyników",
+        "Średnia pozycja w Google: 14,6",
+        "Strona widoczna na prawie dwa razy więcej fraz niż rok wcześniej",
       ],
     },
+    results: [
+      { stat: "+72%", label: "wyświetleń w Google" },
+      { stat: "+34%", label: "kliknięć (na telefonie +45%)" },
+      { stat: "+78%", label: "fraz, na które strona jest widoczna" },
+      { stat: "+63%", label: "fraz na pierwszej stronie wyników" },
+    ],
+    resultsNote:
+      "Google Search Console, ostatnie 28 dni rok do roku, bez zapytań brandowych. Bez link buildingu i bez farmy treści — wzrost wynika ze struktury strony.",
+    liveHref: "https://profildance.com/",
+    liveLabel: "profildance.com",
+    caseStudyHref: "/en/work/profildance",
+    caseStudyLabel: "Pełne case study (po angielsku)",
   },
   pricing: {
     heading: "Transparentne pakiety",
@@ -188,8 +203,8 @@ export const szkolyTanca: NicheContent = {
         a: "Oczywiście — galeria w pakiecie Rozwój przyjmuje zdjęcia i wideo. Optymalizacja (rozmiar, format webp) dzieje się automatycznie.",
       },
       {
-        q: "Czy obsługujecie też salsę / bachatę / balet / hip-hop?",
-        a: "Tak — szablon jest neutralny i dopasowujemy go pod styl szkoły. Robimy strony zarówno dla szkół jednego stylu, jak i wielostylowych.",
+        q: "Czy robisz też strony dla salsy / bachaty / baletu / hip-hopu?",
+        a: "Tak — projekt dopasowuję pod styl szkoły. ProfilDance, którą widzisz wyżej, prowadzi kilkanaście różnych zajęć i każde ma własną podstronę.",
       },
     ],
   },

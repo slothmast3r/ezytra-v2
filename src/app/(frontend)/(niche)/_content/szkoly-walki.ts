@@ -6,7 +6,7 @@ export const szkolyWalki: NicheContent = {
   meta: {
     title: 'Strony dla szkół sztuk walki i klubów MMA — Ezytra',
     description:
-      'Projektujemy strony dla klubów BJJ, MMA, boksu i kickboxingu: harmonogram treningów, profile trenerów, zapisy online, SEO lokalne. Studio z Warszawy.',
+      'Projektuję i koduję strony dla klubów BJJ, MMA, boksu i kickboxingu: harmonogram treningów, profile trenerów, zapisy online, SEO lokalne. Jedna osoba z Warszawy, od makiet po wdrożenie.',
     ogTitle: 'Strony dla klubów sztuk walki — Ezytra',
   },
   hero: {
@@ -61,7 +61,7 @@ export const szkolyWalki: NicheContent = {
     ],
   },
   features: {
-    heading: 'Co dostajesz w pakiecie',
+    heading: 'Co może mieć Twoja strona',
     items: [
       {
         title: 'Harmonogram treningów',
@@ -89,26 +89,41 @@ export const szkolyWalki: NicheContent = {
       },
     ],
   },
-  caseStudy: {
-    heading: 'Co się zmienia',
+  proof: {
+    eyebrow: 'Realizacja z tej branży',
+    heading: 'Pantera Family & Sport Club, Mokotów',
+    intro:
+      'Klub sztuk walki i sportu rodzinnego: Krav Maga, karate i trening siłowy dla dzieci i dorosłych. Jedna strona miała obsłużyć trzy grupy naraz — rodziców, dorosłych i firmy. Zrobiłem ją od makiet po wdrożenie: autorski motyw WordPress, bez page buildera, na zwykłym hostingu.',
     before: {
-      label: 'Typowa strona klubu',
+      label: 'Było',
       bullets: [
-        'Czarne tło, czerwone logo, zdjęcia z 2014',
-        'Harmonogram jako screenshot z Excela',
-        'Brak profili trenerów',
-        'Telefon jako jedyny kanał kontaktu',
+        'Generyczny motyw WordPress z tekstem na stockowym zdjęciu',
+        'Jedna ścieżka dla wszystkich — rodzice, dorośli i firmy szukali po omacku',
+        'Układ przesuwał się podczas ładowania (CLS 0,235)',
+        'Lighthouse: wydajność 83, SEO 85',
       ],
     },
     after: {
-      label: 'Strona od Ezytry',
+      label: 'Jest',
       bullets: [
-        'Designerski, mocny wizerunek dopasowany do Twojej dyscypliny',
-        'Interaktywny harmonogram z filtrami',
-        'Profile trenerów z osiągnięciami i social mediami',
-        'Zapisy online — pierwszy trening jednym kliknięciem',
+        '10-sekundowe wideo z prawdziwych treningów zamiast zdjęcia',
+        'Trzy ścieżki od razu pod hero: dzieci, dorośli, firmy',
+        'Każdy przycisk kończy się rozmową: formularz, telefon albo WhatsApp',
+        'Lighthouse: wydajność 95, SEO 100, stabilny układ (CLS 0,015)',
       ],
     },
+    results: [
+      { stat: 'co dzień', label: 'zapytania niemal codziennie od startu' },
+      { stat: '~3,5%', label: 'sesji kończy się zapytaniem' },
+      { stat: '+50%', label: 'wejść z wyszukiwarki Google' },
+      { stat: '40%', label: 'sesji z podglądem harmonogramu' },
+    ],
+    resultsNote:
+      'Google Analytics 4, pierwsze trzy tygodnie po starcie (31.08–20.09.2026). Część wzrostu z Google to początek sezonu — redesign i sezon zadziałały w tę samą stronę.',
+    liveHref: 'https://pantera.waw.pl',
+    liveLabel: 'pantera.waw.pl',
+    caseStudyHref: '/en/work/pantera',
+    caseStudyLabel: 'Pełne case study (po angielsku)',
   },
   pricing: {
     heading: 'Transparentne pakiety',
@@ -179,8 +194,8 @@ export const szkolyWalki: NicheContent = {
         a: 'Strona ma sekcję na regulamin, RODO i polityki klubu — z miejscem na dokumenty PDF do pobrania. Treści prawne dostarczasz Ty albo Twój prawnik.',
       },
       {
-        q: 'Obsługujecie BJJ, MMA, boks, kickboxing?',
-        a: 'Tak — szablon jest neutralny i dopasowujemy go pod konkretną dyscyplinę (lub kilka). Robiliśmy projekty zarówno dla klubów monodyscyplinowych, jak i hybrydowych.',
+        q: 'Robisz strony dla BJJ, MMA, boksu, kickboxingu?',
+        a: 'Tak — projekt dopasowuję pod konkretną dyscyplinę albo kilka naraz. Pantera, którą widzisz wyżej, łączy Krav Magę, karate i trening siłowy dla dzieci i dorosłych na jednej stronie.',
       },
       {
         q: 'Co z domeną i hostingiem?',

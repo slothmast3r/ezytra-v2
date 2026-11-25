@@ -4,6 +4,7 @@ import { ContactForm } from './ContactForm'
 import { JsonLd } from './JsonLd'
 import { SITE_DATA } from '../../data'
 import TrackedLink from '../../components/TrackedLink'
+import { PRICING_COPY } from '../../components/pages/pricingContent'
 
 type Props = { content: NicheContent }
 
@@ -15,7 +16,8 @@ export function NicheLanding({ content }: Props) {
       <Reality content={content} />
       <Problems content={content} />
       <Features content={content} />
-      <CaseStudy content={content} />
+      <Proof content={content} />
+      <Guarantees />
       <Pricing content={content} />
       <FAQ content={content} />
       <Contact content={content} />
@@ -105,27 +107,71 @@ function Features({ content }: Props) {
   )
 }
 
-function CaseStudy({ content }: Props) {
+function Proof({ content }: Props) {
+  const { proof } = content
   return (
     <section className="pl-section pl-case">
-      <h2 className="pl-section__h2">{content.caseStudy.heading}</h2>
+      <p className="pl-eyebrow">{proof.eyebrow}</p>
+      <h2 className="pl-section__h2">{proof.heading}</h2>
+      <p className="pl-case__intro">{proof.intro}</p>
       <div className="pl-case__grid">
         <div className="pl-case__col pl-case__col--before">
-          <h3 className="pl-case__label">{content.caseStudy.before.label}</h3>
+          <h3 className="pl-case__label">{proof.before.label}</h3>
           <ul className="pl-case__list">
-            {content.caseStudy.before.bullets.map((b, i) => (
+            {proof.before.bullets.map((b, i) => (
               <li key={i}>{b}</li>
             ))}
           </ul>
         </div>
         <div className="pl-case__col pl-case__col--after">
-          <h3 className="pl-case__label">{content.caseStudy.after.label}</h3>
+          <h3 className="pl-case__label">{proof.after.label}</h3>
           <ul className="pl-case__list">
-            {content.caseStudy.after.bullets.map((b, i) => (
+            {proof.after.bullets.map((b, i) => (
               <li key={i}>{b}</li>
             ))}
           </ul>
         </div>
+      </div>
+      <dl className="pl-case__results">
+        {proof.results.map((r) => (
+          <div key={r.label} className="pl-case__result">
+            <dt className="pl-case__stat">{r.stat}</dt>
+            <dd className="pl-case__stat-label">{r.label}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="pl-case__note">{proof.resultsNote}</p>
+      <p className="pl-case__links">
+        <TrackedLink
+          href={proof.liveHref}
+          className="pl-case__link"
+          target="_blank"
+          rel="noopener noreferrer"
+          event="project_live_click"
+          eventParams={{ location: 'niche_proof', niche: content.niche }}
+        >
+          {proof.liveLabel} ↗
+        </TrackedLink>
+        <a href={proof.caseStudyHref} className="pl-case__link">
+          {proof.caseStudyLabel} →
+        </a>
+      </p>
+    </section>
+  )
+}
+
+function Guarantees() {
+  return (
+    <section className="pl-section pl-guarantees">
+      <h2 className="pl-section__h2">Gwarancje</h2>
+      <div className="pl-guarantees__grid">
+        {PRICING_COPY.guarantees.map((g, i) => (
+          <div key={g.title} className="pl-guarantees__item">
+            <span className="pl-guarantees__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 className="pl-guarantees__title">{g.title}</h3>
+            <p className="pl-guarantees__body">{g.body}</p>
+          </div>
+        ))}
       </div>
     </section>
   )

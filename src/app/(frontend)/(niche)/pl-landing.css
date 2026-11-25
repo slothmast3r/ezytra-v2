@@ -322,6 +322,108 @@
 .pl-case__col--after .pl-case__list li::before {
   background: var(--pl-accent);
 }
+.pl-case__intro {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 70ch;
+  margin: -1.5rem 0 2.5rem;
+}
+.pl-case__results {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0 0;
+  padding: 2rem 0 0;
+  border-top: 1px solid var(--border);
+}
+.pl-case__result {
+  margin: 0;
+}
+.pl-case__stat {
+  font-family: var(--font-mono);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--pl-accent);
+  margin: 0 0 0.625rem;
+}
+.pl-case__stat-label {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.pl-case__note {
+  margin: 1.5rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 70ch;
+}
+.pl-case__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  margin: 1.5rem 0 0;
+  font-size: 0.95rem;
+}
+.pl-case__link {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+.pl-case__link:hover,
+.pl-case__link:focus-visible {
+  color: var(--pl-accent);
+}
+
+/* --- Guarantees --- */
+.pl-guarantees__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.pl-guarantees__item {
+  padding: 1.75rem;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+.pl-guarantees__num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--pl-accent);
+  margin-bottom: 1rem;
+}
+.pl-guarantees__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.625rem;
+}
+.pl-guarantees__body {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .pl-case__results,
+  .pl-guarantees__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .pl-case__results,
+  .pl-guarantees__grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* --- Pricing --- */
 .pl-pricing__sub {
@@ -675,58 +777,147 @@
 }
 
 /* --- Legal page (polityka prywatności) --- */
+/* Reads like a statute: numbered paragraphs, small caps headings, a meta block
+   instead of a hero. Measure kept narrow for long-form reading. */
 .pl-legal {
-  max-width: 48rem;
+  max-width: 46rem;
   margin: 0 auto;
-  padding: clamp(3rem, 6vw, 6rem) var(--px) clamp(4rem, 8vw, 8rem);
+  padding: clamp(2.5rem, 5vw, 4.5rem) 1.5rem clamp(4rem, 8vw, 7rem);
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-mono);
-  line-height: 1.65;
+  font-size: 0.9375rem;
+  line-height: 1.7;
 }
 .pl-legal__header {
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 2.5rem;
 }
 .pl-legal__eyebrow {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--muted);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.16em;
   margin: 0 0 1rem;
   text-transform: uppercase;
 }
 .pl-legal__h1 {
   font-family: var(--font-mono);
-  font-size: clamp(2rem, 4.5vw, 3.25rem);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  margin: 0 0 1.5rem;
+  font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0 0 1.75rem;
+  text-wrap: balance;
 }
-.pl-legal__lede {
-  font-size: 1.05rem;
-  color: var(--muted);
+.pl-legal__meta {
   margin: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.pl-legal__meta-row {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+.pl-legal__meta-row:last-child {
+  border-bottom: none;
+}
+.pl-legal__meta dt {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding-top: 0.2rem;
+}
+.pl-legal__meta dd {
+  margin: 0;
+  color: var(--text);
+}
+.pl-legal__meta a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.pl-legal__toc {
+  margin: 0 0 3rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+}
+.pl-legal__toc-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pl-legal__toc ol {
+  margin: 0;
+  padding-left: 1.5rem;
+  columns: 2;
+  column-gap: 2rem;
+  font-size: 0.85rem;
+}
+.pl-legal__toc li {
+  break-inside: avoid;
+  padding: 0.15rem 0;
+}
+.pl-legal__toc a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.pl-legal__toc a:hover,
+.pl-legal__toc a:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
 }
 .pl-legal__section {
   margin-bottom: 2.5rem;
+  scroll-margin-top: 5rem;
 }
 .pl-legal__section h2 {
   font-family: var(--font-mono);
-  font-size: 1.35rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
   color: var(--text);
 }
 .pl-legal__section p,
 .pl-legal__section li {
-  color: var(--muted);
-  font-size: 0.95rem;
+  color: var(--text);
+  font-size: 0.9375rem;
 }
 .pl-legal__section p {
   margin: 0 0 1rem;
+}
+.pl-legal__section ol {
+  margin: 0;
+  padding-left: 1.75rem;
+  list-style: decimal;
+}
+.pl-legal__section > ol > li {
+  margin: 0 0 0.75rem;
+  padding-left: 0.25rem;
+}
+.pl-legal__section ol ol {
+  list-style: lower-alpha;
+  margin: 0.5rem 0 0;
+  padding-left: 1.75rem;
+}
+.pl-legal__section ol ol > li {
+  margin: 0 0 0.35rem;
+  color: var(--muted);
+}
+.pl-legal__section li::marker {
+  color: var(--muted);
 }
 .pl-legal__section ul {
   padding-left: 1.25rem;
@@ -736,6 +927,24 @@
 }
 .pl-legal__section strong {
   color: var(--text);
+  font-weight: 600;
+}
+.pl-legal__section code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  padding: 0.05em 0.35em;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 0.2rem;
+}
+@media (max-width: 600px) {
+  .pl-legal__meta-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .pl-legal__toc ol {
+    columns: 1;
+  }
 }
 .pl-legal__section a {
   color: var(--accent);

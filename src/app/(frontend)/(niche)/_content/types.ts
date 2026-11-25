@@ -27,10 +27,19 @@ export type NicheContent = {
     heading: string
     items: { title: string; body: string }[]
   }
-  caseStudy: {
+  /** A real project from the same niche: what it was, what changed, measured results. */
+  proof: {
+    eyebrow: string
     heading: string
+    intro: string
     before: { label: string; bullets: string[] }
     after: { label: string; bullets: string[] }
+    results: { stat: string; label: string }[]
+    resultsNote: string
+    liveHref: string
+    liveLabel: string
+    caseStudyHref: string
+    caseStudyLabel: string
   }
   pricing: {
     heading: string
